@@ -36,7 +36,6 @@ export const competitions: Competition[] = [
   {
     id: 'iam-3d',
     kickerNumber: '02',
-    tone: 'event-large',
     prefix: 'IAM-',
     emphasis: '3D',
     lede: 'Design and print innovative 3D models that solve real-world problems.',
@@ -58,7 +57,6 @@ export const competitions: Competition[] = [
     {
     id: 'sdc',
     kickerNumber: '03',
-    tone: 'event-large',
     prefix: 'SDC',
     emphasis: 'Future Forum',
     lede: 'Take on a challenging engineering problem and turn your ideas into an innovative, functional design. Apply engineering principles, creativity, and problem-solving to develop a solution that performs under real-world constraints.',
