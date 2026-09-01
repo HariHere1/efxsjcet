@@ -52,7 +52,8 @@ button {
   top: 0;
   z-index: 20;
   height: 78px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 28px;
   padding: 0 42px;
@@ -96,7 +97,6 @@ button {
   align-items: center;
   justify-content: center;
   gap: 24px;
-  margin: auto;
   font: 10px var(--mono);
   letter-spacing: 0.15px;
 }
@@ -1467,10 +1467,6 @@ main {
 
 @media (min-width: 761px) {
   .main-nav {
-    position: absolute;
-    left: 50%;
-    margin: 0;
-    transform: translateX(-50%);
     font-size: 14px;
     gap: 26px;
   }
