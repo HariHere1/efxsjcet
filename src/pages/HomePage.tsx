@@ -4,6 +4,7 @@ import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/sjcet-logo.png';
 import { EventCard } from '../components/EventCard';
 import { schedule, type Day } from '../data/schedule';
+import { CountdownTimer } from '../components/CountdownTimer';
 
 export function HomePage() {
   const [day, setDay] = useState<Day>('day1');
@@ -12,11 +13,11 @@ export function HomePage() {
     <main id="top">
       <section className="hero section-grid">
         <div className="hero-copy reveal">
-          <div className="date-chip">
-            <CalendarDays /> JANUARY 21-24, 2027
-          </div>
 
-          <h1>
+          <div className="date-chip">
+          <CalendarDays /> JANUARY 21–24, 2027
+          </div>
+            <h1>
             ASME EFx
             <br />
             India <em>2027</em>
@@ -37,23 +38,23 @@ export function HomePage() {
           </div>
         </div>
 
-        <div className="hero-visual reveal reveal-delay">
-          <div className="hero-host-lockup">
-            <span className="host-label">ASME EFx INDIA 2027</span>
-            <img
-              className="hero-asme-logo"
-              src={asmeLogo}
-              alt="ASME EFx India 2027"
-            />
-            <div className="host-divider" />
-            <span className="host-label">HOSTED BY</span>
-            <img
-              className="hero-sjcet-logo"
-              src={sjcetLogo}
-              alt="St. Joseph's College of Engineering and Technology, Palai"
-            />
-          </div>
-        </div>
+    <div className="hero-visual reveal reveal-delay">
+      <div className="hero-host-lockup">
+        <span className="host-label">ASME EFx INDIA 2027</span>
+        <img
+          className="hero-asme-logo"
+          src={asmeLogo}
+          alt="ASME EFx India 2027"
+        />
+        <div className="host-divider" />
+          <span className="host-label">HOSTED BY</span>
+        <img
+          className="hero-sjcet-logo"
+          src={sjcetLogo}
+          alt="St. Joseph's College of Engineering and Technology, Palai"
+        />
+      </div>
+    </div>
       </section>
 
       <section className="home-highlights" id="events">
@@ -61,7 +62,14 @@ export function HomePage() {
           <h2>Event Highlights</h2>
           <p>Explore the key aspects of EFx India 2027</p>
         </div>
-
+        <section className="event-countdown" id="countdown">
+          <p className="section-kicker">/ 00 &nbsp; SAVE THE DATE</p>
+            <h2 className="countdown-heading">
+            21—24 <span>January 2027</span>
+          </h2>
+            <CountdownTimer />
+            <p className="countdown-caption">SJCET Palai, Kerala — gates open day one at 09:00</p>
+        </section>
         <div className="highlight-cards">
           <article>
             <span>01</span>
