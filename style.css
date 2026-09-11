@@ -1812,9 +1812,8 @@ main {
   .place-card-6 {
     transform: none;
   }
+}
 
-<<<<<<< HEAD
-=======
 @media (min-width: 761px) {
   .topbar {
     padding-inline: 28px;
@@ -2205,10 +2204,16 @@ main {
 
 .hero-host-lockup {
   padding: 29px 30px;
-  border: 1px solid rgba(240, 100, 36, 0.28);
-  border-radius: 4px;
-  background: rgba(255, 248, 246, 0.66);
-  box-shadow: 0 14px 35px rgba(90, 44, 27, 0.08);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-host-lockup .sjcet-logo-wrap {
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #fff;
 }
 
 @media (max-width: 760px) {
@@ -2428,7 +2433,6 @@ main {
 }
 
 @media (max-width: 760px) {
->>>>>>> b72bf31401cb11df5db8207798338430d5ec62c4
   .competition-hero {
     grid-template-columns: 1fr;
     gap: 70px;
