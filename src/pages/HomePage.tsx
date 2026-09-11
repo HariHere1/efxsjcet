@@ -1,23 +1,29 @@
 import { useState } from 'react';
-import { ArrowUpRight, CalendarDays, MapPin } from 'lucide-react';
+import { ArrowUpRight, MapPin } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/sjcet-logo.png';
 import { EventCard } from '../components/EventCard';
 import { schedule, type Day } from '../data/schedule';
 import { CountdownTimer } from '../components/CountdownTimer';
+import { Particles } from "@/components/ui/particles"
+import { StatsBand } from '../components/StatsBand';
+import { ScrollVelocityMarquee } from '../components/ScrollVelocityMarquee';
 
 export function HomePage() {
   const [day, setDay] = useState<Day>('day1');
 
   return (
     <main id="top">
-      <section className="hero section-grid">
-        <div className="hero-copy reveal">
 
-          <div className="date-chip">
-          <CalendarDays /> JANUARY 21–24, 2027
-          </div>
-            <h1>
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="hero section-grid">
+        {/* Animated ambient particle field */}
+        <div className="particles-container">
+          <Particles className="particles-canvas" />
+        </div>
+
+        <div className="hero-copy reveal">
+          <h1>
             ASME EFx
             <br />
             India <em>2027</em>
@@ -38,25 +44,34 @@ export function HomePage() {
           </div>
         </div>
 
-    <div className="hero-visual reveal reveal-delay">
-      <div className="hero-host-lockup">
-        <span className="host-label">ASME EFx INDIA 2027</span>
-        <img
-          className="hero-asme-logo"
-          src={asmeLogo}
-          alt="ASME EFx India 2027"
-        />
-        <div className="host-divider" />
-          <span className="host-label">HOSTED BY</span>
-        <img
-          className="hero-sjcet-logo"
-          src={sjcetLogo}
-          alt="St. Joseph's College of Engineering and Technology, Palai"
-        />
-      </div>
-    </div>
+        <div className="hero-visual reveal reveal-delay">
+          <div className="hero-host-lockup">
+            <span className="host-label">ASME EFx INDIA 2027</span>
+            <img
+              className="hero-asme-logo"
+              src={asmeLogo}
+              alt="ASME EFx India 2027"
+            />
+            <div className="host-divider" />
+            <span className="host-label">HOSTED BY</span>
+            <span className="sjcet-logo-wrap">
+              <img
+                className="hero-sjcet-logo"
+                src={sjcetLogo}
+                alt="St. Joseph's College of Engineering and Technology, Palai"
+              />
+            </span>
+          </div>
+        </div>
       </section>
 
+      {/* ── STATS BAND ───────────────────────────────────────────────── */}
+      <StatsBand />
+
+      {/* ── SCROLL VELOCITY MARQUEE ───────────────────────────────────── */}
+      <ScrollVelocityMarquee />
+
+      {/* ── EVENT HIGHLIGHTS ─────────────────────────────────────────── */}
       <section className="home-highlights" id="events">
         <div className="highlights-copy">
           <h2>Event Highlights</h2>
@@ -64,11 +79,11 @@ export function HomePage() {
         </div>
         <section className="event-countdown" id="countdown">
           <p className="section-kicker">/ 00 &nbsp; SAVE THE DATE</p>
-            <h2 className="countdown-heading">
+          <h2 className="countdown-heading">
             21—24 <span>January 2027</span>
           </h2>
-            <CountdownTimer />
-            <p className="countdown-caption">SJCET Palai, Kerala — gates open day one at 09:00</p>
+          <CountdownTimer />
+          <p className="countdown-caption">The countdown to EFx India 2027 begins—get ready to experience engineering, innovation, and extraordinary possibilities.</p>
         </section>
         <div className="highlight-cards">
           <article>
@@ -91,6 +106,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── INTRO ────────────────────────────────────────────────────── */}
       <section className="intro section-grid">
         <div className="section-kicker">/ 01 &nbsp; THE PROGRAMME</div>
 
@@ -113,6 +129,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── EVENT GRID ───────────────────────────────────────────────── */}
       <section className="event-grid" id="events-grid">
         <EventCard
           href="#competition/e-hpvc"
@@ -149,15 +166,12 @@ export function HomePage() {
           tone="event-dark"
           number="03"
           type="CONVERSATION"
-          title={
-            <>
-              SDC
-            </>
-          }
+          title={<>SDC</>}
           text="Big questions. Clear thinking. A room full of new perspectives."
         />
       </section>
 
+      {/* ── SCHEDULE ─────────────────────────────────────────────────── */}
       <section className="schedule section-grid" id="schedule">
         <div className="section-kicker">/ 02 &nbsp; YOUR THREE DAYS</div>
 
@@ -207,6 +221,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── SPLIT BAND ───────────────────────────────────────────────── */}
       <section className="split-band" id="stay">
         <div className="stay-block">
           <div className="section-kicker">/ 03 &nbsp; PLAN YOUR VISIT</div>
@@ -255,6 +270,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── UPDATES ──────────────────────────────────────────────────── */}
       <section className="updates section-grid" id="updates">
         <div className="section-kicker">/ 04 &nbsp; FROM THE NEWSROOM</div>
 
