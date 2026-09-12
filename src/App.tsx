@@ -57,7 +57,7 @@ function App() {
           </span>
         </div>
         <div className="footer-meta">
-          <span>12—14 MARCH 2027</span>
+          <span>21-24 MARCH 2027</span>
           <span>PALAI, KERALA, INDIA</span>
           <a href="#top">Back to top ↑</a>
         </div>
