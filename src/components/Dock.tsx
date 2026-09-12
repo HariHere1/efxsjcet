@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { Home, Calendar, MapPin, Newspaper, CircleHelp } from 'lucide-react';
+import { Home, Calendar, MapPin, Newspaper } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/sjcet-logo.png';
 import { navItems } from '../data/navItems';
@@ -20,10 +20,9 @@ const NAV_ICONS: Record<string, React.ReactNode> = {
   'Updates': <Newspaper size={18} />,
 };
 
-function navHref(item: string, index: number): string {
+function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
-  if (index === 0) return '#top';
-  return `#${item.toLowerCase().replace(/ /g, '-')}`;
+  return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
 
 function isActive(
@@ -61,7 +60,7 @@ function MobileDockIcon({ mouseX, item, index, active, onClick }: MobileDockIcon
       ref={ref}
       style={{ width }}
       className={`mobile-dock-icon ${active ? 'active' : ''}`}
-      href={navHref(item, index)}
+      href={navHref(item)}
       onClick={onClick}
       title={item}
     >
@@ -91,7 +90,7 @@ export function Dock({ activeCompetition, explorePage, onNavClick }: NavbarProps
             <a
               key={item}
               className={isActive(item, index, activeCompetition, explorePage) ? 'active' : ''}
-              href={navHref(item, index)}
+              href={navHref(item)}
               onClick={onNavClick}
             >
               {item}
@@ -99,11 +98,6 @@ export function Dock({ activeCompetition, explorePage, onNavClick }: NavbarProps
           ))}
         </nav>
 
-        <div className="header-actions">
-          <button className="icon-button" aria-label="Help">
-            <CircleHelp />
-          </button>
-        </div>
       </header>
 
       {/* ── MOBILE MAGIC UI DOCK (max-width: 760px) ── */}

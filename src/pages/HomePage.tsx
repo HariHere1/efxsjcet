@@ -75,11 +75,6 @@ export function HomePage() {
       <ScrollVelocityMarquee />
 
       {/* ── EVENT HIGHLIGHTS ─────────────────────────────────────────── */}
-      <section className="home-highlights" id="events">
-        <div className="highlights-copy">
-          <h2>Event Highlights</h2>
-          <p>Explore the key aspects of EFx India 2027</p>
-        </div>
         <section className="event-countdown" id="countdown">
           <p className="section-kicker">/ 00 &nbsp; SAVE THE DATE</p>
           <h2 className="countdown-heading">
@@ -88,26 +83,6 @@ export function HomePage() {
           <CountdownTimer />
           <p className="countdown-caption">The countdown to EFx India 2027 begins—get ready to experience engineering, innovation, and extraordinary possibilities.</p>
         </section>
-        <div className="highlight-cards">
-          <article>
-            <span>01</span>
-            <strong>Competitions</strong>
-            <p>Put your engineering skills to the test.</p>
-          </article>
-
-          <article>
-            <span>02</span>
-            <strong>Workshops</strong>
-            <p>Learn from industry and academic leaders.</p>
-          </article>
-
-          <article>
-            <span>03</span>
-            <strong>Networking</strong>
-            <p>Connect with the next generation of makers.</p>
-          </article>
-        </div>
-      </section>
 
       {/* ── INTRO ────────────────────────────────────────────────────── */}
       <section className="intro section-grid">
@@ -136,41 +111,74 @@ export function HomePage() {
       <section className="event-grid" id="events-grid">
         <EventCard
           href="#competition/e-hpvc"
-          tone="event-large"
+          tone="accent-orange"
           number="01"
           type="COMPETITION"
-          title={
-            <>
-              e-
-              <br />
-              <em>HPVC</em>
-            </>
-          }
+          title={<>e-<br /><em>HPVC</em></>}
           text="Innovate under pressure. Design, build, and race a sustainable, high-efficiency hybrid vehicle on the track."
         />
 
         <EventCard
           href="#competition/iam-3d"
-          tone="event-teal"
+          tone="accent-teal"
           number="02"
           type="WORKSHOP"
-          title={
-            <>
-              IAM
-              <br />
-              3D
-            </>
-          }
+          title={<>IAM<br />3D</>}
           text="Hands-on sessions led by the people moving industry forward."
         />
 
         <EventCard
           href="#competition/sdc"
-          tone="event-dark"
+          tone="accent-coral"
           number="03"
           type="CONVERSATION"
           title={<>SDC</>}
           text="Big questions. Clear thinking. A room full of new perspectives."
+        />
+
+        <EventCard
+          href="#competition/woe"
+          tone="accent-orange"
+          number="04"
+          type="COMPETITION"
+          title={<>Women in<br /><em>Engineering</em></>}
+          text="A dedicated track spotlighting women engineers and their work."
+        />
+
+        <EventCard
+          href="#competition/paper"
+          tone="accent-teal"
+          number="05"
+          type="COMPETITION"
+          title={<>Paper<br /><em>Presentation</em></>}
+          text="Present original technical research to a panel of industry judges."
+        />
+
+        <EventCard
+          href="#competition/poster"
+          tone="accent-coral"
+          number="06"
+          type="COMPETITION"
+          title={<>Poster<br /><em>Presentation</em></>}
+          text="Communicate a technical idea visually in a fast-paced poster session."
+        />
+
+        <EventCard
+          href="#competition/rc-obstacle"
+          tone="accent-orange"
+          number="07"
+          type="COMPETITION"
+          title={<>RC Obstacle<br /><em>Racing</em></>}
+          text="Navigate a custom-built RC vehicle through a timed obstacle course."
+        />
+
+        <EventCard
+          href="#competition/solar-ferry"
+          tone="accent-teal"
+          number="08"
+          type="COMPETITION"
+          title={<>Solar<br /><em>Ferry</em></>}
+          text="Design and race a solar-powered watercraft for speed and efficiency."
         />
       </section>
 
