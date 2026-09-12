@@ -16,11 +16,14 @@ export function HomePage() {
     <main id="top">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <div className="hero-stats-wrap">
+        <div className="particles-container">
+            <Particles className="particles-canvas" />
+        </div>
       <section className="hero section-grid">
         {/* Animated ambient particle field */}
-        <div className="particles-container">
-          <Particles className="particles-canvas" />
-        </div>
+        
+   
 
         <div className="hero-copy reveal">
           <h1>
@@ -67,7 +70,7 @@ export function HomePage() {
 
       {/* ── STATS BAND ───────────────────────────────────────────────── */}
       <StatsBand />
-
+    </div>
       {/* ── SCROLL VELOCITY MARQUEE ───────────────────────────────────── */}
       <ScrollVelocityMarquee />
 
