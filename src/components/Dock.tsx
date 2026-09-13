@@ -8,6 +8,7 @@ import { navItems } from '../data/navItems';
 type NavbarProps = {
   activeCompetition: boolean;
   explorePage: boolean;
+  accommodationPage: boolean;
   onNavClick: () => void;
 };
 
@@ -22,6 +23,7 @@ const NAV_ICONS: Record<string, React.ReactNode> = {
 
 function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
+  if (item === 'Stay & Payment') return '#accommodation';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
 
@@ -30,9 +32,11 @@ function isActive(
   index: number,
   activeCompetition: boolean,
   explorePage: boolean,
+  accommodationPage: boolean,
 ): boolean {
   if (item === 'Explore Kerala') return explorePage;
-  if (index === 0) return !activeCompetition && !explorePage;
+  if (item === 'Stay & Payment') return accommodationPage;
+  if (index === 0) return !activeCompetition && !explorePage && !accommodationPage;
   return false;
 }
 
@@ -70,7 +74,7 @@ function MobileDockIcon({ mouseX, item, index, active, onClick }: MobileDockIcon
   );
 }
 
-export function Dock({ activeCompetition, explorePage, onNavClick }: NavbarProps) {
+export function Dock({ activeCompetition, explorePage, accommodationPage, onNavClick }: NavbarProps) {
   const mouseX = useMotionValue(Infinity);
 
   return (
@@ -89,7 +93,7 @@ export function Dock({ activeCompetition, explorePage, onNavClick }: NavbarProps
           {navItems.map((item, index) => (
             <a
               key={item}
-              className={isActive(item, index, activeCompetition, explorePage) ? 'active' : ''}
+              className={isActive(item, index, activeCompetition, explorePage, accommodationPage) ? 'active' : ''}
               href={navHref(item)}
               onClick={onNavClick}
             >
@@ -114,7 +118,7 @@ export function Dock({ activeCompetition, explorePage, onNavClick }: NavbarProps
               mouseX={mouseX}
               item={item}
               index={index}
-              active={isActive(item, index, activeCompetition, explorePage)}
+              active={isActive(item, index, activeCompetition, explorePage, accommodationPage)}
               onClick={onNavClick}
             />
           ))}

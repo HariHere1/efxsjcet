@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 
 const WORDS = [
   { text: 'ASME EFx', color: 'white' },
-  { text: '×',        color: 'coral'  },
-  { text: 'SJCET',    color: 'orange' },
-  { text: '×',        color: 'coral'  },
+  { text: '×',        color: 'orange'  },
+  { text: 'SJCET',    color: 'coral' },
+  { text: '×',        color: 'orange'  },
   { text: 'ASME EFx', color: 'white'  },
   { text: '×',        color: 'orange' },
   { text: 'SJCET',    color: 'coral'  },
