@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { Home, Calendar, MapPin, Newspaper } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
-import sjcetLogo from '../assets/images/sjcet-logo.png';
+import sjcetLogo from '../assets/images/SJCET LOGO.png';
 import { navItems } from '../data/navItems';
 
 type NavbarProps = {

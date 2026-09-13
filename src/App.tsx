@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import asmeLogo from './assets/images/asme-efx-logo.png';
-import sjcetLogo from './assets/images/sjcet-logo.png';
+import sjcetLogo from './assets/images/SJCET LOGO.png';
 import { Dock } from './components/Dock';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';

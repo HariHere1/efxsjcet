@@ -223,9 +223,6 @@ button {
 .sjcet-logo-wrap {
   display: inline-flex;
   align-items: center;
-  background: #fff;
-  padding: 4px 8px;
-  border-radius: 5px;
   flex: none;
 }
 
@@ -415,8 +412,6 @@ main {
 /* Title highlight */
 .hero h1 em {
   color: var(--orange);
-  -webkit-text-stroke: 1px var(--bg-dark);
-  text-stroke: 1px var(--bg-dark);
 }
 
 .hero-intro {
@@ -2189,7 +2184,7 @@ main {
   box-shadow: none;
 }
 
-.hero-host-lockup .sjcet-logo-wrap {
+.hero-host-lockup .SJCET LOGO.png-wrap {
   padding: 4px 8px;
   border-radius: 5px;
   background: #fff;

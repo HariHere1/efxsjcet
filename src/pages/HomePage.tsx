@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
-import sjcetLogo from '../assets/images/sjcet-logo.png';
+import sjcetLogo from '../assets/images/SJCET LOGO.png';
 import { EventCard } from '../components/EventCard';
 import { schedule, type Day } from '../data/schedule';
 import { CountdownTimer } from '../components/CountdownTimer';
