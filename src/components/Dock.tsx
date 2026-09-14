@@ -24,6 +24,7 @@ const NAV_ICONS: Record<string, React.ReactNode> = {
 function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay & Payment') return '#accommodation';
+  if (item == 'Home') return '#top';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
 
@@ -36,6 +37,7 @@ function isActive(
 ): boolean {
   if (item === 'Explore Kerala') return explorePage;
   if (item === 'Stay & Payment') return accommodationPage;
+  if (item === 'Home') return !activeCompetition && !explorePage && !accommodationPage;
   if (index === 0) return !activeCompetition && !explorePage && !accommodationPage;
   return false;
 }
