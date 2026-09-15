@@ -66,13 +66,16 @@ export function BookingPage() {
         <a className="back-link" href="#top"><ArrowLeft /> Back to EFx India 2027</a>
         <p className="section-kicker">/ BOOK YOUR SPOT</p>
         <h1>Reserve your<br /><em>place.</em></h1>
-        <p>Share a few details, choose your stay, and review everything before payment opens.</p>
       </section>
 
-      <nav className="booking-stepper" aria-label="Booking steps">
+      <nav className="booking-progress-steps" aria-label="Booking steps">
         {['Details', 'Accommodation', 'Review'].map((label, index) => {
           const number = index + 1;
-          return <button key={label} type="button" className={step === number ? 'active' : step > number ? 'complete' : ''} onClick={() => changeStep(number)}><span>{step > number ? <Check /> : number}</span>{label}</button>;
+          const state = step === number ? 'active' : step > number ? 'complete' : '';
+          return <button key={label} type="button" className={`booking-progress-step ${state}`} aria-current={step === number ? 'step' : undefined} onClick={() => changeStep(number)}>
+            <span className="booking-progress-marker">{step > number ? <Check /> : number}</span>
+            <span className="booking-progress-label">{label}</span>
+          </button>;
         })}
       </nav>
 
