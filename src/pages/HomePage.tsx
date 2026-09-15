@@ -249,13 +249,13 @@ export function HomePage() {
           </p>
 
           <div className="plan-links">
-            <a href="#stay">
+            <a href="#booking">
               Accommodation <ArrowUpRight />
             </a>
-            <a href="#stay">
+            <a href="#booking">
               Registration fees <ArrowUpRight />
             </a>
-            <a href="#stay">
+            <a href="#booking">
               Getting here <ArrowUpRight />
             </a>
           </div>

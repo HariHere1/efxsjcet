@@ -2,7 +2,7 @@ export const navItems = [
   'Home',
   'Events',
   'Schedule',
-  'Stay & Payment',
+  'Stay',
   'Explore Kerala',
   'Updates',
 ];
