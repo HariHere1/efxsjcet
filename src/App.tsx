@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import asmeLogo from './assets/images/asme-efx-logo.png';
 import sjcetLogo from './assets/images/SJCET LOGO.png';
 import { Dock } from './components/Dock';
+import { LoadingScreen } from './components/LoadingScreen';
 import { AccommodationPage } from './pages/AccommodationPage';
 import { BookingPage } from './pages/BookingPage';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
@@ -13,6 +14,7 @@ function isCompetitionRoute(hash: string) {
 }
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [competitionPage, setCompetitionPage] = useState(isCompetitionRoute(window.location.hash));
   const [explorePage, setExplorePage] = useState(window.location.hash === '#explore-kerala');
   const [accommodationPage, setAccommodationPage] = useState(window.location.hash === '#accommodation');
@@ -30,6 +32,10 @@ function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+    if (isLoading) {
+       return <LoadingScreen onFinish={() => setIsLoading(false)} />;
+     }
 
   return (
     <div className="site-shell">
