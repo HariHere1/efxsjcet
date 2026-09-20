@@ -2864,7 +2864,7 @@ main {
   background: var(--bg-dark);
   border-bottom: 1px solid var(--line);
 }
-
+  
 .booking-hero .back-link {
   width: fit-content;
   margin-bottom: 34px;

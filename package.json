@@ -19,6 +19,7 @@
     "cn": "^0.2.6",
     "lucide-react": "latest",
     "motion": "^13.2.0",
+    "razorpay": "^2.9.8",
     "react": "latest",
     "react-dom": "latest",
     "shadcn": "^4.21.0",
@@ -31,6 +32,7 @@
     "@types/node": "^22.20.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
+    "@vercel/node": "^13.0.1",
     "tailwindcss": "^4.3.3",
     "typescript": "latest"
   }
