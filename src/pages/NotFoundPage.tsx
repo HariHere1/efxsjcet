@@ -9,7 +9,7 @@ export function NotFoundPage() {
           This competition page is coming soon. Check back as EFx India 2027
           takes shape.
         </p>
-        <a className="arrow-link" href="#top">
+        <a className="back-link" href="#top">
           Back to homepage <ArrowUpRight />
         </a>
       </section>

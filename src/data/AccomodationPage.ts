@@ -36,7 +36,10 @@ export const accommodationOptions: AccommodationOption[] = [
   },
 
   {
-    id: 'hotel',
+    // NOTE: was previously id: 'hotel' — duplicate with the entry below.
+    // Duplicate ids break React `key` uniqueness (AccommodationPage used
+    // option.id as the list key) and would break any future lookup-by-id.
+    id: 'mathrubhavan-hotel',
     title: 'Mathrubhavan',
     description: 'A comfortable stay at a nearby hotel for participants who prefer a bit more privacy and amenities.',
     priceLabel: '₹1500',
@@ -45,14 +48,15 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '4-bed dormitory',
     occupancyPolicy: 'ladies-only',
     busServiceProvided: true,
-    distanceFromCollege: '1Kkm from campus',
+    distanceFromCollege: '1km from campus', // was '1Kkm' — typo fixed
     refundable: false,
     spotsRemaining: 6,
     ctaLabel: 'Book Room',
   },
 
-    {
-    id: 'hotel',
+  {
+    // NOTE: was previously id: 'hotel' — same fix as above.
+    id: 'osanan-mount-hotel',
     title: 'Osanan Mount',
     description: 'A comfortable stay at a nearby hotel for participants who prefer a bit more privacy and amenities.',
     priceLabel: '₹600',
@@ -66,6 +70,4 @@ export const accommodationOptions: AccommodationOption[] = [
     spotsRemaining: 10,
     ctaLabel: 'Book Room',
   },
-
 ];
-

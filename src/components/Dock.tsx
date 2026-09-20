@@ -13,7 +13,10 @@ type NavbarProps = {
 function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay') return '#booking';
-  if (item == 'Home') return '#top';
+  if (item === 'Home') return '#top';
+  if (item === 'Events') return '#competition/events';
+  if (item === 'Schedule') return '#competition/schedule';
+  if (item === 'Updates') return '#competition/updates';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
 
@@ -75,15 +78,11 @@ export function Dock({ activeCompetition, explorePage, accommodationPage, bookin
             </a>
           ))}
         </nav>
-
       </header>
 
       {/* ── MOBILE MAGIC UI DOCK (max-width: 760px) ── */}
       <div className="mobile-dock-container">
-        <nav
-          className="mobile-dock-pill"
-          aria-label="Mobile Dock navigation"
-        >
+        <nav className="mobile-dock-pill" aria-label="Mobile Dock navigation">
           {navItems.map((item, index) => (
             <MobileDockIcon
               key={item}

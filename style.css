@@ -349,10 +349,6 @@ button {
   padding-inline: 42px;
 }
 
-main {
-  padding-top: 90px;
-}
-
 /* ─── HERO ───────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
@@ -375,13 +371,6 @@ main {
   z-index: 1;
   max-width: 475px;
   padding-block: 105px 75px;
-}
-
-.date-chip,
-.section-kicker,
-.mini-label {
-  font: 14px var(--mono);
-  letter-spacing: 0.3px;
 }
 
 .date-chip {
@@ -441,19 +430,25 @@ main {
 }
 
 .location-line svg {
+  flex: 0 0 auto;
   width: 20px;
+  height: 20px;
 }
 
 .location-line span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.2;
 }
 
 .location-line small {
-  display: block;
-  margin-bottom: 3px;
-  color: var(--text-muted);
-  font: 9px var(--mono);
+  color: var(--teal);
+  font: 10px var(--mono);
+  letter-spacing: 0.12em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -483,46 +478,11 @@ main {
   animation: hostReveal 0.8s ease both;
 }
 
-.host-label {
-  color: rgba(245, 236, 231, 0.7);
-  font: 9px var(--dm-sans);
-  letter-spacing: 1.3px;
-}
-
 .host-label:first-child {
   color: var(--orange-dark);
 }
 
-.hero-asme-logo {
-  width: min(100%, 235px);
-  height: auto;
-  max-height: 78px;
-  object-fit: contain;
-}
-
-.host-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(240, 100, 36, 0.4);
-}
-
-.hero-sjcet-logo {
-  width: min(100%, 205px);
-  height: auto;
-  max-height: 72px;
-  object-fit: contain;
-}
-
 @keyframes hostReveal {
-  from {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% + 14px));
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
 }
 
 /* ─── PARTICLES ──────────────────────────────────────────────────────────── */
@@ -644,33 +604,12 @@ main {
   letter-spacing: -0.6px;
 }
 
-.highlights-copy p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
 /* ─── INTRO / SCHEDULE / UPDATES ─────────────────────────────────────────── */
 .intro,
 .schedule,
 .updates {
   padding-top: 112px;
   padding-bottom: 112px;
-}
-
-.section-kicker {
-  padding-top: 8px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  display: block;
-  width: auto;
-  max-width: none;
-  padding: 8px 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  letter-spacing: 0.4px;
 }
 
 .intro-content,
@@ -752,10 +691,6 @@ main {
   letter-spacing: -2px;
 }
 
-.event-card h3 em {
-  font-style: normal;
-}
-
 .event-card p {
   max-width: 240px;
   margin: 0;
@@ -779,15 +714,6 @@ main {
 
 .event-card h3 em {
   font-style: normal;
-}
-
-.card-top,
-.card-foot {
-  display: flex;
-  justify-content: space-between;
-  font: 10px var(--mono);
-  letter-spacing: 0.3px;
-  font-size: 11px;
 }
 
 .card-top svg {
@@ -848,11 +774,6 @@ main {
   border-top: 1px solid var(--line);
 }
 
-.schedule-item time,
-.schedule-item b {
-  font: 11px var(--mono);
-}
-
 .schedule-item div {
   display: flex;
   flex-direction: column;
@@ -862,11 +783,6 @@ main {
 .schedule-item strong {
   font-size: 17px;
   font-weight: 500;
-}
-
-.schedule-item span {
-  color: var(--text-muted);
-  font-size: 12px;
 }
 
 .schedule-item b {
@@ -993,11 +909,6 @@ main {
   border-top: 1px solid var(--line);
 }
 
-.news-item time {
-  color: var(--orange-dark);
-  font: 10px var(--mono);
-}
-
 .news-item strong {
   font-size: 18px;
   font-weight: 500;
@@ -1006,51 +917,6 @@ main {
 .news-item svg {
   width: 15px;
   color: var(--orange-dark);
-}
-
-.newsroom-section {
-  position: relative;
-}
-
-.newsroom-panel {
-  position: relative;
-  max-width: 900px;
-  padding: 34px 42px;
-  background: var(--bg-dark-raised);
-  border: 1px solid var(--line);
-  clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
-}
-
-.newsroom-panel .updates-heading {
-  margin-bottom: 30px;
-}
-
-.newsroom-panel .news-item {
-  border-color: rgba(240, 100, 36, 0.18);
-}
-
-.newsroom-panel .news-item:last-child {
-  padding-bottom: 4px;
-}
-
-.newsroom-panel::before,
-.newsroom-panel::after {
-  position: absolute;
-  top: 15%;
-  bottom: 15%;
-  width: 1px;
-  background: rgba(240, 100, 36, 0.25);
-  content: "";
-}
-
-.newsroom-panel::before {
-  left: 1.5%;
-  transform: rotate(-5deg);
-}
-
-.newsroom-panel::after {
-  right: 1.5%;
-  transform: rotate(5deg);
 }
 
 /* ─── FOOTER ─────────────────────────────────────────────────────────────── */
@@ -1063,15 +929,23 @@ main {
   background: var(--bg-dark-raised);
 }
 
-.footer-meta {
-  display: flex;
-  gap: 28px;
-  color: var(--text-muted);
-  font: 9px var(--mono);
-}
-
 .footer-meta a {
   color: var(--orange-dark);
+}
+
+.site-shell:has(.not-found-page) {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-shell:has(.not-found-page) .not-found-page {
+  flex: 1;
+  min-height: 0;
+}
+
+.site-shell:has(.not-found-page) .footer {
+  flex-shrink: 0;
 }
 
 /* ─── REVEAL ANIMATIONS ──────────────────────────────────────────────────── */
@@ -1381,217 +1255,12 @@ main {
   padding-top: 0;
 }
 
-.competition-hero {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 60px;
-  align-items: center;
-  min-height: 580px;
-  padding: 72px 8%;
-  background: var(--orange);
-  color: #fff;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 70px;
-  font: 12px var(--mono);
-}
-
-.back-link svg {
-  width: 15px;
-  transform: rotate(-90deg);
-}
-
-.competition-hero .section-kicker {
-  color: rgba(255, 224, 208, 0.85);
-}
-
-.competition-hero h1 {
-  margin: 26px 0 20px;
-  font-size: clamp(65px, 9vw, 125px);
-  line-height: 0.8;
-  letter-spacing: -6px;
-}
-
-.competition-hero h1 em,
-.competition-footer h2 em {
-  color: var(--coral);
-  font-style: normal;
-}
-
-.competition-lede {
-  max-width: 430px;
-  margin: 0;
-  font-size: 18px;
-  line-height: 1.45;
-}
-
-.competition-button {
-  color: var(--ink);
-  background: #fff;
-}
-
-.competition-button:hover {
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.brief-stamp {
-  display: flex;
-  width: min(100%, 310px);
-  aspect-ratio: 1;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: 50%;
-  outline: 1px solid rgba(255, 255, 255, 0.25);
-  outline-offset: 18px;
-  transform: rotate(7deg);
-  animation: stampReveal 0.8s ease both;
-}
-
-.brief-stamp span,
-.brief-stamp small {
-  font: 10px var(--mono);
-  letter-spacing: 1.4px;
-}
-
-.brief-stamp strong {
-  margin: 23px 0;
-  font-size: 45px;
-  line-height: 0.78;
-  letter-spacing: -2px;
-}
-
-.brief-stamp em {
-  color: #ffd1bd;
-  font-style: normal;
-}
-
-.competition-content {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 80px;
-  padding: 105px 10%;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg-dark);
-}
-
-.competition-brief h2 {
-  max-width: 470px;
-  margin: 25px 0 18px;
-  font-size: clamp(38px, 5vw, 62px);
-  line-height: 0.9;
-  letter-spacing: -3px;
-}
-
-.competition-brief > p:not(.section-kicker) {
-  max-width: 520px;
-  color: var(--text-muted);
-  font-size: 17px;
-  line-height: 1.55;
-}
-
-.competition-facts {
-  display: flex;
-  gap: 45px;
-  margin-top: 48px;
-}
-
-.competition-facts div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.competition-facts span {
-  color: var(--orange-dark);
-  font: 10px var(--mono);
-}
-
-.competition-facts strong {
-  font-size: 15px;
-}
-
-.criteria-panel {
-  padding: 32px;
-  background: var(--bg-dark-raised);
-  border: 1px solid var(--line);
-}
-
-.criteria-row {
-  display: grid;
-  grid-template-columns: 35px 1fr;
-  gap: 15px;
-  padding: 20px 0;
-  border-top: 1px solid rgba(245, 236, 231, 0.1);
-}
-
-.criteria-row:first-of-type {
-  margin-top: 25px;
-}
-
-.criteria-row > span {
-  color: var(--orange-dark);
-  font: 11px var(--mono);
-}
-
-.criteria-row strong {
-  font-size: 18px;
-}
-
-.criteria-row p {
-  margin: 5px 0 0;
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
-.competition-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  padding: 88px 10%;
-  background: var(--teal-dark);
-  color: var(--ink);
-}
-
 .competition-footer .section-kicker {
   border: 0;
   background: transparent;
 }
 
-.competition-footer h2 {
-  margin: 25px 0 0;
-  font-size: clamp(42px, 5vw, 65px);
-  line-height: 0.88;
-  letter-spacing: -3px;
-}
-
-.competition-footer > div:last-child {
-  align-self: end;
-}
-
-.competition-footer > div:last-child > p {
-  max-width: 360px;
-  color: rgba(245, 236, 231, 0.65);
-  font-size: 15px;
-  line-height: 1.5;
-}
-
 @keyframes stampReveal {
-  from {
-    opacity: 0;
-    transform: rotate(0) scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-    transform: rotate(7deg) scale(1);
-  }
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
@@ -1616,10 +1285,6 @@ main {
 }
 
 @media (max-width: 760px) {
-  main {
-    padding-top: 24px;
-    padding-bottom: 90px;
-  }
 
   .asme-logo {
     width: 76px;
@@ -1698,10 +1363,6 @@ main {
     margin-top: 27px;
   }
 
-  .day-tab {
-    padding-inline: 10px;
-  }
-
   .schedule-item {
     grid-template-columns: 58px 1fr 42px;
     gap: 10px;
@@ -1735,12 +1396,6 @@ main {
   .footer {
     display: block;
     padding: 25px 22px;
-  }
-
-  .footer-meta {
-    margin-top: 22px;
-    flex-wrap: wrap;
-    gap: 12px 20px;
   }
 
   .stats-band {
@@ -1816,52 +1471,6 @@ main {
   .topbar {
     padding-inline: 28px;
   }
-
-  .section-grid {
-    padding-inline: 28px;
-  }
-
-  .home-highlights {
-    padding-inline: 28px;
-  }
-
-  .footer {
-    padding-inline: 28px;
-  }
-
-  .main-nav {
-    font-size: 12px;
-  }
-}
-
-.hero-visual::before,
-.hero-visual::after {
-  display: none;
-}
-
-.hero-host-lockup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  display: flex;
-  width: min(82%, 360px);
-  align-items: center;
-  flex-direction: column;
-  gap: 15px;
-  padding: 29px 30px;
-  border: 1px solid rgba(240, 100, 36, 0.28);
-  border-radius: 4px;
-  background: rgba(255, 248, 246, 0.66);
-  box-shadow: 0 14px 35px rgba(90, 44, 27, 0.08);
-  transform: translate(-50%, -50%);
-  animation: hostReveal 0.8s ease both;
-}
-
-.host-label {
-  color: #8c6a5c;
-  font: normal 20px ;
-  letter-spacing: 1.3px;
 }
 
 .hero-asme-logo {
@@ -1897,39 +1506,6 @@ main {
 }
 
 @media (max-width: 760px) {
-  .hero-host-lockup {
-    top: 48%;
-    width: min(88%, 320px);
-    padding: 25px 24px;
-    gap: 12px;
-  }
-
-  .hero-asme-logo {
-    max-height: 70px;
-  }
-
-  .hero-sjcet-logo {
-    max-height: 63px;
-  }
-
-  .host-label {
-    font-size: 8px;
-  }
-}
-
-.hero-visual::before,
-.hero-visual::after {
-  display: none;
-}
-
-.hero-host-lockup {
-  top: 50%;
-  left: 50%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  animation: hostReveal 0.8s ease both;
 }
 
 .date-chip,
@@ -1952,10 +1528,6 @@ main {
 
 .highlights-copy p {
   font-size: 14px;
-}
-
-.section-kicker {
-  letter-spacing: 0.4px;
 }
 
 .card-top,
@@ -1999,14 +1571,6 @@ main {
   .section-kicker,
   .mini-label {
     font-size: 14px;
-  }
-
-  .host-label {
-    font-size: 9px;
-  }
-
-  .hero-host-lockup {
-    top: 48%;
   }
 
   .location-line span {
@@ -2057,23 +1621,6 @@ main {
 }
 
 @media (min-width: 761px) {
-  .main-nav {
-    font-size: 14px;
-    gap: 26px;
-  }
-
-  .section-kicker,
-  .mini-label {
-    font-size: 14px;
-  }
-
-  .day-tab {
-    font-size: 13px;
-  }
-
-  .day-tab small {
-    font-size: 10px;
-  }
 }
 
 @media (max-width: 760px) {
@@ -2137,34 +1684,6 @@ main {
 }
 
 @media (max-width: 760px) {
-  .newsroom-panel {
-    padding: 27px 28px;
-    clip-path: polygon(5% 0, 95% 0, 100% 100%, 0 100%);
-  }
-
-  .newsroom-panel::before {
-    left: 2.5%;
-  }
-
-  .newsroom-panel::after {
-    right: 2.5%;
-  }
-}
-
-.section-kicker {
-  display: inline-block;
-  width: max-content;
-  max-width: 100%;
-  padding: 8px 12px;
-  background: #f6ddd5;
-  border: 1px solid #e8c5b9;
-  border-radius: 3px;
-}
-
-.competition-hero .section-kicker,
-.competition-footer .section-kicker {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.14);
 }
 
 .section-kicker {
@@ -2203,9 +1722,6 @@ main {
 }
 
 @media (max-width: 760px) {
-  .hero-host-lockup {
-    padding: 25px 24px;
-  }
 }
 
 .competition-page {
@@ -2864,7 +2380,7 @@ main {
   background: var(--bg-dark);
   border-bottom: 1px solid var(--line);
 }
-  
+
 .booking-hero .back-link {
   width: fit-content;
   margin-bottom: 34px;
