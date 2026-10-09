@@ -3,6 +3,5 @@ export const navItems = [
   'Events',
   'Schedule',
   'Stay',
-  'Explore Kerala',
   'Updates',
 ];

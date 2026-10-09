@@ -1,3 +1,5 @@
+// TODO: Pricing model per person vs per room pending coordinator confirmation; the booking total currently assumes per person.
+
 export type RoomType = 'private' | 'shared';
 export type GenderPolicy = 'ladies-only' | 'mixed';
 
@@ -5,69 +7,167 @@ export interface AccommodationOption {
   id: string;
   title: string;
   description: string;
+  // "Pastrol Central" | "Oshana Mount" | "Mathrubhavan"
+  property: string;
   image?: string;
   priceLabel: string;
   priceCovers: string;
+  // numeric base price used for totals
+  price: number;
+  priceUnit: 'room' | 'person';
+  // required when priceUnit is 'room'
+  personsPerRoom?: number;
+  gstPercent?: number;
   roomType: RoomType;
   capacity: string;
   occupancyPolicy: GenderPolicy;
   busServiceProvided: boolean;
   distanceFromCollege?: string;
   refundable: boolean;
+  // number of rooms (or beds for dorms)
   spotsRemaining: number;
   ctaLabel: string;
 }
 
 export const accommodationOptions: AccommodationOption[] = [
+  // ---------- PASTROL CENTRAL ----------
   {
-    id: 'hostel',
-    title: 'Campus Hostel',
-    description: 'A simple, convenient stay right on campus for participants who want to remain close to the event.',
-    priceLabel: '₹500',
-    priceCovers: 'per night',
-    roomType: 'shared',
-    capacity: '4-bed dormitory',
+    id: 'pastrol-central-single',
+    title: 'Single room',
+    description: 'A simple private room at Pastrol Central.',
+    property: 'Pastrol Central',
+    priceLabel: '₹900 /',
+    priceCovers: 'per room',
+    price: 900,
+    priceUnit: 'room',
+    personsPerRoom: 1,
+    roomType: 'private',
+    capacity: '1 person',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    distanceFromCollege: 'On campus',
+    // distanceFromCollege intentionally undefined for Pastrol Central
     refundable: false,
-    spotsRemaining: 16,
+    spotsRemaining: 50,
     ctaLabel: 'Book Room',
   },
-
   {
-    // NOTE: was previously id: 'hotel' — duplicate with the entry below.
-    // Duplicate ids break React `key` uniqueness (AccommodationPage used
-    // option.id as the list key) and would break any future lookup-by-id.
-    id: 'mathrubhavan-hotel',
-    title: 'Mathrubhavan',
-    description: 'A comfortable stay at a nearby hotel for participants who prefer a bit more privacy and amenities.',
-    priceLabel: '₹1500',
-    priceCovers: 'per night',
-    roomType: 'shared',
-    capacity: '4-bed dormitory',
-    occupancyPolicy: 'ladies-only',
-    busServiceProvided: true,
-    distanceFromCollege: '1km from campus', // was '1Kkm' — typo fixed
-    refundable: false,
-    spotsRemaining: 6,
-    ctaLabel: 'Book Room',
-  },
-
-  {
-    // NOTE: was previously id: 'hotel' — same fix as above.
-    id: 'osanan-mount-hotel',
-    title: 'Osanan Mount',
-    description: 'A comfortable stay at a nearby hotel for participants who prefer a bit more privacy and amenities.',
-    priceLabel: '₹600',
-    priceCovers: 'per night',
+    id: 'pastrol-central-double',
+    title: 'Double room',
+    description: 'A private room for two at Pastrol Central.',
+    property: 'Pastrol Central',
+    priceLabel: '₹450 /',
+    priceCovers: 'per room',
+    price: 450,
+    priceUnit: 'room',
+    personsPerRoom: 2,
     roomType: 'private',
-    capacity: 'private room',
+    capacity: '2 persons',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    refundable: false,
+    spotsRemaining: 119,
+    ctaLabel: 'Book Room',
+  },
+
+  // ---------- OSHANA MOUNT ----------
+  {
+    id: 'oshana-mount-dormitory',
+    title: 'Dormitory',
+    description: 'Shared 50-bed dormitory at Oshana Mount.',
+    property: 'Oshana Mount',
+    priceLabel: '₹180 /',
+    priceCovers: 'per head',
+    price: 180,
+    priceUnit: 'person',
+    roomType: 'shared',
+    capacity: '50-bed dormitory',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    distanceFromCollege: '2 km from campus',
+    refundable: false,
+    spotsRemaining: 50,
+    ctaLabel: 'Book Room',
+  },
+  {
+    id: 'oshana-mount-non-ac-triple',
+    title: 'Non-AC triple room',
+    description: 'Non-AC triple room at Oshana Mount.',
+    property: 'Oshana Mount',
+    priceLabel: '₹840 /',
+    priceCovers: 'per room',
+    price: 840,
+    priceUnit: 'room',
+    personsPerRoom: 3,
+    roomType: 'private',
+    capacity: '3 persons',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    distanceFromCollege: '2 km from campus',
+    refundable: false,
+    spotsRemaining: 24,
+    ctaLabel: 'Book Room',
+  },
+  {
+    id: 'oshana-mount-ac-double',
+    title: 'AC double room',
+    description: 'Air-conditioned double room at Oshana Mount.',
+    property: 'Oshana Mount',
+    priceLabel: '₹1575 /',
+    priceCovers: 'per room',
+    price: 1575,
+    priceUnit: 'room',
+    personsPerRoom: 2,
+    roomType: 'private',
+    capacity: '2 persons',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    distanceFromCollege: '2 km from campus',
+    refundable: false,
+    spotsRemaining: 9,
+    ctaLabel: 'Book Room',
+  },
+  {
+    // NOTE: the AC and non-AC doubles share the SAME 9 rooms — their
+    // spotsRemaining must be decremented together, not independently.
+    id: 'oshana-mount-non-ac-double',
+    title: 'Non-AC double room',
+    description: 'Non-AC double room at Oshana Mount.',
+    property: 'Oshana Mount',
+    priceLabel: '₹945 /',
+    priceCovers: 'per room',
+    price: 945,
+    priceUnit: 'room',
+    personsPerRoom: 2,
+    roomType: 'private',
+    capacity: '2 persons',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    distanceFromCollege: '2 km from campus',
+    refundable: false,
+    spotsRemaining: 9,
+    ctaLabel: 'Book Room',
+  },
+
+  // ---------- MATHRUBHAVAN ----------
+  {
+    // Dorm sizes: 6-bed x7, 4-bed x4, 3-bed x2, 5-bed x1, 6-bed x1,
+    // 8-bed x1, 15-bed x1, 20-bed x1, 3-bed x1 (121 beds total).
+    id: 'mathrubhavan-dormitory-bed',
+    title: 'Dormitory bed',
+    description: 'A bed in the Mathrubhavan dormitories. Ladies only.',
+    property: 'Mathrubhavan [Womens Only]',
+    priceLabel: '₹125 + 15% GST per bed',
+    priceCovers: 'per bed',
+    price: 125,
+    priceUnit: 'person',
+    gstPercent: 15,
+    roomType: 'shared',
+    capacity: '3 to 20 bed dormitories',
     occupancyPolicy: 'ladies-only',
     busServiceProvided: true,
-    distanceFromCollege: '2km from campus',
-    refundable: true,
-    spotsRemaining: 10,
+    distanceFromCollege: '1 km from campus',
+    refundable: false,
+    spotsRemaining: 121,
     ctaLabel: 'Book Room',
   },
 ];

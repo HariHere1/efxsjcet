@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
-import sjcetLogo from '../assets/images/SJCET LOGO.png';
+import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 import { EventCard } from '../components/EventCard';
 import { schedule, type Day } from '../data/schedule';
 import { CountdownTimer } from '../components/CountdownTimer';
 import { Particles } from "@/components/ui/particles"
 import { StatsBand } from '../components/StatsBand';
 import { ScrollVelocityMarquee } from '../components/ScrollVelocityMarquee';
+import { LocationsAccordion } from '../components/LocationsAccordion';
+import { VenueLocation } from '../components/VenueLocation';
 
 export function HomePage() {
   const [day, setDay] = useState<Day>('day1');
@@ -37,14 +39,6 @@ export function HomePage() {
             vibrant cultural hospitality. Hosted in the heart of Kerala,
             bringing together the brightest minds.
           </p>
-
-          <div className="location-line">
-            <MapPin />
-            <span>
-              <small>Location</small>
-              SJCET Palai, Kerala
-            </span>
-          </div>
         </div>
 
         <div className="hero-visual reveal reveal-delay">
@@ -232,52 +226,30 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── SPLIT BAND ───────────────────────────────────────────────── */}
-      <section className="split-band" id="stay">
-        <div className="stay-block">
-          <div className="section-kicker">/ 03 &nbsp; PLAN YOUR VISIT</div>
+      {/* ── PLAN YOUR VISIT ──────────────────────────────────────────── */}
+      <section className="updates section-grid" id="stay">
+        <div className="section-kicker">/ 03 &nbsp; PLAN YOUR VISIT</div>
 
-          <h2>
-            Come curious.
-            <br />
-            <em>Stay comfortable.</em>
-          </h2>
+        <div className="updates-content">
+          <div className="updates-heading">
+            <h2>
+              Come curious.
+              <br />
+              <span>Stay comfortable.</span>
+            </h2>
 
-          <p>
-            Everything you need for a smooth arrival, from campus accommodation
-            to getting around Palai.
-          </p>
-
-          <div className="plan-links">
-            <a href="#booking">
-              Accommodation <ArrowUpRight />
-            </a>
-            <a href="#booking">
-              Registration fees <ArrowUpRight />
-            </a>
-            <a href="#booking">
-              Getting here <ArrowUpRight />
+            <a className="arrow-link" href="#booking">
+              Book a stay <ArrowUpRight />
             </a>
           </div>
-        </div>
 
-        <div className="kerala-block" id="explore-kerala">
-          <div className="mini-label">BEYOND THE VENUE</div>
-
-          <h2>
-            Take the
-            <br />
-            <span>scenic route.</span>
-          </h2>
-
-          <p>
-            Tea country, quiet backwaters, and a little more time in God's Own
-            Country.
-          </p>
-
-          <a className="button button-light" href="#explore-kerala">
-            Explore Kerala <ArrowUpRight />
-          </a>
+          {['Accommodation', 'Registration fees', 'Getting here'].map((link, index) => (
+            <a className="news-item" href="#booking" key={link}>
+              <time>0{index + 1}</time>
+              <strong>{link}</strong>
+              <ArrowUpRight />
+            </a>
+          ))}
         </div>
       </section>
 
@@ -313,6 +285,10 @@ export function HomePage() {
           ))}
         </div>
       </section>
+
+      <LocationsAccordion />
+
+      <VenueLocation />
     </main>
   );
 }

@@ -1,6 +1,20 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, BedDouble, Bus, Check, MapPin, Minus, Plus, ShieldAlert, Users } from 'lucide-react';
-import { accommodationOptions } from '../data/AccomodationPage';
+import { accommodationOptions, type AccommodationOption } from '../data/AccomodationPage';
+import AdmitOneTicket from '../components/ui/admit-one-ticket';
+
+export function calcStayTotal(stay: AccommodationOption, participantCount: number): number {
+  const rooms = stay.priceUnit === 'room' ? Math.ceil(participantCount / (stay.personsPerRoom ?? 1)) : participantCount;
+  const subtotal = stay.price * rooms;
+  return subtotal + (subtotal * (stay.gstPercent ?? 0)) / 100;
+}
+
+export function stayBreakdown(stay: AccommodationOption, participantCount: number): string {
+  const units = stay.priceUnit === 'room' ? Math.ceil(participantCount / (stay.personsPerRoom ?? 1)) : participantCount;
+  const unitLabel = stay.priceUnit === 'room' ? (units === 1 ? 'room' : 'rooms') : (units === 1 ? 'bed' : 'beds');
+  const gstSuffix = stay.gstPercent ? ` + ${stay.gstPercent}% GST` : '';
+  return `${units} ${unitLabel} x ₹${stay.price.toLocaleString('en-IN', { maximumFractionDigits: 2 })}${gstSuffix}`;
+}
 
 
 type FormData = {
@@ -19,8 +33,24 @@ const initialForm: FormData = {
   participantCount: 1, additionalParticipants: [],
 };
 
-function priceAsNumber(label: string) {
-  return Number(label.replace(/[^0-9]/g, '')) || 0;
+const PROPERTY_ACCENTS: Record<string, string> = {
+  'Pastrol Central': 'orange',
+  'Oshana Mount': 'teal',
+  'Mathrubhavan': 'coral',
+};
+
+function accentForProperty(property: string) {
+  return PROPERTY_ACCENTS[property] ?? 'orange';
+}
+
+function groupByProperty(options: typeof accommodationOptions) {
+  const groups = new Map<string, typeof accommodationOptions>();
+  for (const option of options) {
+    const group = groups.get(option.property) ?? [];
+    group.push(option);
+    groups.set(option.property, group);
+  }
+  return [...groups.entries()];
 }
 
 export function BookingPage() {
@@ -29,9 +59,18 @@ export function BookingPage() {
   const [selectedAccommodationIndex, setSelectedAccommodationIndex] = useState<number | null>(null);
   const [showErrors, setShowErrors] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState('');
+  const [showTicket, setShowTicket] = useState(false);
+  const [vw, setVw] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 520);
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  const ticketWidth = Math.min(520, Math.max(280, vw - 48));
 
   const selectedStay = selectedAccommodationIndex === null ? undefined : accommodationOptions[selectedAccommodationIndex];
-  const total = useMemo(() => selectedStay ? priceAsNumber(selectedStay.priceLabel) * form.participantCount : 0, [selectedStay, form.participantCount]);
+  const total = useMemo(() => (selectedStay ? calcStayTotal(selectedStay, form.participantCount) : 0), [selectedStay, form.participantCount]);
+  const breakdown = useMemo(() => (selectedStay ? stayBreakdown(selectedStay, form.participantCount) : ''), [selectedStay, form.participantCount]);
   const detailsComplete = Boolean(form.fullName && form.email && form.phone && form.institution && form.department && form.year);
   const accommodationComplete = Boolean(selectedStay);
 
@@ -99,17 +138,23 @@ export function BookingPage() {
 
         {step === 2 && <section className="booking-panel" aria-labelledby="accommodation-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 02 ACCOMMODATION</p><h2 id="accommodation-title">Choose your<br /><em>basecamp.</em></h2><p>Select one stay option for each participant.</p></div>
-          <div className="booking-accommodation-grid">
-            {accommodationOptions.map((option, index) => {
-              const soldOut = option.spotsRemaining === 0;
-              const selected = selectedAccommodationIndex === index;
-              return <button type="button" key={`${option.id}-${index}`} disabled={soldOut} onClick={() => { setSelectedAccommodationIndex(index); setShowErrors(false); }} className={`booking-accommodation-card accent-${['orange', 'teal', 'coral'][index % 3]} ${selected ? 'selected' : ''}`}>
+          {groupByProperty(accommodationOptions).map(([property, options]) => (
+            <section key={property} className="booking-accommodation-group">
+              <h3 className="booking-accommodation-property">{property}</h3>
+              <div className="booking-accommodation-grid">
+                {options.map((option) => {
+                  const soldOut = option.spotsRemaining === 0;
+                  const selected = accommodationOptions[selectedAccommodationIndex ?? -1]?.id === option.id;
+                  const index = accommodationOptions.indexOf(option);
+                  return <button type="button" key={option.id} disabled={soldOut} onClick={() => { setSelectedAccommodationIndex(index); setShowErrors(false); }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''}`}>
                 <span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span>
                 {option.image ? <img src={option.image} alt="" /> : <div className="accommodation-image-placeholder"><BedDouble /></div>}
                 <span className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span><Users />{option.occupancyPolicy === 'ladies-only' ? 'Ladies-only' : 'Mixed accommodation'}</span><span><Bus />{option.busServiceProvided ? 'Bus service provided' : 'No bus service'}</span><span><MapPin />{option.distanceFromCollege ?? 'Distance to be confirmed'}</span></span>{!option.refundable && <span className="non-refundable-note"><ShieldAlert /> Non-refundable booking</span>}<span className={`availability ${soldOut ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{soldOut ? 'Sold out' : `${option.spotsRemaining} spots remaining`}</span></span>
               </button>;
-            })}
-          </div>
+                })}
+              </div>
+            </section>
+          ))}
           {showErrors && !accommodationComplete && <p className="booking-error">Choose an accommodation option to continue.</p>}
           <button className="button booking-next-button" type="button" onClick={continueToNext}>Review booking <ArrowRight /></button>
         </section>}
@@ -121,14 +166,34 @@ export function BookingPage() {
             <div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div>
             <div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.filter(Boolean).join(', ') || 'Lead participant only'}</p></div>
             <div><span>Accommodation</span><strong>{selectedStay?.title}</strong><p>{selectedStay?.priceLabel} {selectedStay?.priceCovers}</p></div>
-            <div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN')}</strong><p>For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div>
+            <div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div>
           </div>
-          <button className="button booking-payment-button" type="button" onClick={() => setPaymentMessage('Payment gateway will open here when it is connected.')} >Proceed to Payment <ArrowRight /></button>
+          <button className="button booking-payment-button" type="button" onClick={() => { setShowTicket(true); setPaymentMessage(''); }}>Proceed to Payment <ArrowRight /></button>
           {paymentMessage && <p className="booking-payment-message" role="status">{paymentMessage}</p>}
+          {showTicket && (
+            <div className="booking-ticket-screen">
+              <div className="ticket-card-outer">
+              <AdmitOneTicket
+                name={form.fullName || 'Participant'}
+                presenter="ASME EFx India 2027"
+                event="EFx India 2027"
+                venue="SJCET Palai, Kerala"
+                dates="21–24 January 2027"
+                stubText="Admit one"
+                watermark="2027"
+                width={ticketWidth}
+                tilt={undefined as any}
+              />
+              </div>
+              <p className="booking-payment-message" role="status">
+                Total due: ₹{total.toLocaleString('en-IN', { maximumFractionDigits: 2 })} ({breakdown}) — the payment gateway would connect here.
+              </p>
+            </div>
+          )}
         </section>}
       </section>
 
-      <div className="booking-mobile-bar"><span><small>Estimated total</small><strong>₹{total.toLocaleString('en-IN')}</strong></span><button className="button" type="button" onClick={continueToNext}>{step === 3 ? 'Review complete' : <>Next <ArrowRight /></>}</button></div>
+      <div className="booking-mobile-bar"><span><small>Estimated total</small><strong>₹{total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</strong></span><button className="button" type="button" onClick={continueToNext}>{step === 3 ? 'Review complete' : <>Next <ArrowRight /></>}</button></div>
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import asmeLogo from './assets/images/asme-efx-logo.png';
-import sjcetLogo from './assets/images/SJCET LOGO.png';
+import sjcetLogo from './assets/images/SJCET NEW LOGO.png';
 import { Dock } from './components/Dock';
 import { LoadingScreen } from './components/LoadingScreen';
 import { AccommodationPage } from './pages/AccommodationPage';
@@ -70,7 +70,7 @@ function App() {
           </span>
         </div>
         <div className="footer-meta">
-          <span>21-24 MARCH 2027</span>
+          <span>21-24 JANUARY 2027</span>
           <span>PALAI, KERALA, INDIA</span>
           <a href="#top">Back to top ↑</a>
         </div>

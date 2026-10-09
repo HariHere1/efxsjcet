@@ -1,5 +1,5 @@
 import asmeLogo from '../assets/images/asme-efx-logo.png';
-import sjcetLogo from '../assets/images/SJCET LOGO.png';
+import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 import { navItems } from '../data/navItems';
 
 type NavbarProps = {
@@ -96,3 +96,4 @@ export function Dock({ activeCompetition, explorePage, accommodationPage, bookin
     </>
   );
 }
+

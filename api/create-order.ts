@@ -1,28 +1,48 @@
-import Razorpay from 'razorpay';
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// ⚠️ PLACEHOLDER PERSISTENCE — replace before going live.
+//
+// Vercel serverless functions are stateless per invocation: this in-memory
+// Map is NOT guaranteed to survive between create-order.ts, verify-payment.ts,
+// and razorpay-webhook.ts, which typically run as separate invocations (and
+// definitely won't survive a redeploy or scale-to-multiple-instances). It
+// exists so the three payment endpoints below have a concrete, working
+// interface to call — swap this file's implementation for a real database
+// (Supabase/Postgres/etc.) and nothing else in api/ needs to change.
 
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID!,
-    key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+export type BookingStatus = 'pending' | 'paid' | 'failed';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-    if (req.method != 'POST' ) {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    try {
-        const { amount, bookingId } = req.body;
-        
-        const order = await razorpay.orders.create({
-            amount: Math.round(amount * 100),
-            currency: 'INR',
-            receipt: bookingId,
-        });
-        // TODO: update your bookings table here — set order_id = order.id, status = 'pending'
-  return res.status(200).json({ orderId: order.id, amount: order.amount });
-} catch (err) {
-    console.error('Razorpay order creation failed:', err);
-    return res.status(500).json({ error: 'Could not create order'});
+export interface BookingRecord {
+  bookingId: string;
+  orderId: string;
+  accommodationOptionId: string;
+  participantCount: number;
+  amount: number; // rupees
+  status: BookingStatus;
+  paymentId?: string;
 }
+
+const bookingsByOrderId = new Map<string, BookingRecord>();
+
+export async function createPendingBooking(record: BookingRecord): Promise<void> {
+  bookingsByOrderId.set(record.orderId, record);
+}
+
+export async function getBookingByOrderId(orderId: string): Promise<BookingRecord | undefined> {
+  return bookingsByOrderId.get(orderId);
+}
+
+export async function markBookingPaid(orderId: string, paymentId: string): Promise<BookingRecord | undefined> {
+  const record = bookingsByOrderId.get(orderId);
+  if (!record) return undefined;
+  record.status = 'paid';
+  record.paymentId = paymentId;
+  bookingsByOrderId.set(orderId, record);
+  return record;
+}
+
+export async function markBookingFailed(orderId: string): Promise<BookingRecord | undefined> {
+  const record = bookingsByOrderId.get(orderId);
+  if (!record) return undefined;
+  record.status = 'failed';
+  bookingsByOrderId.set(orderId, record);
+  return record;
 }

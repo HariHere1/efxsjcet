@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
-import sjcetLogo from '../assets/images/SJCET LOGO.png';
+import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 
 interface LoadingScreenProps {
   /** Called once the bar hits 100% and the fade-out finishes. */

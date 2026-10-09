@@ -257,8 +257,8 @@ button {
 }
 
 .sjcet-logo {
-  width: 118px;
-  max-height: 39px;
+  width: 82px;
+  max-height: 32px;
 }
 
 .brand-rule {
@@ -419,37 +419,6 @@ button {
   color: var(--text-muted);
   font-size: 18px;
   line-height: 1.55;
-}
-
-.location-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 40px;
-  color: var(--teal);
-}
-
-.location-line svg {
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-}
-
-.location-line span {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  color: var(--ink);
-  font-size: 15px;
-  line-height: 1.2;
-}
-
-.location-line small {
-  color: var(--teal);
-  font: 10px var(--mono);
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
 }
 
 .hero-visual {
@@ -800,7 +769,7 @@ button {
 /* ─── SPLIT BAND ─────────────────────────────────────────────────────────── */
 .split-band {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .stay-block,
@@ -810,7 +779,7 @@ button {
 }
 
 .stay-block {
-  background: var(--dim);
+  background: var(--bg-dark);
 }
 
 .kerala-block {
@@ -857,9 +826,10 @@ button {
 
 .plan-links {
   display: flex;
-  max-width: 330px;
-  flex-direction: column;
-  gap: 13px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  max-width: 100%;
   margin-top: 34px;
 }
 
@@ -926,7 +896,7 @@ button {
   justify-content: space-between;
   padding: 28px 42px 35px;
   border-top: 1px solid var(--line);
-  background: var(--bg-dark-raised);
+  background: #000;
 }
 
 .footer-meta a {
@@ -1292,8 +1262,8 @@ button {
   }
 
   .sjcet-logo {
-    width: 94px;
-    max-height: 31px;
+    width: 68px;
+    max-height: 27px;
   }
 
   .brand-rule {
@@ -1487,9 +1457,9 @@ button {
 }
 
 .hero-sjcet-logo {
-  width: min(100%, 205px);
+  width: min(100%, 300px);
   height: auto;
-  max-height: 72px;
+  max-height: 104px;
   object-fit: contain;
 }
 
@@ -1516,14 +1486,6 @@ button {
 
 .main-nav {
   font-size: 13px;
-}
-
-.location-line span {
-  font-size: 15px;
-}
-
-.location-line small {
-  font-size: 10px;
 }
 
 .highlights-copy p {
@@ -1570,10 +1532,6 @@ button {
   .date-chip,
   .section-kicker,
   .mini-label {
-    font-size: 14px;
-  }
-
-  .location-line span {
     font-size: 14px;
   }
 
@@ -1713,12 +1671,6 @@ main {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-}
-
-.hero-host-lockup .SJCET LOGO.png-wrap {
-  padding: 4px 8px;
-  border-radius: 5px;
-  background: #fff;
 }
 
 @media (max-width: 760px) {
@@ -2053,7 +2005,7 @@ main {
   }
 
   .hero-sjcet-logo {
-    max-height: 63px;
+    max-height: 84px;
   }
 
   .host-label {
@@ -2186,7 +2138,7 @@ main {
 .accommodation-hero {
   min-height: 490px;
   padding: 115px 8% 85px;
-  background: #0f0d0b;
+  background: #000;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2549,7 +2501,7 @@ main {
 }
 
 @media (max-width: 760px) {
-  .booking-page { padding-bottom: 100px; }
+  .booking-page { padding-bottom: 180px; }
   .booking-hero { padding: 32px 22px 38px; }
   .booking-hero .back-link { margin-bottom: 28px; }
   .booking-hero h1 { font-size: 52px; letter-spacing: -3px; }
@@ -2566,7 +2518,7 @@ main {
   .booking-card-description { min-height: 0; }
   .booking-summary > div, .booking-summary > div:nth-child(even) { min-height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
   .booking-summary > div:last-child { border-bottom: 0; }
-  .booking-mobile-bar { position: fixed; z-index: 20; right: 12px; bottom: 12px; left: 12px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 10px 10px 16px; border: 1px solid rgba(245, 236, 231, .14); background: rgba(20, 17, 15, .9); box-shadow: 0 8px 30px rgba(0, 0, 0, .4); backdrop-filter: blur(16px); }
+  .booking-mobile-bar { position: fixed; z-index: 60; right: 12px; bottom: 88px; left: 12px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 10px 10px 16px; border: 1px solid rgba(245, 236, 231, .14); background: rgba(20, 17, 15, .9); box-shadow: 0 8px 30px rgba(0, 0, 0, .4); backdrop-filter: blur(16px); }
   .booking-mobile-bar span { display: flex; flex-direction: column; gap: 2px; }
   .booking-mobile-bar small { color: var(--text-muted); font: 9px var(--mono); text-transform: uppercase; }
   .booking-mobile-bar strong { font-size: 18px; letter-spacing: -.5px; }
@@ -2620,7 +2572,7 @@ main {
 }
 
 .loading-logo {
-  height: clamp(40px, 6vw, 96px);
+  height: clamp(28px, 4vw, 64px);
   width: auto;
   object-fit: contain;
   /* subtle breathing animation so the screen doesn't feel static */
@@ -2675,3 +2627,216 @@ main {
     animation: none;
   }
 }
+/* --- LOCATIONS ACCORDION ----------------------------------------------- */
+.locations {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.locations-heading h2 {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0.75rem 0 1rem;
+}
+
+.locations-heading h2 em { color: var(--orange-dark); font-style: italic; }
+
+.locations-heading p { max-width: 42ch; color: color-mix(in srgb, var(--ink) 70%, transparent); }
+
+.locations-accordion {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.location-item {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.location-item.accent-orange { --location-accent: var(--orange); }
+.location-item.accent-teal   { --location-accent: var(--teal); }
+.location-item.accent-coral  { --location-accent: var(--coral); }
+
+.location-item-header {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto 2rem;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 0;
+  background: none;
+  border: none;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: padding-left 0.25s ease, color 0.25s ease;
+}
+
+.location-item-header:hover { padding-left: 0.5rem; }
+
+.location-item.open .location-item-header { color: var(--location-accent); }
+
+.location-item-index {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+.location-item-name {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.location-item-tagline {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  text-align: right;
+}
+
+.location-item-indicator {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  border-radius: 999px;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.location-item.open .location-item-indicator {
+  border-color: var(--location-accent);
+  color: var(--location-accent);
+}
+
+.location-item-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.location-item.open .location-item-body { grid-template-rows: 1fr; }
+
+.location-item-inner {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(200px, 340px) 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding-bottom: 0;
+}
+
+.location-item.open .location-item-inner { padding-bottom: 1.5rem; }
+
+.location-item-inner img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.location-item-inner p {
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
+  max-width: 48ch;
+}
+
+.location-item-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--location-accent);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .location-item-header { grid-template-columns: 2rem 1fr 2rem; }
+  .location-item-tagline { display: none; }
+  .location-item-inner { grid-template-columns: 1fr; }
+  .location-item-inner img { height: 160px; }
+}
+
+/* --- VENUE / COLLEGE LOCATION ------------------------------------------ */
+.venue {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.venue-copy h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.1; margin: 0.75rem 0 1rem; }
+.venue-copy h2 em { color: var(--orange-dark); font-style: italic; }
+.venue-copy p { color: color-mix(in srgb, var(--ink) 72%, transparent); }
+
+.venue-address {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin: 1.5rem 0 1rem;
+  font-style: normal;
+}
+
+.venue-address svg { color: var(--orange); flex: none; margin-top: 0.15rem; }
+
+.venue-facts { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0.5rem; }
+.venue-facts li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+}
+.venue-facts svg { color: var(--teal); flex: none; }
+
+.venue-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--orange);
+  border-radius: 999px;
+  color: var(--orange-dark);
+  transition: background 0.2s ease;
+}
+
+.venue-directions:hover { background: color-mix(in srgb, var(--orange) 18%, transparent); }
+
+.venue-map iframe {
+  width: 100%;
+  height: clamp(280px, 40vw, 420px);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 14px;
+  display: block;
+  filter: saturate(0.85) contrast(1.02);
+}
+
+@media (max-width: 860px) {
+  .venue { grid-template-columns: 1fr; }
+}
+
+.booking-ticket-screen {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+/* Accommodation pricing CTA pill hover-fill */
+.accommodation-page a[href='#booking'] {
+  border-radius: 9999px;
+  border: 1.5px solid var(--orange);
+  color: var(--orange) !important;
+  background: #fff !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+
+.accommodation-page a[href='#booking']:hover {
+  background-color: #f06424 !important;
+  color: #fff !important;
+  border-color: #f06424;
+  transform: translateY(-1px);
+}
+
