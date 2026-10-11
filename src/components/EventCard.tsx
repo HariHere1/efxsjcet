@@ -23,12 +23,12 @@ export function EventCard({ href, tone, number, type, title, text }: EventCardPr
       {href ? (
         <a className="card-foot" href={href}>
           <span>View competition</span>
-          <span className="card-arrow">↗</span>
+          <ArrowUpRight className="card-arrow" />
         </a>
       ) : (
         <div className="card-foot">
           <span>Open to all</span>
-          <span className="card-arrow">↗</span>
+          <ArrowUpRight className="card-arrow" />
         </div>
       )}
     </article>

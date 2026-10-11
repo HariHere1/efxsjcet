@@ -18,14 +18,14 @@ function App() {
   const [competitionPage, setCompetitionPage] = useState(isCompetitionRoute(window.location.hash));
   const [explorePage, setExplorePage] = useState(window.location.hash === '#explore-kerala');
   const [accommodationPage, setAccommodationPage] = useState(window.location.hash === '#accommodation');
-  const [bookingPage, setBookingPage] = useState(window.location.hash === '#booking');
+  const [bookingPage, setBookingPage] = useState(window.location.hash.startsWith('#booking'));
 
   useEffect(() => {
     const handleHashChange = () => {
       setCompetitionPage(isCompetitionRoute(window.location.hash));
       setExplorePage(window.location.hash === '#explore-kerala');
       setAccommodationPage(window.location.hash === '#accommodation');
-      setBookingPage(window.location.hash === '#booking');
+      setBookingPage(window.location.hash.startsWith('#booking'));
       window.scrollTo(0, 0);
     };
 

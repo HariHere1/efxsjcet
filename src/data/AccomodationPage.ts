@@ -29,6 +29,15 @@ export interface AccommodationOption {
   ctaLabel: string;
 }
 
+export const accommodationStayRules = [
+  'Minimum stay: 3 days.',
+  'Return to the allotted stay before 9:00 PM.',
+  'No food is allowed in the stay areas.',
+  'Keep the room and shared areas clean and hygienic.',
+  'Bring your own bed sheets and sanitary items.',
+  'Complete check-out as instructed by the accommodation coordinator.',
+] as const;
+
 export const accommodationOptions: AccommodationOption[] = [
   // ---------- PASTROL CENTRAL ----------
   {
@@ -156,7 +165,7 @@ export const accommodationOptions: AccommodationOption[] = [
     title: 'Dormitory bed',
     description: 'A bed in the Mathrubhavan dormitories. Ladies only.',
     property: 'Mathrubhavan [Womens Only]',
-    priceLabel: '₹125 + 15% GST per bed',
+    priceLabel: '₹125 per bed + 15% GST',
     priceCovers: 'per bed',
     price: 125,
     priceUnit: 'person',

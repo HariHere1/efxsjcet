@@ -7,13 +7,11 @@ function optionToPlan(option: AccommodationOption) {
     option.priceUnit === 'room'
       ? Math.round((option.price / (option.personsPerRoom ?? 1)) * 100) / 100
       : option.price;
-  const perRoom =
-    option.priceUnit === 'room' ? option.price : option.price; // room-priced falls back to per-head view for person unit
   return {
     name: option.title,
     info: `${option.property} · ${option.description}`,
     price: {
-      perRoom,
+      ...(option.priceUnit === 'room' ? { perRoom: option.price } : {}),
       perPerson,
     },
     features: [
@@ -27,7 +25,7 @@ function optionToPlan(option: AccommodationOption) {
       {
         text: option.distanceFromCollege ?? 'Distance to be confirmed',
       },
-      ...(option.gstPercent ? [{ text: `Includes ${option.gstPercent}% GST`, tooltip: option.priceLabel }] : []),
+      ...(option.gstPercent ? [{ text: `Plus ${option.gstPercent}% GST`, tooltip: option.priceLabel }] : []),
       ...(option.refundable ? [] : [{ text: 'Non-refundable booking', tooltip: 'This booking cannot be refunded once made' }]),
       {
         text:
@@ -38,7 +36,7 @@ function optionToPlan(option: AccommodationOption) {
     ],
     btn: {
       text: option.spotsRemaining === 0 ? 'Sold Out' : 'Book',
-      href: '#booking',
+      href: `#booking?stay=${encodeURIComponent(option.id)}`,
     },
   };
 }
@@ -56,7 +54,7 @@ export function AccommodationPage() {
       </section>
       <PricingSection
         heading="Choose your basecamp"
-        description="All stay options across Pastrol Central, Oshana Mount and Mathrubhavan — clear prices, no hidden charges."
+        description="All stay options across Pastrol Central, Oshana Mount and Mathrubhavan — clear base prices, with GST shown separately where applicable."
         plans={accommodationOptions.map(optionToPlan)}
       />
     </main>

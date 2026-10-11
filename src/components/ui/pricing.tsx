@@ -21,7 +21,7 @@ interface Plan {
 	name: string;
 	info: string;
 	price: {
-		perRoom: number;
+		perRoom?: number;
 		perPerson: number;
 	};
 	features: {
@@ -165,9 +165,11 @@ export function PricingCard({
 				<div className="text-lg font-medium">{plan.name}</div>
 				<p className="text-muted-foreground text-sm font-normal">{plan.info}</p>
 				<h3 className="mt-2 flex items-end gap-1">
-					<span className="text-3xl font-bold">₹{plan.price[frequency]}</span>
+					<span className="text-3xl font-bold">
+						₹{plan.price[frequency] ?? plan.price.perPerson}
+					</span>
 					<span className="text-muted-foreground">
-						{frequency === 'perRoom' ? '/room' : '/person'}
+						{frequency === 'perRoom' && plan.price.perRoom !== undefined ? '/room' : '/person'}
 					</span>
 				</h3>
 			</div>
