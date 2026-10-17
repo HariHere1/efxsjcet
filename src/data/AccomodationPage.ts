@@ -22,7 +22,6 @@ export interface AccommodationOption {
   capacity: string;
   occupancyPolicy: GenderPolicy;
   busServiceProvided: boolean;
-  distanceFromCollege?: string;
   refundable: boolean;
   // number of rooms (or beds for dorms)
   spotsRemaining: number;
@@ -54,7 +53,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '1 person',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    // distanceFromCollege intentionally undefined for Pastrol Central
     refundable: false,
     spotsRemaining: 50,
     ctaLabel: 'Book Room',
@@ -92,7 +90,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '50-bed dormitory',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    distanceFromCollege: '2 km from campus',
     refundable: false,
     spotsRemaining: 50,
     ctaLabel: 'Book Room',
@@ -111,7 +108,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '3 persons',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    distanceFromCollege: '2 km from campus',
     refundable: false,
     spotsRemaining: 24,
     ctaLabel: 'Book Room',
@@ -130,7 +126,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '2 persons',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    distanceFromCollege: '2 km from campus',
     refundable: false,
     spotsRemaining: 9,
     ctaLabel: 'Book Room',
@@ -151,7 +146,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '2 persons',
     occupancyPolicy: 'mixed',
     busServiceProvided: true,
-    distanceFromCollege: '2 km from campus',
     refundable: false,
     spotsRemaining: 9,
     ctaLabel: 'Book Room',
@@ -174,7 +168,6 @@ export const accommodationOptions: AccommodationOption[] = [
     capacity: '3 to 20 bed dormitories',
     occupancyPolicy: 'ladies-only',
     busServiceProvided: true,
-    distanceFromCollege: '1 km from campus',
     refundable: false,
     spotsRemaining: 121,
     ctaLabel: 'Book Room',

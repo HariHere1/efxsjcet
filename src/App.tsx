@@ -8,6 +8,8 @@ import { BookingPage } from './pages/BookingPage';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { EventsPage, EventDetailPage } from './pages/EventsPage';
+import { SchedulePage } from './pages/SchedulePage';
 
 function isCompetitionRoute(hash: string) {
   return /^#competition\/.+$/.test(hash);
@@ -16,6 +18,7 @@ function isCompetitionRoute(hash: string) {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [competitionPage, setCompetitionPage] = useState(isCompetitionRoute(window.location.hash));
+  const [route, setRoute] = useState(window.location.pathname);
   const [explorePage, setExplorePage] = useState(window.location.hash === '#explore-kerala');
   const [accommodationPage, setAccommodationPage] = useState(window.location.hash === '#accommodation');
   const [bookingPage, setBookingPage] = useState(window.location.hash.startsWith('#booking'));
@@ -23,6 +26,7 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       setCompetitionPage(isCompetitionRoute(window.location.hash));
+      setRoute(window.location.pathname);
       setExplorePage(window.location.hash === '#explore-kerala');
       setAccommodationPage(window.location.hash === '#accommodation');
       setBookingPage(window.location.hash.startsWith('#booking'));
@@ -49,7 +53,13 @@ function App() {
         }}
       />
 
-      {competitionPage ? (
+      {route === '/events' ? (
+        <EventsPage />
+      ) : route.startsWith('/events/') ? (
+        <EventDetailPage id={route.slice('/events/'.length)} />
+      ) : route === '/schedule' ? (
+        <SchedulePage />
+      ) : competitionPage ? (
         <NotFoundPage />
       ) : explorePage ? (
         <ExploreKeralaPage />

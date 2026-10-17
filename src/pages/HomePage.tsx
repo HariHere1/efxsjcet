@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
@@ -10,10 +9,9 @@ import { StatsBand } from '../components/StatsBand';
 import { ScrollVelocityMarquee } from '../components/ScrollVelocityMarquee';
 import { LocationsAccordion } from '../components/LocationsAccordion';
 import { VenueLocation } from '../components/VenueLocation';
+import { events } from '../data/events';
 
 export function HomePage() {
-  const [day, setDay] = useState<Day>('day1');
-
   return (
     <main id="top">
 
@@ -68,6 +66,8 @@ export function HomePage() {
       {/* ── SCROLL VELOCITY MARQUEE ───────────────────────────────────── */}
       <ScrollVelocityMarquee />
 
+      <a className="button hero-register-button" href="#booking">Register now <ArrowUpRight /></a>
+
       {/* ── EVENT HIGHLIGHTS ─────────────────────────────────────────── */}
         <section className="event-countdown" id="countdown">
           <p className="section-kicker">/ 00 &nbsp; SAVE THE DATE</p>
@@ -103,82 +103,12 @@ export function HomePage() {
 
       {/* ── EVENT GRID ───────────────────────────────────────────────── */}
       <section className="event-grid" id="events-grid">
-        <EventCard
-          href="#competition/e-hpvc"
-          tone="accent-orange"
-          number="01"
-          type="COMPETITION"
-          title={<>e-<br /><em>HPVC</em></>}
-          text="Innovate under pressure. Design, build, and race a sustainable, high-efficiency hybrid vehicle on the track."
-        />
-
-        <EventCard
-          href="#competition/iam-3d"
-          tone="accent-teal"
-          number="02"
-          type="WORKSHOP"
-          title={<>IAM<br />3D</>}
-          text="Hands-on sessions led by the people moving industry forward."
-        />
-
-        <EventCard
-          href="#competition/sdc"
-          tone="accent-coral"
-          number="03"
-          type="CONVERSATION"
-          title={<>SDC</>}
-          text="Big questions. Clear thinking. A room full of new perspectives."
-        />
-
-        <EventCard
-          href="#competition/woe"
-          tone="accent-orange"
-          number="04"
-          type="COMPETITION"
-          title={<>Women in<br /><em>Engineering</em></>}
-          text="A dedicated track spotlighting women engineers and their work."
-        />
-
-        <EventCard
-          href="#competition/paper"
-          tone="accent-teal"
-          number="05"
-          type="COMPETITION"
-          title={<>Paper<br /><em>Presentation</em></>}
-          text="Present original technical research to a panel of industry judges."
-        />
-
-        <EventCard
-          href="#competition/poster"
-          tone="accent-coral"
-          number="06"
-          type="COMPETITION"
-          title={<>Poster<br /><em>Presentation</em></>}
-          text="Communicate a technical idea visually in a fast-paced poster session."
-        />
-
-        <EventCard
-          href="#competition/rc-obstacle"
-          tone="accent-orange"
-          number="07"
-          type="COMPETITION"
-          title={<>RC Obstacle<br /><em>Racing</em></>}
-          text="Navigate a custom-built RC vehicle through a timed obstacle course."
-        />
-
-        <EventCard
-          href="#competition/solar-ferry"
-          tone="accent-teal"
-          number="08"
-          type="COMPETITION"
-          title={<>Solar<br /><em>Ferry</em></>}
-          text="Design and race a solar-powered watercraft for speed and efficiency."
-        />
+        {events.map((event, index) => <EventCard key={event.id} href={`/events/${event.id}`} tone={['accent-orange', 'accent-teal', 'accent-coral'][index % 3]} number={`0${index + 1}`} type={event.days.length ? event.days.map((day) => day.replace('day', 'DAY ')).join(' · ') : 'SCHEDULE TO BE ANNOUNCED'} title={event.name} text={event.plainEnglishLine} />)}
       </section>
 
       {/* ── SCHEDULE ─────────────────────────────────────────────────── */}
       <section className="schedule section-grid" id="schedule">
-        <div className="section-kicker">/ 02 &nbsp; YOUR THREE DAYS</div>
+        <div className="section-kicker">/ 02 &nbsp; FOUR DAYS AT A GLANCE</div>
 
         <div className="schedule-content">
           <div className="schedule-heading">
@@ -188,41 +118,10 @@ export function HomePage() {
               <span>day of it.</span>
             </h2>
 
-            <div className="day-tabs" role="tablist">
-              {(['day1', 'day2', 'day3'] as Day[]).map((item, index) => (
-                <button
-                  className={`day-tab ${day === item ? 'active' : ''}`}
-                  onClick={() => setDay(item)}
-                  key={item}
-                >
-                  {12 + index} MAR{' '}
-                  <small>{['FRI', 'SAT', 'SUN'][index]}</small>
-                </button>
-              ))}
-            </div>
+            <a className="button" href="/schedule">Full schedule <ArrowUpRight /></a>
           </div>
 
-          <div className="schedule-list">
-            {schedule[day].map((item, index) => (
-              <div
-                className={`schedule-item ${
-                  index === 1 || (day !== 'day1' && index === 0)
-                    ? 'featured'
-                    : ''
-                }`}
-                key={item.time}
-              >
-                <time>{item.time}</time>
-
-                <div>
-                  <strong>{item.title}</strong>
-                  <span>{item.place}</span>
-                </div>
-
-                <b>{item.tag}</b>
-              </div>
-            ))}
-          </div>
+          <div className="glance-list">{(['day0', 'day1', 'day2', 'day3'] as Day[]).map((item) => <div className="glance-row" key={item}><strong>{item.replace('day', 'Day ')}<small>{item === 'day0' ? 'Arrival' : 'Agenda'}</small></strong><span>{schedule[item].map((entry) => entry.title).filter((value, index, all) => all.indexOf(value) === index).slice(0, 3).join(' · ')}</span></div>)}</div>
         </div>
       </section>
 

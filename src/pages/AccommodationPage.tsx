@@ -22,9 +22,6 @@ function optionToPlan(option: AccommodationOption) {
       {
         text: option.busServiceProvided ? 'Bus service provided' : 'No bus service',
       },
-      {
-        text: option.distanceFromCollege ?? 'Distance to be confirmed',
-      },
       ...(option.gstPercent ? [{ text: `Plus ${option.gstPercent}% GST`, tooltip: option.priceLabel }] : []),
       ...(option.refundable ? [] : [{ text: 'Non-refundable booking', tooltip: 'This booking cannot be refunded once made' }]),
       {

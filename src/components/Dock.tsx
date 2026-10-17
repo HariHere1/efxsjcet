@@ -14,8 +14,8 @@ function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay') return '#booking';
   if (item === 'Home') return '#top';
-  if (item === 'Events') return '#competition/events';
-  if (item === 'Schedule') return '#competition/schedule';
+  if (item === 'Events') return '/events';
+  if (item === 'Schedule') return '/schedule';
   if (item === 'Updates') return '#competition/updates';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
@@ -96,4 +96,3 @@ export function Dock({ activeCompetition, explorePage, accommodationPage, bookin
     </>
   );
 }
-
