@@ -66,8 +66,6 @@ export function HomePage() {
       {/* ── SCROLL VELOCITY MARQUEE ───────────────────────────────────── */}
       <ScrollVelocityMarquee />
 
-      <a className="button hero-register-button" href="#booking">Register now <ArrowUpRight /></a>
-
       {/* ── EVENT HIGHLIGHTS ─────────────────────────────────────────── */}
         <section className="event-countdown" id="countdown">
           <p className="section-kicker">/ 00 &nbsp; SAVE THE DATE</p>
@@ -95,7 +93,7 @@ export function HomePage() {
             your people, and leave with something built.
           </p>
 
-          <a className="arrow-link" href="#events-grid">
+          <a className="arrow-link" href="#events">
             See all experiences <ArrowUpRight />
           </a>
         </div>
@@ -103,11 +101,21 @@ export function HomePage() {
 
       {/* ── EVENT GRID ───────────────────────────────────────────────── */}
       <section className="event-grid" id="events-grid">
-        {events.map((event, index) => <EventCard key={event.id} href={`/events/${event.id}`} tone={['accent-orange', 'accent-teal', 'accent-coral'][index % 3]} number={`0${index + 1}`} type={event.days.length ? event.days.map((day) => day.replace('day', 'DAY ')).join(' · ') : 'SCHEDULE TO BE ANNOUNCED'} title={event.name} text={event.plainEnglishLine} />)}
+        {events.map((event, index) => (
+          <EventCard
+            key={event.id}
+            href={`#events/${event.id}`}
+            tone={['accent-orange', 'accent-teal', 'accent-coral'][index % 3]}
+            number={`0${index + 1}`}
+            type={event.days.length ? event.days.map((day) => day.replace('day', 'DAY ')).join(' · ') : 'SCHEDULE TO BE ANNOUNCED'}
+            title={event.name}
+            text={event.plainEnglishLine}
+          />
+        ))}
       </section>
 
       {/* ── SCHEDULE ─────────────────────────────────────────────────── */}
-      <section className="schedule section-grid" id="schedule">
+      <section className="schedule section-grid" id="schedule-glance">
         <div className="section-kicker">/ 02 &nbsp; FOUR DAYS AT A GLANCE</div>
 
         <div className="schedule-content">
@@ -118,10 +126,22 @@ export function HomePage() {
               <span>day of it.</span>
             </h2>
 
-            <a className="button" href="/schedule">Full schedule <ArrowUpRight /></a>
+            <a className="button" href="#schedule">Full schedule <ArrowUpRight /></a>
           </div>
 
-          <div className="glance-list">{(['day0', 'day1', 'day2', 'day3'] as Day[]).map((item) => <div className="glance-row" key={item}><strong>{item.replace('day', 'Day ')}<small>{item === 'day0' ? 'Arrival' : 'Agenda'}</small></strong><span>{schedule[item].map((entry) => entry.title).filter((value, index, all) => all.indexOf(value) === index).slice(0, 3).join(' · ')}</span></div>)}</div>
+          <div className="glance-list">
+            {(['day0', 'day1', 'day2', 'day3'] as Day[]).map((item) => (
+              <div className="glance-row" key={item}>
+                <strong>
+                  {item.replace('day', 'Day ')}
+                  <small>{item === 'day0' ? 'Arrival' : 'Agenda'}</small>
+                </strong>
+                <span>
+                  {schedule[item].map((entry) => entry.title).filter((value, index, all) => all.indexOf(value) === index).slice(0, 3).join(' · ')}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

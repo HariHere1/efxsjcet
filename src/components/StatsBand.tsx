@@ -2,9 +2,8 @@ import { NumberTicker } from './NumberTicker';
 
 const STATS = [
   { value: 8,   suffix: '',   label: 'FEATURED EVENTS'          },
-  { value: 500, suffix: '+',  label: 'EXPECTED PARTICIPANTS' },
+  { value: 800, suffix: '+',  label: 'EXPECTED PARTICIPANTS' },
   { value: 40,  suffix: '+',  label: 'COLLEGES REPRESENTED'  },
-  { value: 24,  suffix: 'H',  label: 'WORKSHOP HOURS'        },
 ] as const;
 
 export function StatsBand() {

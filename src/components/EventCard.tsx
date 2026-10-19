@@ -14,17 +14,23 @@ export function EventCard({ href, tone, number, type, title, text }: EventCardPr
     <>
       <div className="card-top">
         <span>{number} / {type}</span>
-        <ArrowUpRight />
+        <ArrowUpRight className="card-top-arrow" />
       </div>
-      <div>
+      <div className="card-body">
         <h3>{title}</h3>
         <p>{text}</p>
       </div>
       <div className="card-foot">
-          <span>View competition</span>
-          <ArrowUpRight className="card-arrow" />
+        <span>View competition</span>
+        <ArrowUpRight className="card-arrow" />
       </div>
     </>
   );
-  return href ? <a className={`event-card ${tone}`} href={href}>{content}</a> : <article className={`event-card ${tone}`}>{content}</article>;
+  return href ? (
+    <a className={`event-card ${tone}`} href={href}>
+      {content}
+    </a>
+  ) : (
+    <article className={`event-card ${tone}`}>{content}</article>
+  );
 }

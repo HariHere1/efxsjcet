@@ -11,62 +11,112 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { EventsPage, EventDetailPage } from './pages/EventsPage';
 import { SchedulePage } from './pages/SchedulePage';
 
-function isCompetitionRoute(hash: string) {
-  return /^#competition\/.+$/.test(hash);
+export type RouteType =
+  | 'home'
+  | 'events'
+  | 'event-detail'
+  | 'schedule'
+  | 'explore'
+  | 'accommodation'
+  | 'booking'
+  | 'not-found';
+
+export interface RouteInfo {
+  type: RouteType;
+  id?: string;
+}
+
+export function parseRoute(): RouteInfo {
+  const hash = window.location.hash || '';
+  const path = window.location.pathname || '';
+
+  // 1. Event detail route: #events/xyz, #event/xyz, /events/xyz
+  const hashDetail = hash.match(/^#(?:events|event)\/(.+)$/);
+  if (hashDetail && hashDetail[1]) {
+    return { type: 'event-detail', id: hashDetail[1] };
+  }
+  if (path.startsWith('/events/') && path.length > '/events/'.length) {
+    return { type: 'event-detail', id: path.slice('/events/'.length) };
+  }
+
+  // 2. Events list route: #events, #event, /events
+  if (hash === '#events' || hash === '#event' || path === '/events') {
+    return { type: 'events' };
+  }
+
+  // 3. Schedule route: #schedule, /schedule
+  if (hash === '#schedule' || path === '/schedule') {
+    return { type: 'schedule' };
+  }
+
+  // 4. Explore Kerala route: #explore-kerala
+  if (hash === '#explore-kerala') {
+    return { type: 'explore' };
+  }
+
+  // 5. Accommodation route: #accommodation
+  if (hash === '#accommodation') {
+    return { type: 'accommodation' };
+  }
+
+  // 6. Booking / stay route: #booking..., #stay
+  if (hash.startsWith('#booking') || hash === '#stay') {
+    return { type: 'booking' };
+  }
+
+  // 7. Legacy competition routes: #competition/...
+  if (/^#competition\/.+$/.test(hash)) {
+    return { type: 'not-found' };
+  }
+
+  return { type: 'home' };
 }
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [competitionPage, setCompetitionPage] = useState(isCompetitionRoute(window.location.hash));
-  const [route, setRoute] = useState(window.location.pathname);
-  const [explorePage, setExplorePage] = useState(window.location.hash === '#explore-kerala');
-  const [accommodationPage, setAccommodationPage] = useState(window.location.hash === '#accommodation');
-  const [bookingPage, setBookingPage] = useState(window.location.hash.startsWith('#booking'));
+  const [routeInfo, setRouteInfo] = useState<RouteInfo>(parseRoute);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setCompetitionPage(isCompetitionRoute(window.location.hash));
-      setRoute(window.location.pathname);
-      setExplorePage(window.location.hash === '#explore-kerala');
-      setAccommodationPage(window.location.hash === '#accommodation');
-      setBookingPage(window.location.hash.startsWith('#booking'));
+    const handleRouteChange = () => {
+      setRouteInfo(parseRoute());
       window.scrollTo(0, 0);
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, []);
 
-    if (isLoading) {
-       return <LoadingScreen onFinish={() => setIsLoading(false)} />;
-     }
+  if (isLoading) {
+    return <LoadingScreen onFinish={() => setIsLoading(false)} />;
+  }
 
   return (
     <div className="site-shell">
       <Dock
-        activeCompetition={competitionPage}
-        explorePage={explorePage}
-        accommodationPage={accommodationPage}
-        bookingPage={bookingPage}
+        activeRoute={routeInfo.type}
         onNavClick={() => {
-          // hashchange will handle state; close any open mobile menu via Dock internally
+          // Handled via hashchange/popstate
         }}
       />
 
-      {route === '/events' ? (
+      {routeInfo.type === 'events' ? (
         <EventsPage />
-      ) : route.startsWith('/events/') ? (
-        <EventDetailPage id={route.slice('/events/'.length)} />
-      ) : route === '/schedule' ? (
+      ) : routeInfo.type === 'event-detail' && routeInfo.id ? (
+        <EventDetailPage id={routeInfo.id} />
+      ) : routeInfo.type === 'schedule' ? (
         <SchedulePage />
-      ) : competitionPage ? (
-        <NotFoundPage />
-      ) : explorePage ? (
+      ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />
-      ) : accommodationPage ? (
+      ) : routeInfo.type === 'accommodation' ? (
         <AccommodationPage />
-      ) : bookingPage ? (
+      ) : routeInfo.type === 'booking' ? (
         <BookingPage />
+      ) : routeInfo.type === 'not-found' ? (
+        <NotFoundPage />
       ) : (
         <HomePage />
       )}

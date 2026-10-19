@@ -3,10 +3,11 @@ import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 import { navItems } from '../data/navItems';
 
 type NavbarProps = {
-  activeCompetition: boolean;
-  explorePage: boolean;
-  accommodationPage: boolean;
-  bookingPage: boolean;
+  activeRoute?: string;
+  activeCompetition?: boolean;
+  explorePage?: boolean;
+  accommodationPage?: boolean;
+  bookingPage?: boolean;
   onNavClick: () => void;
 };
 
@@ -14,22 +15,31 @@ function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay') return '#booking';
   if (item === 'Home') return '#top';
-  if (item === 'Events') return '/events';
-  if (item === 'Schedule') return '/schedule';
-  if (item === 'Updates') return '#competition/updates';
+  if (item === 'Events') return '#events';
+  if (item === 'Schedule') return '#schedule';
+  if (item === 'Updates') return '#updates';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
 
 function isActive(
   item: string,
   index: number,
-  activeCompetition: boolean,
-  explorePage: boolean,
-  accommodationPage: boolean,
-  bookingPage: boolean,
+  activeRoute?: string,
+  activeCompetition?: boolean,
+  explorePage?: boolean,
+  accommodationPage?: boolean,
+  bookingPage?: boolean,
 ): boolean {
-  if (item === 'Explore Kerala') return explorePage;
-  if (item === 'Stay') return bookingPage;
+  if (activeRoute) {
+    if (item === 'Home') return activeRoute === 'home';
+    if (item === 'Events') return activeRoute === 'events' || activeRoute === 'event-detail';
+    if (item === 'Schedule') return activeRoute === 'schedule';
+    if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
+    if (item === 'Explore Kerala') return activeRoute === 'explore';
+    return false;
+  }
+  if (item === 'Explore Kerala') return !!explorePage;
+  if (item === 'Stay') return !!bookingPage;
   if (item === 'Home') return !activeCompetition && !explorePage && !accommodationPage && !bookingPage;
   if (index === 0) return !activeCompetition && !explorePage && !accommodationPage && !bookingPage;
   return false;
@@ -53,7 +63,14 @@ function MobileDockIcon({ item, active, onClick }: MobileDockIconProps) {
   );
 }
 
-export function Dock({ activeCompetition, explorePage, accommodationPage, bookingPage, onNavClick }: NavbarProps) {
+export function Dock({
+  activeRoute,
+  activeCompetition = false,
+  explorePage = false,
+  accommodationPage = false,
+  bookingPage = false,
+  onNavClick,
+}: NavbarProps) {
   return (
     <>
       {/* ── DESKTOP NAVBAR (min-width: 761px) ── */}
@@ -70,7 +87,7 @@ export function Dock({ activeCompetition, explorePage, accommodationPage, bookin
           {navItems.map((item, index) => (
             <a
               key={item}
-              className={isActive(item, index, activeCompetition, explorePage, accommodationPage, bookingPage) ? 'active' : ''}
+              className={isActive(item, index, activeRoute, activeCompetition, explorePage, accommodationPage, bookingPage) ? 'active' : ''}
               href={navHref(item)}
               onClick={onNavClick}
             >
@@ -87,7 +104,7 @@ export function Dock({ activeCompetition, explorePage, accommodationPage, bookin
             <MobileDockIcon
               key={item}
               item={item}
-              active={isActive(item, index, activeCompetition, explorePage, accommodationPage, bookingPage)}
+              active={isActive(item, index, activeRoute, activeCompetition, explorePage, accommodationPage, bookingPage)}
               onClick={onNavClick}
             />
           ))}

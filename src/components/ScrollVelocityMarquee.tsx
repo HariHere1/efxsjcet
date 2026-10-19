@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 
 const WORDS = [
-  { text: 'ASME EFx', color: 'white' },
+  { text: 'ASME EFx India 2027', color: 'white' },
   { text: '×',        color: 'orange'  },
-  { text: 'SJCET',    color: 'coral' },
+  { text: 'SJCET Palai',    color: 'coral' },
   { text: '×',        color: 'orange'  },
-  { text: 'ASME EFx', color: 'white'  },
+  { text: 'ASME EFx India 2027', color: 'white'  },
   { text: '×',        color: 'orange' },
-  { text: 'SJCET',    color: 'coral'  },
+  { text: 'SJCET Palai',    color: 'coral'  },
   { text: '×',        color: 'orange' },
 ] as const;
 
