@@ -619,13 +619,67 @@ button {
   height: 18px;
 }
 
+/* ─── PROGRAMME CONTROLS ─────────────────────────────────────────────────── */
+.programme-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 28px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.programme-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.programme-filter {
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-dark-raised);
+  color: var(--text-muted);
+  cursor: pointer;
+  font: 10px var(--mono);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.programme-filter:hover,
+.programme-filter.active {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: var(--bg-dark);
+}
+
+.programme-legend {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text-muted);
+  font: 9px var(--mono);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.legend-dot.orange { background: var(--orange); }
+.legend-dot.teal { background: var(--teal); }
+.legend-dot.coral { background: var(--coral); }
+
 /* ─── EVENT GRID ─────────────────────────────────────────────────────────── */
 .event-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   border-block: 1px solid var(--line);
-  background: var(--line);
+  background: var(--bg-dark);
   width: 100%;
 }
 
@@ -645,13 +699,13 @@ button {
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  min-height: 380px;
+  min-height: 210px;
   height: 100%;
-  padding: 32px 28px 24px;
+  padding: 22px 20px 18px;
   background: var(--bg-dark-raised, #14110f);
   color: var(--ink);
   text-decoration: none;
-  border-top: 3px solid var(--line);
+  border: 1px solid var(--line);
   box-sizing: border-box;
   transition: transform 0.2s ease, background 0.2s ease;
   position: relative;
@@ -676,6 +730,10 @@ button {
 }
 
 .event-card .card-top-arrow {
+  color: var(--orange-dark);
+}
+
+.event-card .card-top-arrow {
   width: 15px;
   height: 15px;
   opacity: 0.7;
@@ -687,32 +745,34 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 24px 0 20px;
+  margin: 22px 0 18px;
 }
 
 .event-card h3 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-family: var(--font-heading, "Outfit", sans-serif);
   font-weight: 700;
-  font-size: clamp(22px, 2vw, 30px);
-  line-height: 1.15;
-  letter-spacing: -0.5px;
+  font-size: clamp(20px, 1.7vw, 27px);
+  line-height: 1.08;
+  letter-spacing: -0.7px;
   color: #ffffff;
   word-break: break-word;
 }
 
 .event-card p {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 12px;
+  line-height: 1.45;
   color: #bfb2ab;
   max-width: 100%;
 }
 
 /* Accent cycles through the 3 palette colors only — reused, not invented */
-.event-card.accent-orange { border-top-color: var(--orange); }
-.event-card.accent-teal   { border-top-color: var(--teal); }
-.event-card.accent-coral  { border-top-color: var(--coral); }
+.event-card.accent-orange,
+.event-card.accent-teal,
+.event-card.accent-coral {
+  border-top-color: var(--line);
+}
 
 .event-card.accent-orange .card-top-arrow,
 .event-card.accent-orange .card-top svg,
@@ -758,6 +818,16 @@ button {
 }
 
 @media (max-width: 640px) {
+  .programme-controls {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 0 22px 16px;
+  }
+
+  .programme-legend {
+    align-self: flex-end;
+  }
+
   .event-card {
     min-height: auto;
     padding: 24px 20px 20px;
@@ -938,6 +1008,21 @@ button {
 .button svg {
   width: 18px;
   height: 18px;
+}
+
+.schedule-button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+}
+
+.schedule-button:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--bg-dark);
 }
 
 /* ─── NEWSROOM / UPDATES ─────────────────────────────────────────────────── */
@@ -1339,6 +1424,12 @@ button {
 
   .brand-rule {
     font-size: 19px;
+  }
+
+  .schedule-button {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: var(--bg-dark);
   }
 
   .section-grid {

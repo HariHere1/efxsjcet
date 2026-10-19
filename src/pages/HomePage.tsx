@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
@@ -11,7 +12,20 @@ import { LocationsAccordion } from '../components/LocationsAccordion';
 import { VenueLocation } from '../components/VenueLocation';
 import { events } from '../data/events';
 
+type ProgrammeDay = 'all' | 'day1' | 'day2' | 'day3';
+
 export function HomePage() {
+  const [programmeDay, setProgrammeDay] = useState<ProgrammeDay>('all');
+  const visibleEvents = programmeDay === 'all'
+    ? events
+    : events.filter((event) => event.days.includes(programmeDay));
+  const programmeFilters: { value: ProgrammeDay; label: string }[] = [
+    { value: 'all', label: `All (${String(events.length).padStart(2, '0')})` },
+    { value: 'day1', label: 'Day 1' },
+    { value: 'day2', label: 'Day 2' },
+    { value: 'day3', label: 'Day 3' },
+  ];
+
   return (
     <main id="top">
 
@@ -93,15 +107,36 @@ export function HomePage() {
             your people, and leave with something built.
           </p>
 
-          <a className="arrow-link" href="#events">
+          <a className="arrow-link" href="#events-grid">
             See all experiences <ArrowUpRight />
           </a>
         </div>
       </section>
 
+      <div className="programme-controls" aria-label="Filter programme events">
+        <div className="programme-filters" role="group" aria-label="Filter by day">
+          {programmeFilters.map((filter) => (
+            <button
+              className={`programme-filter ${programmeDay === filter.value ? 'active' : ''}`}
+              key={filter.value}
+              type="button"
+              onClick={() => setProgrammeDay(filter.value)}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+        <div className="programme-legend" aria-hidden="true">
+          HORIZONTAL 4×2 MATRIX
+          <span className="legend-dot orange" />
+          <span className="legend-dot teal" />
+          <span className="legend-dot coral" />
+        </div>
+      </div>
+
       {/* ── EVENT GRID ───────────────────────────────────────────────── */}
       <section className="event-grid" id="events-grid">
-        {events.map((event, index) => (
+        {visibleEvents.map((event, index) => (
           <EventCard
             key={event.id}
             href={`#events/${event.id}`}
@@ -126,7 +161,7 @@ export function HomePage() {
               <span>day of it.</span>
             </h2>
 
-            <a className="button" href="#schedule">Full schedule <ArrowUpRight /></a>
+            <a className="button schedule-button" href="#schedule">Full schedule <ArrowUpRight /></a>
           </div>
 
           <div className="glance-list">
