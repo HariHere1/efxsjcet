@@ -31,11 +31,14 @@ function isActive(
   bookingPage?: boolean,
 ): boolean {
   if (activeRoute) {
-    if (item === 'Home') return activeRoute === 'home';
+    if (item === 'Home') {
+      return activeRoute === 'home' && window.location.hash !== '#updates';
+    }
     if (item === 'Events') return activeRoute === 'events' || activeRoute === 'event-detail';
     if (item === 'Schedule') return activeRoute === 'schedule';
     if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
     if (item === 'Explore Kerala') return activeRoute === 'explore';
+    if (item === 'Updates') return window.location.hash === '#updates';
     return false;
   }
   if (item === 'Explore Kerala') return !!explorePage;
