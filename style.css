@@ -435,7 +435,7 @@ button {
   left: 50%;
   z-index: 1;
   display: flex;
-  width: min(82%, 360px);
+  width: min(90%, 470px);
   align-items: center;
   flex-direction: column;
   gap: 15px;
@@ -1015,6 +1015,7 @@ button {
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
+  font-size: 14px;
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
 }
@@ -1529,6 +1530,12 @@ button {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .stats-band-item:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 50%;
+  }
+
   .stats-band-item {
     padding: 36px 16px;
   }
@@ -1614,9 +1621,9 @@ button {
 }
 
 .hero-sjcet-logo {
-  width: min(100%, 300px);
+  width: min(100%, 455px);
   height: auto;
-  max-height: 104px;
+  max-height: 159px;
   object-fit: contain;
 }
 
@@ -2152,7 +2159,7 @@ main {
 
   .hero-host-lockup {
     top: 48%;
-    width: min(88%, 320px);
+    width: min(92%, 320px);
     padding: 0;
     gap: 12px;
   }
@@ -2162,7 +2169,7 @@ main {
   }
 
   .hero-sjcet-logo {
-    max-height: 84px;
+    max-height: 125px;
   }
 
   .host-label {
