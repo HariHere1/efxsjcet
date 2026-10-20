@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Outfit:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -20,8 +20,8 @@
   --coral:          #f6b6a0;
   --paper:          #0a0908;   /* alias kept so legacy refs don't break */
   --dim:            #1c1714;
-  --mono:           "DM Sans", sans-serif;
-  --outfit:         "DM Sans", sans-serif;
+  --mono:           "Space Mono", monospace;
+  --outfit:         "Outfit", sans-serif;
   --background:        oklch(1 0 0);
   --foreground:        oklch(0.145 0 0);
   --card:        oklch(1 0 0);
@@ -3558,6 +3558,9 @@ main {
 
 .detail-page {
   padding-top: 82px;
+  --mono: "DM Sans", sans-serif;
+  --outfit: "DM Sans", sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 .back-link {
