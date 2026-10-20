@@ -137,11 +137,11 @@ export function EventDetailPage({ id }: { id: string }) {
           </a>
           <h1>{event.name}</h1>
           <p>{event.plainEnglishLine}</p>
-          {event.ruleHighlights?.length ? (
+          {event.ruleBadges?.length ? (
             <div className="detail-hero-badges" aria-label="Competition highlights">
-              <span><b>90 sec</b> pitch limit</span>
-              <span><b>Individual</b> entry</span>
-              <span><b>Day 1</b> live event</span>
+              {event.ruleBadges.map((badge) => (
+                <span key={badge}><b>{badge}</b></span>
+              ))}
             </div>
           ) : null}
         </div>
@@ -207,8 +207,8 @@ export function EventDetailPage({ id }: { id: string }) {
             >
               Read the full rule book <ArrowUpRight />
             </a>
-            {event.ruleHighlights?.length ? (
-              <p className="detail-source-note">Official ASME AY26–27 rules · Revised August 3, 2026</p>
+            {event.rulesSource ? (
+              <p className="detail-source-note">{event.rulesSource}</p>
             ) : null}
           </aside>
         </div>
