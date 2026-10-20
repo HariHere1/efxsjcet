@@ -25,10 +25,15 @@ export type Event = {
   days: Day[];
   slots: EventSlot[];
   rulesLink: string;
+  ruleHighlights?: string[];
   contact: string;
 };
 
 const detailsToBeConfirmed = 'Mock details — organiser confirmation required';
+const elevatorPitchRulesPdf = new URL(
+  '../rulebooks/AY26-27 ASME Elevator Pitch Competition Rules FINAL - August 3 2026 (1).pdf',
+  import.meta.url
+).href;
 
 export const events: Event[] = [
   {
@@ -91,21 +96,30 @@ export const events: Event[] = [
     id: 'asme-elevator-pitch',
     name: 'ASME Elevator Pitch Competition',
     category: 'Competition',
-    plainEnglishLine: detailsToBeConfirmed,
-    whoItsFor: detailsToBeConfirmed,
-    teamSize: detailsToBeConfirmed,
-    eligibility: detailsToBeConfirmed,
-    fee: detailsToBeConfirmed,
+    plainEnglishLine: 'Deliver a live, individual pitch that makes an idea valuable in 90 seconds or less.',
+    whoItsFor: 'Engineering undergraduate or graduate students, including community college students.',
+    teamSize: 'Individual',
+    eligibility:
+      'Full-time or part-time engineering students may compete. Engineering bachelor’s or associate degree graduates remain eligible for six months after graduation. Competitors must be registered for this ASME EFx event.',
+    fee: 'No separate Elevator Pitch competition fee; the host EFx event registration fee applies.',
     days: ['day1'],
     slots: [
       { day: 'day1', time: '3:30 PM – 6:00 PM', title: 'Elevator Pitch Competition' },
     ],
-    rulesLink: detailsToBeConfirmed,
-    contact: detailsToBeConfirmed,
+    rulesLink: elevatorPitchRulesPdf,
+    ruleHighlights: [
+      'State your name, year of study, and college or university before starting.',
+      'Present live in English or the host university’s designated local language.',
+      'Do not use PowerPoint, digital media, props, notes, or cell phones.',
+      'Questions and answers are not permitted.',
+      'A pitch over 90 seconds receives a 20% score deduction.',
+      'Judging covers introduction and pitch, challenge statement and content, grammar and clarity, presentation style, and timing.',
+    ],
+    contact: 'efests@asme.org',
   },
   {
-    id: 'technical-paper-presentation',
-    name: 'Technical Paper Presentation',
+    id: 'technical-presentation',
+    name: 'Technical Presentation',
     category: 'Presentation',
     plainEnglishLine: detailsToBeConfirmed,
     whoItsFor: detailsToBeConfirmed,

@@ -137,6 +137,13 @@ export function EventDetailPage({ id }: { id: string }) {
           </a>
           <h1>{event.name}</h1>
           <p>{event.plainEnglishLine}</p>
+          {event.ruleHighlights?.length ? (
+            <div className="detail-hero-badges" aria-label="Competition highlights">
+              <span><b>90 sec</b> pitch limit</span>
+              <span><b>Individual</b> entry</span>
+              <span><b>Day 1</b> live event</span>
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -144,7 +151,10 @@ export function EventDetailPage({ id }: { id: string }) {
         <div className="section-kicker">/ DETAILS &amp; SCHEDULE</div>
         <div className="detail-grid">
           <div className="detail-main">
-            <h2>When it happens</h2>
+            <div className="detail-section-heading">
+              <span className="detail-eyebrow">01 / TIMING</span>
+              <h2>When it happens</h2>
+            </div>
             {event.slots.length ? (
               <div className="detail-slots">
                 {event.slots.map((slot) => (
@@ -158,18 +168,31 @@ export function EventDetailPage({ id }: { id: string }) {
             ) : (
               <p className="no-events-notice">Schedule to be announced.</p>
             )}
+            {event.ruleHighlights?.length ? (
+              <div className="detail-rules">
+                <div className="detail-section-heading">
+                  <span className="detail-eyebrow">02 / THE BRIEF</span>
+                  <h2>How to compete</h2>
+                </div>
+                <div className="rule-cards">
+                  {event.ruleHighlights.map((rule, index) => (
+                    <div className="rule-card" key={rule}>
+                      <span className="rule-card-number">{String(index + 1).padStart(2, '0')}</span>
+                      <p>{rule}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <aside className="detail-facts">
-            <h2>Event details</h2>
+            <div className="detail-facts-heading">
+              <span className="detail-eyebrow">QUICK READ</span>
+              <h2>At a glance</h2>
+            </div>
             <div className="facts-list">
-              {[
-                ['Who it’s for', event.whoItsFor],
-                ['Team size', event.teamSize],
-                ['Eligibility', event.eligibility],
-                ['Fee', event.fee],
-                ['Contact', event.contact],
-              ].map(([label, value]) => (
+              {[['Team size', event.teamSize]].map(([label, value]) => (
                 <div className="fact-row" key={label}>
                   <span className="fact-label">{label}</span>
                   <strong className="fact-value">{value}</strong>
@@ -178,12 +201,15 @@ export function EventDetailPage({ id }: { id: string }) {
             </div>
             <a
               className="button detail-rules-btn"
-              href={event.rulesLink.startsWith('Mock details') ? '#top' : event.rulesLink}
-              target={event.rulesLink.startsWith('http') ? '_blank' : undefined}
+              href={event.rulesLink}
+              target="_blank"
               rel="noreferrer"
             >
-              Rules &amp; guidelines <ArrowUpRight />
+              Read the full rule book <ArrowUpRight />
             </a>
+            {event.ruleHighlights?.length ? (
+              <p className="detail-source-note">Official ASME AY26–27 rules · Revised August 3, 2026</p>
+            ) : null}
           </aside>
         </div>
       </section>

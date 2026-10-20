@@ -63,6 +63,13 @@ function accentForProperty(property: string) {
   return PROPERTY_ACCENTS[property] ?? 'orange';
 }
 
+function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
+  if (policy === 'ladies-only') return 'Ladies-only';
+  if (policy === 'boys-only') return 'Boys-only';
+  if (policy === 'separate-gender') return 'Separate boys/girls rooms';
+  return 'Mixed accommodation';
+}
+
 function phoneIsValid(phone: string) {
   return /^(?:\+91[\s-]?)?[6-9]\d{9}$/.test(phone.trim());
 }
@@ -110,7 +117,16 @@ export function BookingPage() {
     })),
   };
   const detailsComplete = !Object.values(detailsErrors).some((error) => Array.isArray(error) ? error.some((item) => item.name || item.gender) : error);
-  const accommodationComplete = Boolean(selectedStay && requiredUnits <= selectedStay.spotsRemaining && (selectedStay.occupancyPolicy !== 'ladies-only' || [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)].every((gender) => gender === 'Female')));
+  const accommodationComplete = Boolean(
+    selectedStay &&
+      requiredUnits <= selectedStay.spotsRemaining &&
+      (selectedStay.occupancyPolicy === 'mixed' ||
+        selectedStay.occupancyPolicy === 'separate-gender' ||
+        (selectedStay.occupancyPolicy === 'ladies-only' &&
+          [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)].every((gender) => gender === 'Female')) ||
+        (selectedStay.occupancyPolicy === 'boys-only' &&
+          [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)].every((gender) => gender === 'Male')))
+  );
 
   const setField = (field: keyof FormData, value: string) => setForm((current) => ({ ...current, [field]: value }));
   const updateParticipantCount = (nextCount: number) => {
@@ -141,6 +157,7 @@ export function BookingPage() {
   };
   const genderOptions = ['Female', 'Male', 'Prefer not to say'] as const;
   const genderIncludesNonFemale = form.leadGender !== 'Female' || form.additionalParticipants.some((participant) => participant.gender !== 'Female');
+  const genderIncludesNonMale = form.leadGender !== 'Male' || form.additionalParticipants.some((participant) => participant.gender !== 'Male');
 
   return (
     <main className="booking-page">
@@ -180,17 +197,17 @@ export function BookingPage() {
             const unitsNeeded = option.priceUnit === 'room' ? Math.ceil(form.participantCount / (option.personsPerRoom ?? 1)) : form.participantCount;
             const soldOut = option.spotsRemaining === 0;
             const insufficient = unitsNeeded > option.spotsRemaining;
-            const genderBlocked = option.occupancyPolicy === 'ladies-only' && genderIncludesNonFemale;
+            const genderBlocked = (option.occupancyPolicy === 'ladies-only' && genderIncludesNonFemale) || (option.occupancyPolicy === 'boys-only' && genderIncludesNonMale);
             const disabled = soldOut || insufficient || genderBlocked;
             const selected = selectedAccommodationId === option.id;
-            return <button type="button" key={option.id} disabled={disabled} onClick={() => { setSelectedAccommodationId(option.id); setShowErrors(false); }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span>{option.image ? <img src={option.image} alt="" /> : <div className="accommodation-image-placeholder"><BedDouble /></div>}<span className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span><Users />{option.occupancyPolicy === 'ladies-only' ? 'Ladies-only' : 'Mixed accommodation'}</span><span><Bus />{option.busServiceProvided ? 'Bus service provided' : 'No bus service'}</span></span>{!option.refundable && <span className="non-refundable-note"><ShieldAlert /> Non-refundable booking</span>}<span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{soldOut ? 'Sold out' : genderBlocked ? 'Female participants only' : insufficient ? `Only ${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} left; your group needs ${unitsNeeded}` : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></span></button>;
+            return <button type="button" key={option.id} disabled={disabled} onClick={() => { setSelectedAccommodationId(option.id); setShowErrors(false); }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span>{option.image ? <img src={option.image} alt="" /> : <div className="accommodation-image-placeholder"><BedDouble /></div>}<span className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span><Users />{occupancyLabel(option.occupancyPolicy)}</span><span><Bus />{option.busServiceProvided ? 'Bus service provided' : 'No bus service'}</span></span>{!option.refundable && <span className="non-refundable-note"><ShieldAlert /> Non-refundable booking</span>}<span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{soldOut ? 'Sold out' : genderBlocked ? option.occupancyPolicy === 'boys-only' ? 'Male participants only' : 'Female participants only' : insufficient ? `Only ${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} left; your group needs ${unitsNeeded}` : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></span></button>;
           })}</div></section>)}
           {showErrors && !accommodationComplete && <p className="booking-error">{selectedStay ? `This stay cannot fit your group of ${form.participantCount}. Choose another option.` : 'Choose an accommodation option to continue.'}</p>}
           <button className="button booking-next-button" type="button" onClick={continueToNext}>Review booking <ArrowRight /></button>
         </section>}
         {step === 3 && selectedStay && <section className="booking-panel booking-review" aria-labelledby="review-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 03 REVIEW</p><h2 id="review-title">One last<br /><em>look.</em></h2></div>
-          <div className="booking-summary"><div><span>Lead participant</span><strong>{form.fullName}</strong><p>{form.email}<br />{form.phone}<br />{form.leadGender}</p></div><div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div><div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.map((participant) => `${participant.name} (${participant.gender})`).join(', ') || 'Lead participant only'}</p></div><div><span>Accommodation</span><strong>{selectedStay.title}</strong><p>{selectedStay.property} · {selectedStay.occupancyPolicy === 'ladies-only' ? 'Ladies-only' : 'Mixed accommodation'}<br />{selectedStay.busServiceProvided ? 'Bus service provided' : 'No bus service'}<br />{!selectedStay.refundable && 'Non-refundable booking'}</p></div><div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div></div>
+          <div className="booking-summary"><div><span>Lead participant</span><strong>{form.fullName}</strong><p>{form.email}<br />{form.phone}<br />{form.leadGender}</p></div><div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div><div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.map((participant) => `${participant.name} (${participant.gender})`).join(', ') || 'Lead participant only'}</p></div><div><span>Accommodation</span><strong>{selectedStay.title}</strong><p>{selectedStay.property} · {occupancyLabel(selectedStay.occupancyPolicy)}<br />{selectedStay.busServiceProvided ? 'Bus service provided' : 'No bus service'}<br />{!selectedStay.refundable && 'Non-refundable booking'}</p></div><div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div></div>
           <label className="booking-rules-checkbox"><input type="checkbox" checked={acceptedRules} onChange={(event) => setAcceptedRules(event.target.checked)} /> I accept the mandatory stay conditions listed on step 2.</label>
           <button className="button booking-payment-button" type="button" disabled={!acceptedRules}>Proceed to Payment <ArrowRight /></button>
         </section>}

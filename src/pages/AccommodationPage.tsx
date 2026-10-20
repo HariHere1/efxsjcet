@@ -17,7 +17,14 @@ function optionToPlan(option: AccommodationOption) {
     features: [
       { text: option.roomType === 'private' ? 'Private room' : 'Shared / dormitory', tooltip: option.capacity },
       {
-        text: option.occupancyPolicy === 'ladies-only' ? 'Ladies-only' : 'Mixed accommodation',
+        text:
+          option.occupancyPolicy === 'ladies-only'
+            ? 'Ladies-only'
+            : option.occupancyPolicy === 'boys-only'
+              ? 'Boys-only'
+              : option.occupancyPolicy === 'separate-gender'
+                ? 'Separate boys/girls rooms'
+              : 'Mixed accommodation',
       },
       {
         text: option.busServiceProvided ? 'Bus service provided' : 'No bus service',

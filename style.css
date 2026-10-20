@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Outfit:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -20,8 +20,8 @@
   --coral:          #f6b6a0;
   --paper:          #0a0908;   /* alias kept so legacy refs don't break */
   --dim:            #1c1714;
-  --mono:           "Space Mono", monospace;
-  --outfit:         "Outfit", sans-serif;
+  --mono:           "DM Sans", sans-serif;
+  --outfit:         "DM Sans", sans-serif;
   --background:        oklch(1 0 0);
   --foreground:        oklch(0.145 0 0);
   --card:        oklch(1 0 0);
@@ -2483,12 +2483,67 @@ main {
 }
 
 @media (max-width: 760px) {
-  .accommodation-hero { min-height: auto; padding: 45px 22px 85px; }
-  .accommodation-hero h1 { font-size: 68px; letter-spacing: -4px; }
-  .accommodation-hero > div > p:last-child { font-size: 17px; }
-  .accommodation-options { grid-template-columns: 1fr; gap: 48px; padding: 70px 22px 100px; }
-  .accommodation-options-heading > p:last-child { max-width: 300px; }
-  .accommodation-card-heading > p { min-height: 0; }
+  .accommodation-hero {
+    min-height: auto;
+    padding: 34px 22px 56px;
+  }
+  .accommodation-hero .back-link {
+    margin-bottom: 38px;
+  }
+  .accommodation-hero h1 {
+    margin: 22px 0 16px;
+    font-size: 54px;
+    letter-spacing: -3px;
+  }
+  .accommodation-hero > div > p:last-child {
+    max-width: 360px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .accommodation-options {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 22px 64px;
+  }
+  .accommodation-options-heading h2 {
+    margin: 18px 0 13px;
+    font-size: 42px;
+    letter-spacing: -2px;
+  }
+  .accommodation-options-heading > p:last-child {
+    max-width: 360px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .accommodation-grid {
+    gap: 12px;
+  }
+  .accommodation-card-body {
+    padding: 18px;
+  }
+  .accommodation-card h2 {
+    margin: 10px 0 8px;
+    font-size: 25px;
+  }
+  .accommodation-card-heading > p {
+    min-height: 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .accommodation-price {
+    margin: 18px 0;
+    padding-bottom: 14px;
+  }
+  .accommodation-price strong {
+    font-size: 24px;
+  }
+  .accommodation-details > div {
+    padding: 9px 0;
+  }
+  .accommodation-booking-button {
+    margin-top: 10px;
+    padding: 12px 16px;
+  }
 }
 
 /* ─── BOOKING PAGE ──────────────────────────────────────────────────────── */
@@ -3501,6 +3556,10 @@ main {
   padding-bottom: 50px;
 }
 
+.detail-page {
+  padding-top: 82px;
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -3514,6 +3573,32 @@ main {
 
 .back-link:hover {
   transform: translateX(-3px);
+}
+
+.detail-hero-content > p {
+  max-width: 680px;
+}
+
+.detail-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.detail-hero-badges span {
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #b9aaa1;
+  font: 11px var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.detail-hero-badges b {
+  color: var(--orange);
+  font-weight: 700;
 }
 
 .detail-content {
@@ -3531,12 +3616,23 @@ main {
 
 .detail-main h2,
 .detail-facts h2 {
-  margin: 0 0 18px;
+  margin: 4px 0 18px;
   font-size: 14px;
   font-family: var(--mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #ffffff;
+}
+
+.detail-section-heading {
+  margin-bottom: 18px;
+}
+
+.detail-eyebrow {
+  display: block;
+  color: var(--orange);
+  font: 10px var(--mono);
+  letter-spacing: 0.12em;
 }
 
 .detail-slots {
@@ -3570,12 +3666,49 @@ main {
   font-weight: 500;
 }
 
+.detail-rules {
+  margin-top: 48px;
+}
+
+.rule-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rule-card {
+  display: flex;
+  gap: 14px;
+  min-height: 112px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+}
+
+.rule-card-number {
+  color: var(--orange);
+  font: 11px var(--mono);
+  letter-spacing: 0.08em;
+}
+
+.rule-card p {
+  margin: 0;
+  color: #e5ded8;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .detail-facts {
   border: 1px solid var(--line);
   border-top: 4px solid var(--orange);
   background: var(--bg-dark-raised, #14110f);
   padding: 28px 24px;
   border-radius: 4px;
+}
+
+.detail-facts-heading {
+  margin-bottom: 10px;
 }
 
 .facts-list {
@@ -3610,6 +3743,24 @@ main {
   margin-top: 24px;
   width: 100%;
   justify-content: center;
+  border: 1px solid rgba(245, 236, 231, 0.28);
+  background: transparent;
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+}
+
+.detail-rules-btn:hover {
+  border-color: var(--orange);
+  background: rgba(240, 100, 36, 0.08);
+  color: var(--ink);
+}
+
+.detail-source-note {
+  margin: 16px 0 0;
+  color: #8e8179;
+  font: 10px/1.5 var(--mono);
+  text-align: center;
 }
 
 /* ─── RESPONSIVE BREAKPOINTS ──────────────────────────────────────────────── */
@@ -3663,6 +3814,16 @@ main {
   .event-list-arrow {
     grid-column: 3;
     grid-row: 1;
+  }
+  .detail-hero-badges {
+    gap: 8px;
+  }
+  .detail-hero-badges span {
+    font-size: 10px;
+    padding: 9px 11px;
+  }
+  .rule-cards {
+    grid-template-columns: 1fr;
   }
   .schedule-controls {
     display: flex;
