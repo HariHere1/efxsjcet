@@ -53,29 +53,33 @@ export function EventsPage() {
           <div className="filter-group">
             <span className="filter-label">DAY</span>
             <div className="filter-chips-wrap">
-              {days.map((item) => (
-                <button
-                  key={item.id}
-                  className={`filter-chip ${day === item.id ? 'active' : ''}`}
-                  onClick={() => setDay(item.id)}
-                >
-                  {item.label}
-                </button>
-              ))}
+              <select
+                value={day}
+                className="filter-select"
+                onChange={(event) => setDay(event.target.value as Day | 'all')}
+              >
+                {days.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="filter-group">
             <span className="filter-label">CATEGORY</span>
             <div className="filter-chips-wrap">
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  className={`filter-chip ${category === item ? 'active' : ''}`}
-                  onClick={() => setCategory(item)}
-                >
-                  {item}
-                </button>
-              ))}
+              <select
+                value={category}
+                className="filter-select"
+                onChange={(event) => setCategory(event.target.value as EventCategory | 'All categories')}
+              >
+                {categories.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
