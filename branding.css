@@ -1,0 +1,42 @@
+.brand-lockup-efx,
+.brand-lockup-sjcet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.brand-lockup-sjcet {
+  min-width: 78px;
+  min-height: 36px;
+}
+
+.brand-lockup-sjcet .sjcet-logo {
+  width: 66px;
+  max-height: 28px;
+}
+
+.brand-lockup .brand-rule {
+  width: 1px;
+  height: 26px;
+  background: var(--line);
+  font-size: 0;
+}
+
+.footer {
+  gap: 28px;
+}
+
+.footer-meta {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+@media (max-width: 760px) {
+  .footer-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

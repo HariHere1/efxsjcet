@@ -79,9 +79,11 @@ export function Dock({
       {/* ── DESKTOP NAVBAR (min-width: 761px) ── */}
       <header className="topbar desktop-navbar" role="banner">
         <a className="brand-lockup" href="#top" aria-label="ASME EFx India 2027 home" onClick={onNavClick}>
-          <img className="asme-logo" src={asmeLogo} alt="ASME EFx" />
-          <span className="brand-rule" aria-hidden="true">|</span>
-          <span className="sjcet-logo-wrap">
+          <span className="brand-lockup-efx">
+            <img className="asme-logo" src={asmeLogo} alt="ASME EFx" />
+          </span>
+          <span className="brand-rule" aria-hidden="true" />
+          <span className="sjcet-logo-wrap brand-lockup-sjcet">
             <img className="sjcet-logo" src={sjcetLogo} alt="SJCET Palai" />
           </span>
         </a>
