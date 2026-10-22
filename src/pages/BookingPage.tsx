@@ -34,7 +34,7 @@ const initialForm: FormData = {
   participantCount: 1, additionalParticipants: [], leadGender: '',
 };
 const STORAGE_KEY = 'efx-booking-state';
-const PROPERTY_ACCENTS: Record<string, string> = { 'Pastrol Central': 'orange', 'Oshana Mount': 'teal', 'Mathrubhavan': 'coral' };
+const PROPERTY_ACCENTS: Record<string, string> = { 'Alphonsian Pastoral Institute': 'orange', 'Hosanna Mount': 'teal', 'CML Mathrubhavan': 'coral' };
 
 function groupByProperty(options: typeof accommodationOptions) {
   const groups = new Map<string, typeof accommodationOptions>();

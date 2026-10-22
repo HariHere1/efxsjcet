@@ -4,7 +4,6 @@ import pastrolCentralImage from '../assets/images/stayImages/pastrol central/pc1
 import mathrubhavanImage2 from '../assets/images/stayImages/mathrubhavan/mbn2.jpeg';
 import oshanaMountImage2 from '../assets/images/stayImages/oshana mount/os2.jpeg';
 import oshanaMountImage3 from '../assets/images/stayImages/oshana mount/os3.jpeg';
-import oshanaMountImage4 from '../assets/images/stayImages/oshana mount/os4.jpeg';
 import oshanaMountImage5 from '../assets/images/stayImages/oshana mount/os5.jpeg';
 import pastrolCentralImage2 from '../assets/images/stayImages/pastrol central/pc2.jpeg';
 import pastrolCentralImage3 from '../assets/images/stayImages/pastrol central/pc3.jpeg';
@@ -18,7 +17,7 @@ export interface AccommodationOption {
   id: string;
   title: string;
   description: string;
-  // "Pastrol Central" | "Oshana Mount" | "Mathrubhavan"
+  // "Alphonsian Pastoral Institute" | "Hosanna Mount" | "CML Mathrubhavan"
   property: string;
   image?: string;
   gallery: string[];
@@ -56,8 +55,8 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'pastrol-central-single',
     title: 'Single room',
-    description: 'A simple private room at Pastrol Central for the complete three-day minimum stay.',
-    property: 'Pastrol Central',
+    description: 'A simple private room at Alphonsian Pastoral Institute for the complete three-day minimum stay.',
+    property: 'Alphonsian Pastoral Institute',
     image: pastrolCentralImage,
     gallery: [pastrolCentralImage, pastrolCentralImage2, pastrolCentralImage3, pastrolCentralImage4, pastrolCentralImage5],
     imagePosition: 'center 55%',
@@ -78,8 +77,8 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'pastrol-central-double',
     title: 'Double room',
-    description: 'A private room for two at Pastrol Central for the complete three-day minimum stay.',
-    property: 'Pastrol Central',
+    description: 'A private room for two at Alphonsian Pastoral Institute for the complete three-day minimum stay.',
+    property: 'Alphonsian Pastoral Institute',
     image: pastrolCentralImage4,
     gallery: [pastrolCentralImage4, pastrolCentralImage3, pastrolCentralImage2, pastrolCentralImage5, pastrolCentralImage],
     imagePosition: 'center center',
@@ -102,10 +101,10 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-dormitory',
     title: 'Dormitory',
-    description: 'A boys-only dormitory at Oshana Mount. No mixed accommodation.',
-    property: 'Oshana Mount',
+    description: 'A boys-only dormitory at Hosanna Mount. No mixed accommodation.',
+    property: 'Hosanna Mount',
     image: oshanaMountImage2,
-    gallery: [oshanaMountImage2, oshanaMountImage, oshanaMountImage3, oshanaMountImage4, oshanaMountImage5],
+    gallery: [oshanaMountImage2, oshanaMountImage, oshanaMountImage3, oshanaMountImage5],
     imagePosition: 'center center',
     priceLabel: '₹180',
     priceCovers: 'per head',
@@ -123,10 +122,10 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-non-ac-triple',
     title: 'Normal triple room',
-    description: 'A normal triple room at Oshana Mount with separate rooms for boys and girls.',
-    property: 'Oshana Mount',
-    image: oshanaMountImage4,
-    gallery: [oshanaMountImage4, oshanaMountImage2, oshanaMountImage, oshanaMountImage3, oshanaMountImage5],
+    description: 'A normal triple room at Hosanna Mount with separate rooms for boys and girls.',
+    property: 'Hosanna Mount',
+    image: oshanaMountImage3,
+    gallery: [oshanaMountImage3, oshanaMountImage2, oshanaMountImage, oshanaMountImage5],
     imagePosition: 'center 58%',
     priceLabel: '₹840',
     priceCovers: 'per room',
@@ -145,10 +144,10 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-double',
     title: 'Normal double room',
-    description: 'A normal double room at Oshana Mount with separate rooms for boys and girls.',
-    property: 'Oshana Mount',
+    description: 'A normal double room at Hosanna Mount with separate rooms for boys and girls.',
+    property: 'Hosanna Mount',
     image: oshanaMountImage5,
-    gallery: [oshanaMountImage5, oshanaMountImage4, oshanaMountImage2, oshanaMountImage, oshanaMountImage3],
+    gallery: [oshanaMountImage5, oshanaMountImage2, oshanaMountImage, oshanaMountImage3],
     imagePosition: 'center 52%',
     priceLabel: '₹945',
     priceCovers: 'per room',
@@ -169,8 +168,8 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'mathrubhavan-dormitory-bed',
     title: 'Dormitory bed',
-    description: 'A bed in the Mathrubhavan dormitories for female students only.',
-    property: 'Mathrubhavan',
+    description: 'A bed in the CML Mathrubhavan dormitories for female students only.',
+    property: 'CML Mathrubhavan',
     image: mathrubhavanImage,
     gallery: [mathrubhavanImage, mathrubhavanImage2],
     imagePosition: 'center center',

@@ -2691,7 +2691,7 @@ main {
 .competition-select small { color: var(--text-muted); font: 10px var(--mono); letter-spacing: 0; text-transform: none; }
 
 .booking-accommodation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-.property-mathrubhavan .booking-accommodation-grid {
+.property-cml-mathrubhavan .booking-accommodation-grid {
   grid-template-columns: minmax(260px, 430px);
 }
 .booking-accommodation-card {
@@ -2930,7 +2930,7 @@ main {
 
 @media (max-width: 1024px) {
   .booking-accommodation-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-  .property-mathrubhavan .booking-accommodation-grid { grid-template-columns: minmax(250px, 1fr); }
+  .property-cml-mathrubhavan .booking-accommodation-grid { grid-template-columns: minmax(250px, 1fr); }
 }
 
 @media (max-width: 980px) {
