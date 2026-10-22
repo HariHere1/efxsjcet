@@ -24,6 +24,8 @@ type FormData = {
   institution: string;
   department: string;
   year: string;
+  startDate: string;
+  endDate: string;
   participantCount: number;
   additionalParticipants: Participant[];
   leadGender: Gender | '';
@@ -31,9 +33,11 @@ type FormData = {
 
 const initialForm: FormData = {
   fullName: '', email: '', phone: '', institution: '', department: '', year: '',
+  startDate: '', endDate: '',
   participantCount: 1, additionalParticipants: [], leadGender: '',
 };
 const STORAGE_KEY = 'efx-booking-state';
+const EVENT_START_DATE = '2027-01-21';
 const PROPERTY_ACCENTS: Record<string, string> = { 'Alphonsian Pastoral Institute': 'orange', 'Hosanna Mount': 'teal', 'CML Mathrubhavan': 'coral' };
 
 function groupByProperty(options: typeof accommodationOptions) {
@@ -71,6 +75,14 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
 
 function phoneIsValid(phone: string) {
   return /^(?:\+91[\s-]?)?[6-9]\d{9}$/.test(phone.trim());
+}
+
+function checkoutDatesFor(startDate: string) {
+  return startDate === '2027-01-22' ? ['2027-01-24'] : ['2027-01-23', '2027-01-24'];
+}
+
+function formatStayDate(date: string) {
+  return date ? new Date(`${date}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not selected';
 }
 
 function participantsMatchGender(form: FormData, gender: Gender) {
@@ -130,6 +142,10 @@ export function BookingPage() {
     institution: !form.institution.trim() ? 'Enter your college or institution.' : '',
     department: !form.department.trim() ? 'Enter your department.' : '',
     year: !form.year ? 'Select your year of study.' : '',
+    startDate: !['2027-01-21', '2027-01-22'].includes(form.startDate) ? 'Select 21 or 22 January 2027 as your start date.' : '',
+    endDate: !checkoutDatesFor(form.startDate).includes(form.endDate)
+      ? form.startDate === '2027-01-22' ? 'Checkout is fixed to 24 January 2027 for this start date.' : 'Select a checkout date of 23 or 24 January 2027.'
+      : '',
     leadGender: !form.leadGender ? 'Select a gender option.' : '',
     additionalParticipants: form.additionalParticipants.map((participant) => ({
       name: !participant.name.trim() ? 'Enter this participant’s name.' : '',
@@ -144,6 +160,11 @@ export function BookingPage() {
   );
 
   const setField = (field: keyof FormData, value: string) => setForm((current) => ({ ...current, [field]: value }));
+  const setStartDate = (startDate: string) => setForm((current) => ({
+    ...current,
+    startDate,
+    endDate: checkoutDatesFor(startDate)[0] ?? '',
+  }));
   const updateParticipantCount = (nextCount: number) => {
     const participantCount = Math.max(1, Math.min(4, nextCount));
     setForm((current) => ({
@@ -192,6 +213,8 @@ export function BookingPage() {
               <label className={showErrors && detailsErrors[field] ? 'has-error' : ''}>{label}<input type={type} value={form[field]} onChange={(event) => setField(field, event.target.value)} aria-invalid={showErrors && Boolean(detailsErrors[field])} required />{showErrors && detailsErrors[field] && <small className="booking-field-error">{detailsErrors[field]}</small>}</label>
             ))}
             <label className={showErrors && detailsErrors.year ? 'has-error' : ''}>Year of study<select value={form.year} onChange={(event) => setField('year', event.target.value)} aria-invalid={showErrors && Boolean(detailsErrors.year)} required><option value="">Select year</option><option>First year</option><option>Second year</option><option>Third year</option><option>Final year</option><option>Postgraduate</option></select>{showErrors && detailsErrors.year && <small className="booking-field-error">{detailsErrors.year}</small>}</label>
+            <label className={showErrors && detailsErrors.startDate ? 'has-error' : ''}>Start date<input type="date" min={EVENT_START_DATE} max="2027-01-22" value={form.startDate} onChange={(event) => setStartDate(event.target.value)} aria-invalid={showErrors && Boolean(detailsErrors.startDate)} required />{showErrors && detailsErrors.startDate && <small className="booking-field-error">{detailsErrors.startDate}</small>}</label>
+            <label className={showErrors && detailsErrors.endDate ? 'has-error' : ''}>Checkout date<select value={form.endDate} onChange={(event) => setField('endDate', event.target.value)} aria-invalid={showErrors && Boolean(detailsErrors.endDate)} disabled={!form.startDate} required><option value="">Select checkout</option>{checkoutDatesFor(form.startDate).map((date) => <option key={date} value={date}>{new Date(`${date}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</option>)}</select>{showErrors && detailsErrors.endDate && <small className="booking-field-error">{detailsErrors.endDate}</small>}</label>
             <label className={showErrors && detailsErrors.leadGender ? 'has-error' : ''}>Lead participant gender<select value={form.leadGender} onChange={(event) => setField('leadGender', event.target.value)} aria-invalid={showErrors && Boolean(detailsErrors.leadGender)} required><option value="">Select gender</option>{genderOptions.map((gender) => <option key={gender}>{gender}</option>)}</select>{showErrors && detailsErrors.leadGender && <small className="booking-field-error">{detailsErrors.leadGender}</small>}</label>
           </div>
           <div className="booking-group">
@@ -214,7 +237,7 @@ export function BookingPage() {
         </section>}
         {step === 3 && selectedStay && <section className="booking-panel booking-review" aria-labelledby="review-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 03 PAYMENT</p><h2 id="review-title">One last<br /><em>look.</em></h2></div>
-          <div className="booking-summary"><div><span>Lead participant</span><strong>{form.fullName}</strong><p>{form.email}<br />{form.phone}<br />{form.leadGender}</p></div><div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div><div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.map((participant) => `${participant.name} (${participant.gender})`).join(', ') || 'Lead participant only'}</p></div><div><span>Accommodation</span><strong>{selectedStay.title}</strong><p>{selectedStay.property} · {occupancyLabel(selectedStay.occupancyPolicy)}<br />{selectedStay.busServiceProvided ? 'Bus service provided' : 'No bus service'}<br />{!selectedStay.refundable && 'Non-refundable booking'}</p></div><div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div></div>
+          <div className="booking-summary"><div><span>Lead participant</span><strong>{form.fullName}</strong><p>{form.email}<br />{form.phone}<br />{form.leadGender}</p></div><div><span>Stay dates</span><strong>{formatStayDate(form.startDate)} to {formatStayDate(form.endDate)}</strong><p>Minimum 3-day stay</p></div><div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div><div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.map((participant) => `${participant.name} (${participant.gender})`).join(', ') || 'Lead participant only'}</p></div><div><span>Accommodation</span><strong>{selectedStay.title}</strong><p>{selectedStay.property} · {occupancyLabel(selectedStay.occupancyPolicy)}<br />{selectedStay.busServiceProvided ? 'Bus service provided' : 'No bus service'}<br />{!selectedStay.refundable && 'Non-refundable booking'}</p></div><div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div></div>
           <button className="button booking-payment-button" type="button">Proceed to Payment <ArrowRight /></button>
         </section>}
       </section>

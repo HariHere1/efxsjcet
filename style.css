@@ -583,6 +583,11 @@ button {
   padding-bottom: 112px;
 }
 
+.stay-section {
+  padding-top: 82px;
+  padding-bottom: 82px;
+}
+
 .intro-content,
 .schedule-content,
 .updates-content {
@@ -1470,6 +1475,11 @@ button {
   .updates {
     padding-top: 74px;
     padding-bottom: 74px;
+  }
+
+  .stay-section {
+    padding-top: 52px;
+    padding-bottom: 52px;
   }
 
   .intro-content,

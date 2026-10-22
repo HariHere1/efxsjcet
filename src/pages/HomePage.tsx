@@ -151,7 +151,7 @@ export function HomePage() {
 
       {/* ── SCHEDULE ─────────────────────────────────────────────────── */}
       <section className="schedule section-grid" id="schedule-glance">
-        <div className="section-kicker">/ 02 &nbsp; FOUR DAYS AT A GLANCE</div>
+        <div className="section-kicker">FOUR DAYS AT A GLANCE</div>
 
         <div className="schedule-content">
           <div className="schedule-heading">
@@ -181,8 +181,8 @@ export function HomePage() {
       </section>
 
       {/* ── PLAN YOUR VISIT ──────────────────────────────────────────── */}
-      <section className="updates section-grid" id="stay">
-        <div className="section-kicker">/ 03 &nbsp; PLAN YOUR VISIT</div>
+      <section className="updates stay-section section-grid" id="stay">
+        <div className="section-kicker">PLAN YOUR VISIT</div>
 
         <div className="updates-content">
           <div className="updates-heading">
@@ -197,9 +197,9 @@ export function HomePage() {
             </a>
           </div>
 
-          {['Accommodation', 'Registration fees', 'Getting here'].map((link, index) => (
+          {['Accommodation'].map((link) => (
             <a className="news-item" href="#booking" key={link}>
-              <time>0{index + 1}</time>
+              <time>01</time>
               <strong>{link}</strong>
               <ArrowUpRight />
             </a>
@@ -224,15 +224,9 @@ export function HomePage() {
             </a>
           </div>
 
-          {[
-            'Registrations are now open for EFx India 2027',
-            'Meet the first wave of workshop mentors',
-            'Five things to know before you arrive in Palai',
-          ].map((news, index) => (
+          {['Registrations are now open for EFx India 2027'].map((news) => (
             <a className="news-item" href="#updates" key={news}>
-              <time>
-                {['18.08.26', '04.08.26', '21.07.26'][index]}
-              </time>
+              <time>18.08.26</time>
               <strong>{news}</strong>
               <ArrowUpRight />
             </a>
