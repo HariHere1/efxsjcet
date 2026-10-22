@@ -3,7 +3,6 @@ import asmeLogo from './assets/images/asme-efx-logo.png';
 import sjcetLogo from './assets/images/SJCET NEW LOGO.png';
 import { Dock } from './components/Dock';
 import { LoadingScreen } from './components/LoadingScreen';
-import { AccommodationPage } from './pages/AccommodationPage';
 import { BookingPage } from './pages/BookingPage';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';
@@ -112,7 +111,7 @@ function App() {
       ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />
       ) : routeInfo.type === 'accommodation' ? (
-        <AccommodationPage />
+        <BookingPage />
       ) : routeInfo.type === 'booking' ? (
         <BookingPage />
       ) : routeInfo.type === 'not-found' ? (

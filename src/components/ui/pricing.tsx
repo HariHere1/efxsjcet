@@ -24,6 +24,7 @@ interface Plan {
 		perRoom?: number;
 		perPerson: number;
 	};
+	priceNote?: string;
 	features: {
 		text: string;
 		tooltip?: string;
@@ -172,6 +173,9 @@ export function PricingCard({
 						{frequency === 'perRoom' && plan.price.perRoom !== undefined ? '/room' : '/person'}
 					</span>
 				</h3>
+				{plan.priceNote && (
+					<p className="text-muted-foreground mt-1 text-xs">{plan.priceNote}</p>
+				)}
 			</div>
 			<div
 				className={cn(

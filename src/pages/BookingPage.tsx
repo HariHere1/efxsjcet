@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BedDouble, Bus, Check, Minus, Plus, ShieldAlert, Users } from 'lucide-react';
-import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
+import { ArrowLeft, ArrowRight, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, Minus, Plus, X } from 'lucide-react';
+import { accommodationOptions, type AccommodationOption } from '../data/AccomodationPage';
 
 export function calcStayTotal(stay: AccommodationOption, participantCount: number): number {
   const units = stay.priceUnit === 'room' ? Math.ceil(participantCount / (stay.personsPerRoom ?? 1)) : participantCount;
@@ -15,7 +15,7 @@ export function stayBreakdown(stay: AccommodationOption, participantCount: numbe
   return `${units} ${unitLabel} x ₹${stay.price.toLocaleString('en-IN', { maximumFractionDigits: 2 })}${gstSuffix}`;
 }
 
-type Gender = 'Female' | 'Male' | 'Prefer not to say';
+type Gender = 'Female' | 'Male';
 type Participant = { name: string; gender: Gender | '' };
 type FormData = {
   fullName: string;
@@ -36,7 +36,16 @@ const initialForm: FormData = {
 const STORAGE_KEY = 'efx-booking-state';
 const PROPERTY_ACCENTS: Record<string, string> = { 'Pastrol Central': 'orange', 'Oshana Mount': 'teal', 'Mathrubhavan': 'coral' };
 
-function readStorage(): Partial<{ form: FormData; step: number; selectedAccommodationId: string | null; acceptedRules: boolean }> {
+function groupByProperty(options: typeof accommodationOptions) {
+  const groups = new Map<string, typeof accommodationOptions>();
+  for (const option of options) groups.set(option.property, [...(groups.get(option.property) ?? []), option]);
+  return [...groups.entries()];
+}
+
+function accentForProperty(property: string) {
+  return PROPERTY_ACCENTS[property] ?? 'orange';
+}
+function readStorage(): Partial<{ form: FormData; step: number; selectedAccommodationId: string | null }> {
   try {
     const value = sessionStorage.getItem(STORAGE_KEY);
     return value ? JSON.parse(value) : {};
@@ -53,16 +62,6 @@ function writeStorage(value: object) {
   }
 }
 
-function groupByProperty(options: typeof accommodationOptions) {
-  const groups = new Map<string, typeof accommodationOptions>();
-  for (const option of options) groups.set(option.property, [...(groups.get(option.property) ?? []), option]);
-  return [...groups.entries()];
-}
-
-function accentForProperty(property: string) {
-  return PROPERTY_ACCENTS[property] ?? 'orange';
-}
-
 function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
   if (policy === 'ladies-only') return 'Ladies-only';
   if (policy === 'boys-only') return 'Boys-only';
@@ -74,6 +73,17 @@ function phoneIsValid(phone: string) {
   return /^(?:\+91[\s-]?)?[6-9]\d{9}$/.test(phone.trim());
 }
 
+function participantsMatchGender(form: FormData, gender: Gender) {
+  return [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)]
+    .every((participantGender) => participantGender === gender);
+}
+
+function canBookAccommodation(option: AccommodationOption, form: FormData) {
+  if (option.occupancyPolicy === 'ladies-only') return participantsMatchGender(form, 'Female');
+  if (option.occupancyPolicy === 'boys-only') return participantsMatchGender(form, 'Male');
+  return true;
+}
+
 export function BookingPage() {
   const stored = readStorage();
   const contentRef = useRef<HTMLElement>(null);
@@ -83,16 +93,26 @@ export function BookingPage() {
     : stored.selectedAccommodationId && accommodationOptions.some((option) => option.id === stored.selectedAccommodationId && option.spotsRemaining > 0)
       ? stored.selectedAccommodationId
       : null;
-  const [step, setStep] = useState(stored.step && stored.step >= 1 && stored.step <= 3 ? stored.step : 1);
+  const initialStep = window.location.hash === '#accommodation' || routeOptionId
+    ? 1
+    : stored.step && stored.step >= 1 && stored.step <= 3
+      ? stored.step
+      : 1;
+  const [step, setStep] = useState(initialStep);
   const [form, setForm] = useState<FormData>({ ...initialForm, ...(stored.form ?? {}) });
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(initialOptionId);
   const [showErrors, setShowErrors] = useState(false);
-  const [acceptedRules, setAcceptedRules] = useState(Boolean(stored.acceptedRules));
-  const [showRules, setShowRules] = useState(false);
+  const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
 
   useEffect(() => {
-    writeStorage({ form, step, selectedAccommodationId, acceptedRules });
-  }, [form, step, selectedAccommodationId, acceptedRules]);
+    writeStorage({ form, step, selectedAccommodationId });
+  }, [form, step, selectedAccommodationId]);
+  useEffect(() => {
+    const stay = accommodationOptions.find((option) => option.id === selectedAccommodationId);
+    if (stay && !canBookAccommodation(stay, form)) {
+      setSelectedAccommodationId(null);
+    }
+  }, [form.leadGender, form.additionalParticipants, selectedAccommodationId]);
   useEffect(() => {
     contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [step]);
@@ -119,13 +139,8 @@ export function BookingPage() {
   const detailsComplete = !Object.values(detailsErrors).some((error) => Array.isArray(error) ? error.some((item) => item.name || item.gender) : error);
   const accommodationComplete = Boolean(
     selectedStay &&
-      requiredUnits <= selectedStay.spotsRemaining &&
-      (selectedStay.occupancyPolicy === 'mixed' ||
-        selectedStay.occupancyPolicy === 'separate-gender' ||
-        (selectedStay.occupancyPolicy === 'ladies-only' &&
-          [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)].every((gender) => gender === 'Female')) ||
-        (selectedStay.occupancyPolicy === 'boys-only' &&
-          [form.leadGender, ...form.additionalParticipants.map((participant) => participant.gender)].every((gender) => gender === 'Male')))
+    requiredUnits <= selectedStay.spotsRemaining &&
+    canBookAccommodation(selectedStay, form)
   );
 
   const setField = (field: keyof FormData, value: string) => setForm((current) => ({ ...current, [field]: value }));
@@ -145,7 +160,6 @@ export function BookingPage() {
       invalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-    if (step === 2 && !accommodationComplete) { setShowErrors(true); return; }
     setShowErrors(false);
     setStep((current) => Math.min(3, current + 1));
   };
@@ -155,10 +169,7 @@ export function BookingPage() {
       setStep(nextStep);
     }
   };
-  const genderOptions = ['Female', 'Male', 'Prefer not to say'] as const;
-  const genderIncludesNonFemale = form.leadGender !== 'Female' || form.additionalParticipants.some((participant) => participant.gender !== 'Female');
-  const genderIncludesNonMale = form.leadGender !== 'Male' || form.additionalParticipants.some((participant) => participant.gender !== 'Male');
-
+  const genderOptions = ['Female', 'Male'] as const;
   return (
     <main className="booking-page">
       <section className="booking-hero">
@@ -166,7 +177,7 @@ export function BookingPage() {
         <p className="section-kicker">/ BOOK YOUR SPOT</p><h1>Reserve your<br /><em>place.</em></h1>
       </section>
       <nav className="booking-progress-steps" aria-label="Booking steps">
-        {['Details', 'Accommodation', 'Review'].map((label, index) => {
+        {['Details', 'Accommodation', 'Payment'].map((label, index) => {
           const number = index + 1;
           return <button key={label} type="button" className={`booking-progress-step ${step === number ? 'active' : step > number ? 'complete' : ''}`} aria-current={step === number ? 'step' : undefined} onClick={() => changeStep(number)}><span className="booking-progress-marker">{step > number ? <Check /> : number}</span><span className="booking-progress-label">{label}</span></button>;
         })}
@@ -192,27 +203,29 @@ export function BookingPage() {
         </section>}
         {step === 2 && <section className="booking-panel" aria-labelledby="accommodation-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 02 ACCOMMODATION</p><h2 id="accommodation-title">Choose your<br /><em>basecamp.</em></h2><p>Select one room or bed option from one of our three stay locations.</p></div>
-          <aside className="booking-stay-rules" aria-labelledby="stay-rules-title" role="note"><span className="booking-stay-rules-icon" aria-hidden="true"><ShieldAlert /></span><div className="booking-stay-rules-content"><button type="button" className="booking-rules-toggle" onClick={() => setShowRules((current) => !current)} aria-expanded={showRules}><span className="section-kicker">/ MANDATORY CONDITIONS</span><strong id="stay-rules-title">{showRules ? 'Hide mandatory conditions' : 'Read mandatory conditions'}</strong></button>{showRules && <ul>{accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}</ul>}</div></aside>
-          {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className="booking-accommodation-group"><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'}</span></div><div className="booking-accommodation-grid">{options.map((option) => {
+          {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const unitsNeeded = option.priceUnit === 'room' ? Math.ceil(form.participantCount / (option.personsPerRoom ?? 1)) : form.participantCount;
-            const soldOut = option.spotsRemaining === 0;
-            const insufficient = unitsNeeded > option.spotsRemaining;
-            const genderBlocked = (option.occupancyPolicy === 'ladies-only' && genderIncludesNonFemale) || (option.occupancyPolicy === 'boys-only' && genderIncludesNonMale);
-            const disabled = soldOut || insufficient || genderBlocked;
+            const genderEligible = canBookAccommodation(option, form);
+            const disabled = option.spotsRemaining === 0 || unitsNeeded > option.spotsRemaining || !genderEligible;
             const selected = selectedAccommodationId === option.id;
-            return <button type="button" key={option.id} disabled={disabled} onClick={() => { setSelectedAccommodationId(option.id); setShowErrors(false); }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span>{option.image ? <img src={option.image} alt="" /> : <div className="accommodation-image-placeholder"><BedDouble /></div>}<span className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span><Users />{occupancyLabel(option.occupancyPolicy)}</span><span><Bus />{option.busServiceProvided ? 'Bus service provided' : 'No bus service'}</span></span>{!option.refundable && <span className="non-refundable-note"><ShieldAlert /> Non-refundable booking</span>}<span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{soldOut ? 'Sold out' : genderBlocked ? option.occupancyPolicy === 'boys-only' ? 'Male participants only' : 'Female participants only' : insufficient ? `Only ${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} left; your group needs ${unitsNeeded}` : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></span></button>;
+            return <article key={option.id} aria-disabled={disabled} onClick={() => { if (!disabled) { setSelectedAccommodationId(option.id); setShowErrors(false); } }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span><button type="button" className="booking-card-gallery" onClick={(event) => { event.stopPropagation(); setGallery({ stay: option, index: 0 }); }} aria-label={`View photos of ${option.title}`}><img src={option.image} alt={`${option.property} ${option.title}`} style={{ objectPosition: option.imagePosition }} />{option.gallery.length > 1 && <span className="booking-gallery-count"><ImagePlus /> +{option.gallery.length - 1} photos</span>}</button><div className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span>{occupancyLabel(option.occupancyPolicy)}</span></span><span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{!genderEligible ? 'Female participants only' : disabled ? 'Unavailable for this group' : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></div></article>;
           })}</div></section>)}
-          {showErrors && !accommodationComplete && <p className="booking-error">{selectedStay ? `This stay cannot fit your group of ${form.participantCount}. Choose another option.` : 'Choose an accommodation option to continue.'}</p>}
-          <button className="button booking-next-button" type="button" onClick={continueToNext}>Review booking <ArrowRight /></button>
+          {showErrors && !accommodationComplete && <p className="booking-error">{selectedStay ? `This stay cannot fit your group of ${form.participantCount}.` : 'Choose an accommodation option to continue.'}</p>}
         </section>}
         {step === 3 && selectedStay && <section className="booking-panel booking-review" aria-labelledby="review-title">
-          <div className="booking-section-heading"><p className="section-kicker">/ 03 REVIEW</p><h2 id="review-title">One last<br /><em>look.</em></h2></div>
+          <div className="booking-section-heading"><p className="section-kicker">/ 03 PAYMENT</p><h2 id="review-title">One last<br /><em>look.</em></h2></div>
           <div className="booking-summary"><div><span>Lead participant</span><strong>{form.fullName}</strong><p>{form.email}<br />{form.phone}<br />{form.leadGender}</p></div><div><span>Institution</span><strong>{form.institution}</strong><p>{form.department} · {form.year}</p></div><div><span>Participants</span><strong>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</strong><p>{form.additionalParticipants.map((participant) => `${participant.name} (${participant.gender})`).join(', ') || 'Lead participant only'}</p></div><div><span>Accommodation</span><strong>{selectedStay.title}</strong><p>{selectedStay.property} · {occupancyLabel(selectedStay.occupancyPolicy)}<br />{selectedStay.busServiceProvided ? 'Bus service provided' : 'No bus service'}<br />{!selectedStay.refundable && 'Non-refundable booking'}</p></div><div className="booking-total"><span>Estimated total</span><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong><p>{breakdown} · For {form.participantCount} participant{form.participantCount > 1 ? 's' : ''} · accommodation only</p></div></div>
-          <label className="booking-rules-checkbox"><input type="checkbox" checked={acceptedRules} onChange={(event) => setAcceptedRules(event.target.checked)} /> I accept the mandatory stay conditions listed on step 2.</label>
-          <button className="button booking-payment-button" type="button" disabled={!acceptedRules}>Proceed to Payment <ArrowRight /></button>
+          <button className="button booking-payment-button" type="button">Proceed to Payment <ArrowRight /></button>
         </section>}
       </section>
-      {step === 2 && <div className="booking-mobile-bar"><span>{selectedStay ? <><small>Estimated total</small><strong>₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></> : <strong>Select a stay</strong>}</span><button className="button" type="button" disabled={!accommodationComplete} onClick={continueToNext}>Next <ArrowRight /></button></div>}
+      {step === 2 && <div className="booking-review-bar"><span>{selectedStay ? <><small>Selected stay</small><strong>{selectedStay.title} · ₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></> : <strong>Select a stay to continue</strong>}</span><button className="button" type="button" disabled={!accommodationComplete} onClick={continueToNext}>Review booking <ArrowRight /></button></div>}
+      {gallery && <div className="booking-lightbox" role="dialog" aria-modal="true" aria-label={`${gallery.stay.property} photos`} onClick={() => setGallery(null)}>
+        <button type="button" className="booking-lightbox-close" onClick={() => setGallery(null)} aria-label="Close photo viewer"><X /></button>
+        <button type="button" className="booking-lightbox-arrow previous" onClick={(event) => { event.stopPropagation(); setGallery((current) => current ? { ...current, index: (current.index - 1 + current.stay.gallery.length) % current.stay.gallery.length } : current); }} aria-label="Previous photo"><ChevronLeft /></button>
+        <img src={gallery.stay.gallery[gallery.index]} alt={`${gallery.stay.property} photo ${gallery.index + 1}`} onClick={(event) => event.stopPropagation()} />
+        <button type="button" className="booking-lightbox-arrow next" onClick={(event) => { event.stopPropagation(); setGallery((current) => current ? { ...current, index: (current.index + 1) % current.stay.gallery.length } : current); }} aria-label="Next photo"><ChevronRight /></button>
+        <span className="booking-lightbox-counter">{gallery.index + 1} / {gallery.stay.gallery.length}</span>
+      </div>}
     </main>
   );
 }

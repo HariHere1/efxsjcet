@@ -13,7 +13,7 @@ type NavbarProps = {
 
 function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
-  if (item === 'Stay') return '#booking';
+  if (item === 'Stay') return '#accommodation';
   if (item === 'Home') return '#top';
   if (item === 'Events') return '#events';
   if (item === 'Schedule') return '#schedule';
