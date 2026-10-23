@@ -42,12 +42,15 @@ export interface AccommodationOption {
 }
 
 export const accommodationStayRules = [
-  'Minimum stay: 3 days.',
-  'Return to the allotted stay before 9:00 PM.',
-  'No food is allowed in the stay areas.',
-  'Keep the room and shared areas clean and hygienic.',
-  'Bring your own bed sheets and sanitary items.',
-  'Complete check-out as instructed by the accommodation coordinator.',
+  'Follow hostel timings.',
+  'Enter the hostel before 9:00 PM.',
+  'No food items are allowed.',
+  'Avoid unauthorized visitors.',
+  'Keep rooms clean.',
+  'Avoid smoking and alcohol.',
+  'Protect hostel property.',
+  'Respect others’ privacy.',
+  'Follow hostel rules and maintain discipline.',
 ] as const;
 
 export const accommodationOptions: AccommodationOption[] = [

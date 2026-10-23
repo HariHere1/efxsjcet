@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, Minus, Plus, X } from 'lucide-react';
-import { accommodationOptions, type AccommodationOption } from '../data/AccomodationPage';
+import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
 
 export function calcStayTotal(stay: AccommodationOption, participantCount: number): number {
   const units = stay.priceUnit === 'room' ? Math.ceil(participantCount / (stay.personsPerRoom ?? 1)) : participantCount;
@@ -203,9 +203,19 @@ export function BookingPage() {
           return <button key={label} type="button" className={`booking-progress-step ${step === number ? 'active' : step > number ? 'complete' : ''}`} aria-current={step === number ? 'step' : undefined} onClick={() => changeStep(number)}><span className="booking-progress-marker">{step > number ? <Check /> : number}</span><span className="booking-progress-label">{label}</span></button>;
         })}
       </nav>
-      <section className="booking-content" ref={contentRef}>
+      <section className={`booking-content ${step === 1 ? 'booking-details-content' : ''}`} ref={contentRef}>
         {step === 1 && <section className="booking-panel booking-form" aria-labelledby="details-title">
-          <div className="booking-section-heading"><p className="section-kicker">/ 01 PARTICIPANT DETAILS</p><h2 id="details-title">Tell us about<br /><em>your crew.</em></h2></div>
+          <div className="booking-form-layout">
+          <section className="booking-stay-rules booking-form-rules" aria-labelledby="form-stay-rules-title">
+            <div className="booking-stay-rules-content">
+              <p className="section-kicker">HOSTEL GUIDELINES</p>
+              <h3 id="form-stay-rules-title">Rules to be followed</h3>
+              <ul>
+                {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
+              </ul>
+            </div>
+          </section>
+          <div className="booking-form-fields">
           <div className="booking-fields">
             {([
               ['fullName', 'Full name', 'text'], ['email', 'Email address', 'email'], ['phone', 'Phone number', 'tel'], ['institution', 'College / institution', 'text'], ['department', 'Department', 'text'],
@@ -219,13 +229,23 @@ export function BookingPage() {
           </div>
           <div className="booking-group">
             <div className="booking-group-heading"><span>Number of participants</span><div className="participant-counter"><button type="button" onClick={() => updateParticipantCount(form.participantCount - 1)} aria-label="Remove participant"><Minus /></button><strong>{form.participantCount}</strong><button type="button" onClick={() => updateParticipantCount(form.participantCount + 1)} aria-label="Add participant"><Plus /></button></div></div>
-            <small className="participant-guidance">For teams larger than four, make a separate booking per group of four.</small>
             {form.additionalParticipants.map((participant, index) => <div key={index} className="booking-participant-fields"><label className={showErrors && detailsErrors.additionalParticipants[index]?.name ? 'has-error' : ''}>Participant {index + 2} name<input value={participant.name} onChange={(event) => setForm((current) => ({ ...current, additionalParticipants: current.additionalParticipants.map((item, itemIndex) => itemIndex === index ? { ...item, name: event.target.value } : item) }))} aria-invalid={showErrors && Boolean(detailsErrors.additionalParticipants[index]?.name)} />{showErrors && detailsErrors.additionalParticipants[index]?.name && <small className="booking-field-error">{detailsErrors.additionalParticipants[index].name}</small>}</label><label className={showErrors && detailsErrors.additionalParticipants[index]?.gender ? 'has-error' : ''}>Gender<select value={participant.gender} onChange={(event) => setForm((current) => ({ ...current, additionalParticipants: current.additionalParticipants.map((item, itemIndex) => itemIndex === index ? { ...item, gender: event.target.value as Gender } : item) }))} aria-invalid={showErrors && Boolean(detailsErrors.additionalParticipants[index]?.gender)}><option value="">Select gender</option>{genderOptions.map((gender) => <option key={gender}>{gender}</option>)}</select>{showErrors && detailsErrors.additionalParticipants[index]?.gender && <small className="booking-field-error">{detailsErrors.additionalParticipants[index].gender}</small>}</label></div>)}
           </div>
           <button className="button booking-next-button" type="button" onClick={continueToNext}>Continue to accommodation <ArrowRight /></button>
+          </div>
+          </div>
         </section>}
         {step === 2 && <section className="booking-panel" aria-labelledby="accommodation-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 02 ACCOMMODATION</p><h2 id="accommodation-title">Choose your<br /><em>basecamp.</em></h2><p>Select one room or bed option from one of our three stay locations.</p></div>
+          <section className="booking-stay-rules" aria-labelledby="stay-rules-title">
+            <div className="booking-stay-rules-content">
+              <p className="section-kicker">HOSTEL GUIDELINES</p>
+              <h3 id="stay-rules-title">Rules to be followed</h3>
+              <ul>
+                {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
+              </ul>
+            </div>
+          </section>
           {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const unitsNeeded = option.priceUnit === 'room' ? Math.ceil(form.participantCount / (option.personsPerRoom ?? 1)) : form.participantCount;
             const genderEligible = canBookAccommodation(option, form);

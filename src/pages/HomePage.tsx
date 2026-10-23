@@ -204,6 +204,14 @@ export function HomePage() {
               <ArrowUpRight />
             </a>
           ))}
+          
+          {['Rules and Regulations'].map((link) => (
+            <a className="news-item" href="#booking" key={link}>
+              <time>02</time>
+              <strong>{link}</strong>
+              <ArrowUpRight />
+            </a>
+          ))}
         </div>
       </section>
 
@@ -225,7 +233,7 @@ export function HomePage() {
           </div>
 
           {['Registrations are now open for EFx India 2027'].map((news) => (
-            <a className="news-item" href="#updates" key={news}>
+            <a className="news-item" href="https://konfhub.com/efxindia2027" key={news}>
               <time>18.08.26</time>
               <strong>{news}</strong>
               <ArrowUpRight />
