@@ -254,6 +254,36 @@ export function BookingPage() {
             return <article key={option.id} aria-disabled={disabled} onClick={() => { if (!disabled) { setSelectedAccommodationId(option.id); setShowErrors(false); } }} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span><button type="button" className="booking-card-gallery" onClick={(event) => { event.stopPropagation(); setGallery({ stay: option, index: 0 }); }} aria-label={`View photos of ${option.title}`}><img src={option.image} alt={`${option.property} ${option.title}`} style={{ objectPosition: option.imagePosition }} />{option.gallery.length > 1 && <span className="booking-gallery-count"><ImagePlus /> +{option.gallery.length - 1} photos</span>}</button><div className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span>{occupancyLabel(option.occupancyPolicy)}</span></span><span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{!genderEligible ? 'Female participants only' : disabled ? 'Unavailable for this group' : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></div></article>;
           })}</div></section>)}
           {showErrors && !accommodationComplete && <p className="booking-error">{selectedStay ? `This stay cannot fit your group of ${form.participantCount}.` : 'Choose an accommodation option to continue.'}</p>}
+          <div className="booking-review-bar">
+            <div className="review-bar-wrap">
+              {selectedStay ? (
+                <div className="review-bar-selected">
+                  <img className="review-bar-thumb" src={selectedStay.image} alt={selectedStay.title} loading="lazy" />
+                  <div className="review-bar-info">
+                    <div className="review-bar-title-line">
+                      <strong>{selectedStay.title}</strong>
+                      <span className="review-bar-price-total">₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                    <div className="review-bar-sub-line">
+                      <span>{selectedStay.property}</span>
+                      <span className="review-bar-divider" aria-hidden="true">·</span>
+                      <span>{form.participantCount} participant{form.participantCount > 1 ? 's' : ''}</span>
+                    </div>
+                    <div className="review-bar-breakdown">
+                      <span>{requiredUnits} {selectedStay.priceUnit === 'room' ? 'room' : 'bed'}{requiredUnits > 1 ? 's' : ''} × ₹{selectedStay.price.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</span>
+                      {selectedStay.gstPercent && <span>+ GST {selectedStay.gstPercent}%</span>}
+                    </div>
+                  </div>
+                  <button className="review-bar-btn" type="button" disabled={!accommodationComplete} onClick={continueToNext}>Review booking <ArrowRight /></button>
+                </div>
+              ) : (
+                <div className="review-bar-empty">
+                  <span>Select a stay to continue</span>
+                  <button className="review-bar-btn" type="button" disabled>Review booking <ArrowRight /></button>
+                </div>
+              )}
+            </div>
+          </div>
         </section>}
         {step === 3 && selectedStay && <section className="booking-panel booking-review" aria-labelledby="review-title">
           <div className="booking-section-heading"><p className="section-kicker">/ 03 PAYMENT</p><h2 id="review-title">One last<br /><em>look.</em></h2></div>
@@ -261,7 +291,6 @@ export function BookingPage() {
           <button className="button booking-payment-button" type="button">Proceed to Payment <ArrowRight /></button>
         </section>}
       </section>
-      {step === 2 && <div className="booking-review-bar"><span>{selectedStay ? <><small>Selected stay</small><strong>{selectedStay.title} · ₹{total.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></> : <strong>Select a stay to continue</strong>}</span><button className="button" type="button" disabled={!accommodationComplete} onClick={continueToNext}>Review booking <ArrowRight /></button></div>}
       {gallery && <div className="booking-lightbox" role="dialog" aria-modal="true" aria-label={`${gallery.stay.property} photos`} onClick={() => setGallery(null)}>
         <button type="button" className="booking-lightbox-close" onClick={() => setGallery(null)} aria-label="Close photo viewer"><X /></button>
         <button type="button" className="booking-lightbox-arrow previous" onClick={(event) => { event.stopPropagation(); setGallery((current) => current ? { ...current, index: (current.index - 1 + current.stay.gallery.length) % current.stay.gallery.length } : current); }} aria-label="Previous photo"><ChevronLeft /></button>
