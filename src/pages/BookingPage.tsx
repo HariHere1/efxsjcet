@@ -209,7 +209,7 @@ export function BookingPage() {
           <section className="booking-stay-rules booking-form-rules" aria-labelledby="form-stay-rules-title">
             <div className="booking-stay-rules-content">
               <p className="section-kicker">HOSTEL GUIDELINES</p>
-              <h3 id="form-stay-rules-title">Rules to be followed</h3>
+              <div className="booking-rules-heading"><h3 id="form-stay-rules-title">Rules to be followed</h3><span>09 guidelines</span></div>
               <ul>
                 {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
               </ul>
@@ -240,7 +240,7 @@ export function BookingPage() {
           <section className="booking-stay-rules" aria-labelledby="stay-rules-title">
             <div className="booking-stay-rules-content">
               <p className="section-kicker">HOSTEL GUIDELINES</p>
-              <h3 id="stay-rules-title">Rules to be followed</h3>
+              <div className="booking-rules-heading"><h3 id="stay-rules-title">Rules to be followed</h3><span>09 guidelines</span></div>
               <ul>
                 {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
               </ul>
