@@ -655,8 +655,8 @@ button {
 
 .programme-filter:hover,
 .programme-filter.active {
-  border-color: var(--orange);
-  background: var(--orange);
+  border-color: white;
+  background: white ;
   color: var(--bg-dark);
 }
 
@@ -1067,6 +1067,20 @@ button {
   color: var(--orange-dark);
 }
 
+.footer-social-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-social-label {
+  color: var(--text-muted);
+  font: 10px var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 .footer-social {
   display: flex;
   gap: 14px;
@@ -1095,24 +1109,24 @@ button {
   .footer {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 22px 22px 30px;
+    gap: 12px;
+    padding: 22px 22px 86px;
     text-align: center;
   }
   .footer-brand {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
   }
   .footer-brand .brand-rule {
-    display: none;
+    display: inline;
   }
-  .footer-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: center;
+  .footer-social-group {
+    margin-top: 12px;
   }
   .footer-social {
+    align-self: center;
     justify-content: center;
     width: 100%;
   }
@@ -3502,7 +3516,6 @@ main {
 
 .filter-select:hover,
 .filter-select:focus {
-  background: rgba(255, 255, 255, 0.06);
   color: #ffffff;
   border-color: transparent;
   outline: none;
@@ -3963,7 +3976,7 @@ main {
 }
 
 .detail-main h2,
-.detail-facts h2 {
+.detail-rulebook h2 {
   margin: 4px 0 18px;
   font-size: 14px;
   font-family: var(--mono);
@@ -4018,6 +4031,10 @@ main {
   margin-top: 48px;
 }
 
+.detail-rulebook {
+  margin-top: 48px;
+}
+
 .rule-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4047,49 +4064,9 @@ main {
   line-height: 1.55;
 }
 
-.detail-facts {
-  border: 1px solid var(--line);
-  border-top: 4px solid var(--orange);
-  background: var(--bg-dark-raised, #14110f);
-  padding: 28px 24px;
-  border-radius: 4px;
-}
-
-.detail-facts-heading {
-  margin-bottom: 10px;
-}
-
-.facts-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.fact-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.fact-label {
-  color: #a89489;
-  font-size: 13px;
-  font-family: var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.fact-value {
-  color: #ffffff;
-  font-size: 13px;
-  text-align: right;
-  font-weight: 600;
-}
-
 .detail-rules-btn {
-  margin-top: 24px;
-  width: 100%;
+  display: inline-flex;
+  margin-top: 0;
   justify-content: center;
   border: 1px solid rgba(245, 236, 231, 0.28);
   background: transparent;
@@ -4104,11 +4081,18 @@ main {
   color: var(--ink);
 }
 
+.detail-rules-coming-soon {
+  margin: 0;
+  color: #c8bbb2;
+  font: 11px var(--mono);
+  text-transform: uppercase;
+}
+
 .detail-source-note {
   margin: 16px 0 0;
   color: #8e8179;
   font: 10px/1.5 var(--mono);
-  text-align: center;
+  text-align: left;
 }
 
 /* ─── RESPONSIVE BREAKPOINTS ──────────────────────────────────────────────── */
@@ -4172,6 +4156,13 @@ main {
   }
   .rule-cards {
     grid-template-columns: 1fr;
+  }
+  .detail-rulebook {
+    margin-top: 40px;
+  }
+  .detail-rules-btn {
+    width: 100%;
+    box-sizing: border-box;
   }
   .schedule-controls {
     display: flex;
@@ -4242,7 +4233,7 @@ main {
     padding: 16px 0;
   }
   .footer {
-    padding-bottom: 95px !important;
+    padding-bottom: 86px !important;
   }
 }
 

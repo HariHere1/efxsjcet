@@ -136,14 +136,9 @@ export function EventDetailPage({ id }: { id: string }) {
             ← All events
           </a>
           <h1>{event.name}</h1>
-          <p>{event.plainEnglishLine}</p>
-          {event.ruleBadges?.length ? (
-            <div className="detail-hero-badges" aria-label="Competition highlights">
-              {event.ruleBadges.map((badge) => (
-                <span key={badge}><b>{badge}</b></span>
-              ))}
-            </div>
-          ) : null}
+          <p>
+            {event.plainEnglishLine}
+          </p>
         </div>
       </section>
 
@@ -184,33 +179,28 @@ export function EventDetailPage({ id }: { id: string }) {
                 </div>
               </div>
             ) : null}
+            <div className="detail-rulebook">
+              <div className="detail-section-heading">
+                <span className="detail-eyebrow">OFFICIAL RULEBOOK</span>
+                <h2>Download rulebook</h2>
+              </div>
+              {event.rulesLink.startsWith('/') || event.rulesLink.startsWith('http') ? (
+                <a
+                  className="button detail-rules-btn"
+                  href={event.rulesLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Download rule book <ArrowUpRight />
+                </a>
+              ) : (
+                <p className="detail-rules-coming-soon">Rulebook coming soon.</p>
+              )}
+              {event.rulesSource ? (
+                <p className="detail-source-note">{event.rulesSource}</p>
+              ) : null}
+            </div>
           </div>
-
-          <aside className="detail-facts">
-            <div className="detail-facts-heading">
-              <span className="detail-eyebrow">QUICK READ</span>
-              <h2>At a glance</h2>
-            </div>
-            <div className="facts-list">
-              {[['Team size', event.teamSize]].map(([label, value]) => (
-                <div className="fact-row" key={label}>
-                  <span className="fact-label">{label}</span>
-                  <strong className="fact-value">{value}</strong>
-                </div>
-              ))}
-            </div>
-            <a
-              className="button detail-rules-btn"
-              href={event.rulesLink}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Read the full rule book <ArrowUpRight />
-            </a>
-            {event.rulesSource ? (
-              <p className="detail-source-note">{event.rulesSource}</p>
-            ) : null}
-          </aside>
         </div>
       </section>
     </main>

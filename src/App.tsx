@@ -129,12 +129,9 @@ function App() {
             <img className="sjcet-logo" src={sjcetLogo} alt="SJCET Palai" />
           </span>
         </div>
-        <div className="footer-meta">
-          <span>21-24 JANUARY 2027</span>
-          <span>PALAI, KERALA, INDIA</span>
-          <a href="#top">Back to top ↑</a>
-        </div>
-        <div className="footer-social" aria-label="Follow EFx India 2027 on social media">
+        <div className="footer-social-group">
+          <span className="footer-social-label">Follow us on</span>
+          <div className="footer-social" aria-label="Follow EFx India 2027 on social media">
           <a
             href="PLACEHOLDER: https://www.instagram.com/asme_sjcet/"
             target="_blank"
@@ -203,6 +200,7 @@ function App() {
               <polyline points="22,6 12,13 2,6" />
             </svg>
           </a>
+          </div>
         </div>
       </footer>
     </div>

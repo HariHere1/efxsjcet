@@ -126,12 +126,6 @@ export function HomePage() {
             </button>
           ))}
         </div>
-        <div className="programme-legend" aria-hidden="true">
-          HORIZONTAL 4×2 MATRIX
-          <span className="legend-dot orange" />
-          <span className="legend-dot teal" />
-          <span className="legend-dot coral" />
-        </div>
       </div>
 
       {/* ── EVENT GRID ───────────────────────────────────────────────── */}
