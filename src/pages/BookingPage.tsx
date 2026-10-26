@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, Minus, Plus, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, Minus, Plus, ShieldAlert, X } from 'lucide-react';
 import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
 
 export function calcStayTotal(stay: AccommodationOption, participantCount: number): number {
@@ -115,6 +115,18 @@ export function BookingPage() {
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(initialOptionId);
   const [showErrors, setShowErrors] = useState(false);
   const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
+  const [showRulesPopup, setShowRulesPopup] = useState(true);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowRulesPopup(false);
+        setGallery(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     writeStorage({ form, step, selectedAccommodationId });
@@ -205,16 +217,23 @@ export function BookingPage() {
       </nav>
       <section className={`booking-content ${step === 1 ? 'booking-details-content' : ''}`} ref={contentRef}>
         {step === 1 && <section className="booking-panel booking-form" aria-labelledby="details-title">
-          <div className="booking-form-layout">
-          <section className="booking-stay-rules booking-form-rules" aria-labelledby="form-stay-rules-title">
-            <div className="booking-stay-rules-content">
-              <p className="section-kicker">HOSTEL GUIDELINES</p>
-              <div className="booking-rules-heading"><h3 id="form-stay-rules-title">Rules to be followed</h3><span>09 guidelines</span></div>
-              <ul>
-                {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
-              </ul>
+          <div className="booking-section-heading booking-details-heading">
+            <div className="booking-heading-row">
+              <div>
+                <p className="section-kicker">/ 01 PARTICIPANT DETAILS</p>
+                <h2 id="details-title">Lead &amp; Guest<br /><em>registration.</em></h2>
+              </div>
+              <button
+                type="button"
+                className="booking-rules-pill-trigger"
+                onClick={() => setShowRulesPopup(true)}
+              >
+                <ShieldAlert size={15} />
+                <span>Hostel Rules &amp; Regulations</span>
+              </button>
             </div>
-          </section>
+          </div>
+          <div className="booking-form-layout">
           <div className="booking-form-fields">
           <div className="booking-fields">
             {([
@@ -236,16 +255,24 @@ export function BookingPage() {
           </div>
         </section>}
         {step === 2 && <section className="booking-panel" aria-labelledby="accommodation-title">
-          <div className="booking-section-heading"><p className="section-kicker">/ 02 ACCOMMODATION</p><h2 id="accommodation-title">Choose your<br /><em>basecamp.</em></h2><p>Select one room or bed option from one of our three stay locations.</p></div>
-          <section className="booking-stay-rules" aria-labelledby="stay-rules-title">
-            <div className="booking-stay-rules-content">
-              <p className="section-kicker">HOSTEL GUIDELINES</p>
-              <div className="booking-rules-heading"><h3 id="stay-rules-title">Rules to be followed</h3><span>09 guidelines</span></div>
-              <ul>
-                {accommodationStayRules.map((rule) => <li key={rule}>{rule}</li>)}
-              </ul>
+          <div className="booking-section-heading">
+            <div className="booking-heading-row">
+              <div>
+                <p className="section-kicker">/ 02 ACCOMMODATION</p>
+                <h2 id="accommodation-title">Choose your<br /><em>basecamp.</em></h2>
+                <p>Select one room or bed option from one of our three stay locations.</p>
+              </div>
+              <button
+                type="button"
+                className="booking-rules-pill-trigger"
+                onClick={() => setShowRulesPopup(true)}
+              >
+                <ShieldAlert size={15} />
+                <span>Hostel Rules &amp; Regulations</span>
+              </button>
             </div>
-          </section>
+          </div>
+          
           {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const unitsNeeded = option.priceUnit === 'room' ? Math.ceil(form.participantCount / (option.personsPerRoom ?? 1)) : form.participantCount;
             const genderEligible = canBookAccommodation(option, form);
@@ -307,6 +334,55 @@ export function BookingPage() {
         <button type="button" className="booking-lightbox-arrow next" onClick={(event) => { event.stopPropagation(); setGallery((current) => current ? { ...current, index: (current.index + 1) % current.stay.gallery.length } : current); }} aria-label="Next photo"><ChevronRight /></button>
         <span className="booking-lightbox-counter">{gallery.index + 1} / {gallery.stay.gallery.length}</span>
       </div>}
+      {showRulesPopup && (
+        <div
+          className="booking-rules-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="rules-modal-title"
+          onClick={() => setShowRulesPopup(false)}
+        >
+          <div
+            className="booking-rules-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="booking-rules-modal-header">
+              <div>
+                <p className="section-kicker">HOSTEL GUIDELINES</p>
+                <h3 id="rules-modal-title">Rules to be followed</h3>
+              </div>
+              <button
+                type="button"
+                className="booking-rules-modal-close"
+                onClick={() => setShowRulesPopup(false)}
+                aria-label="Close rules and regulations"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="booking-rules-modal-body">
+              <span className="booking-rules-modal-count">09 guidelines for all guests</span>
+              <ul className="booking-rules-modal-list">
+                {accommodationStayRules.map((rule, idx) => (
+                  <li key={rule}>
+                    <span className="rule-idx">0{idx + 1}</span>
+                    <span>{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="booking-rules-modal-footer">
+              <button
+                type="button"
+                className="button booking-rules-modal-btn"
+                onClick={() => setShowRulesPopup(false)}
+              >
+                I Understand &amp; Agree <Check size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
