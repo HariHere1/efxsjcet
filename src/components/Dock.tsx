@@ -38,7 +38,7 @@ function isActive(
     if (item === 'Schedule') return activeRoute === 'schedule';
     if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
     if (item === 'Explore Kerala') return activeRoute === 'explore';
-    if (item === 'Updates') return window.location.hash === '#updates';
+    if (item === 'Updates') return activeRoute === 'updates';
     return false;
   }
   if (item === 'Explore Kerala') return !!explorePage;

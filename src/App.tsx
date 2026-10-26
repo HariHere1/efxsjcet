@@ -9,6 +9,7 @@ import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { EventsPage, EventDetailPage } from './pages/EventsPage';
 import { SchedulePage } from './pages/SchedulePage';
+import { UpdatesPage } from './pages/UpdatesPage';
 import { X } from 'lucide-react';
 
 export type RouteType =
@@ -16,6 +17,7 @@ export type RouteType =
   | 'events'
   | 'event-detail'
   | 'schedule'
+  | 'updates'
   | 'explore'
   | 'accommodation'
   | 'booking'
@@ -49,22 +51,27 @@ export function parseRoute(): RouteInfo {
     return { type: 'schedule' };
   }
 
-  // 4. Explore Kerala route: #explore-kerala
+  // 4. Updates route: #updates, /updates
+  if (hash === '#updates' || path === '/updates') {
+    return { type: 'updates' };
+  }
+
+  // 5. Explore Kerala route: #explore-kerala
   if (hash === '#explore-kerala') {
     return { type: 'explore' };
   }
 
-  // 5. Accommodation route: #accommodation
+  // 6. Accommodation route: #accommodation
   if (hash === '#accommodation') {
     return { type: 'accommodation' };
   }
 
-  // 6. Booking / stay route: #booking..., #stay
+  // 7. Booking / stay route: #booking..., #stay
   if (hash.startsWith('#booking') || hash === '#stay') {
     return { type: 'booking' };
   }
 
-  // 7. Legacy competition routes: #competition/...
+  // 8. Legacy competition routes: #competition/...
   if (/^#competition\/.+$/.test(hash)) {
     return { type: 'not-found' };
   }
@@ -109,6 +116,8 @@ function App() {
         <EventDetailPage id={routeInfo.id} />
       ) : routeInfo.type === 'schedule' ? (
         <SchedulePage />
+      ) : routeInfo.type === 'updates' ? (
+        <UpdatesPage />
       ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />
       ) : routeInfo.type === 'accommodation' ? (
@@ -133,7 +142,7 @@ function App() {
           <span className="footer-social-label">Follow us on</span>
           <div className="footer-social" aria-label="Follow EFx India 2027 on social media">
           <a
-            href="PLACEHOLDER: https://www.instagram.com/asme_sjcet/"
+            href="https://www.instagram.com/asme_sjcet/"
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
@@ -155,7 +164,7 @@ function App() {
             </svg>
           </a>
           <a
-            href="PLACEHOLDER: https://www.linkedin.com/company/asme-sjcet-student-chapter/"
+            href="https://www.linkedin.com/company/asme-sjcet-student-chapter/"
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
@@ -177,14 +186,14 @@ function App() {
             </svg>
           </a>
           <a
-            href="PLACEHOLDER: https://x.com/ASMESJCETX"
+            href="https://x.com/ASMESJCETX"
             target="_blank"
             rel="noreferrer"
             aria-label="X / Twitter"
           >
             <X aria-hidden="true" size={20} />
           </a>
-          <a href="mailto:PLACEHOLDER: efx-contact@asme.org" aria-label="Email">
+          <a href="mailto:efx-contact@asme.org" aria-label="Email">
             <svg
               aria-hidden="true"
               width="20"

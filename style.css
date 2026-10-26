@@ -1054,6 +1054,16 @@ button {
 }
 
 /* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+.site-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-shell > main {
+  flex: 1;
+}
+
 .footer {
   display: flex;
   align-items: end;
@@ -1603,7 +1613,6 @@ button {
   }
 
   .footer {
-    display: block;
     padding: 25px 22px;
   }
 
@@ -3611,6 +3620,74 @@ main {
   transition: all 0.2s ease;
 }
 
+/* ─── UPDATES PAGE ───────────────────────────────────────────────────────── */
+.updates-listing {
+  display: block;
+  padding-top: 20px;
+  padding-bottom: 120px;
+}
+
+.updates-list {
+  max-width: 980px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+
+.update-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 24px;
+  gap: 28px;
+  align-items: start;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: padding 0.2s ease;
+}
+
+.update-row:hover {
+  padding-left: 8px;
+}
+
+.update-row:hover h2,
+.update-row:hover svg {
+  color: var(--orange);
+}
+
+.update-row time {
+  padding-top: 4px;
+  color: #a89489;
+  font: 11px var(--mono);
+  letter-spacing: 0.08em;
+}
+
+.update-row h2 {
+  margin: 0 0 9px;
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.update-row p {
+  max-width: 620px;
+  margin: 0;
+  color: #bfb2ab;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.update-row svg {
+  width: 20px;
+  height: 20px;
+  color: #a89489;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.update-row:hover svg {
+  transform: translate(2px, -2px);
+}
+
 /* ─── FULL SCHEDULE PAGE ──────────────────────────────────────────────────── */
 .schedule-page {
   --mono: "DM Sans", sans-serif;
@@ -4146,6 +4223,24 @@ main {
   .event-list-arrow {
     grid-column: 3;
     grid-row: 1;
+  }
+  .update-row {
+    grid-template-columns: 1fr 20px;
+    gap: 14px;
+    padding: 22px 0;
+  }
+  .update-row time {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding-top: 0;
+  }
+  .update-row div {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .update-row svg {
+    grid-column: 2;
+    grid-row: 2;
   }
   .detail-hero-badges {
     gap: 8px;
