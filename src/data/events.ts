@@ -65,7 +65,7 @@ export const events: Event[] = [
     ruleBadges: ['Team challenge', 'Vehicle design', 'Day 1–3'],
     ruleHighlights: [
       'Teams may enter from any college or university worldwide, including community colleges.',
-      'Every team member must be enrolled at the represented school; the captain must study engineering.',
+      'Every team member must be enrolled at the represented college;',
       'Complete local EFx and e-HPVC registration at least 60 days before the competition.',
       'Each competitor may register and compete on only one team.',
       'Vehicles are evaluated through design, safety, drag, and endurance elements of the challenge.',
