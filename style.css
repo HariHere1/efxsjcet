@@ -872,6 +872,15 @@ button {
 }
 
 /* ─── SCHEDULE ───────────────────────────────────────────────────────────── */
+.schedule.section-grid {
+  grid-template-columns: 28% minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.schedule-profile-card {
+  align-self: center;
+}
+
 .schedule-heading,
 .updates-heading {
   display: flex;
@@ -1600,6 +1609,10 @@ button {
   }
 
   .split-band {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule.section-grid {
     grid-template-columns: 1fr;
   }
 

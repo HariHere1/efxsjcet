@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 import { EventCard } from '../components/EventCard';
+import ProfileCard from '../components/ProfileCard';
 import { schedule, type Day } from '../data/schedule';
 import { CountdownTimer } from '../components/CountdownTimer';
 import { Particles } from "@/components/ui/particles"
@@ -172,6 +173,21 @@ export function HomePage() {
             ))}
           </div>
         </div>
+
+        <ProfileCard
+          avatarUrl="/src/assets/images/posters/reg_poster.png"
+          name="EFx India 2027"
+          title="Programme"
+          handle="Registrations now open"
+          status="Online"
+          theme="dark"
+          backdropColor={undefined}
+          iconUrl={undefined}
+          miniAvatarUrl={undefined}
+          onContactClick={undefined}
+          contactUrl="https://mail.google.com/mail/?view=cm&fs=1&to=asmesjcet@gmail.com&su=Registrations+are+now+open"
+          className="schedule-profile-card"
+        />
       </section>
 
       {/* ── PLAN YOUR VISIT ──────────────────────────────────────────── */}

@@ -48,6 +48,7 @@ export const accommodationStayRules = [
   'Avoid unauthorized visitors.',
   'Keep rooms clean.',
   'Avoid smoking and alcohol.',
+  'Avoid loud music and noise at night.',
   'Protect hostel property.',
   'Respect others’ privacy.',
   'Follow hostel rules and maintain discipline.',

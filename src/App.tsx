@@ -193,7 +193,7 @@ function App() {
           >
             <X aria-hidden="true" size={20} />
           </a>
-          <a href="mailto:efx-contact@asme.org" aria-label="Email">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=asmesjcet@gmail.com" aria-label="Email">
             <svg
               aria-hidden="true"
               width="20"
