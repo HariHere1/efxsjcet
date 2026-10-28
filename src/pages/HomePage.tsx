@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
+import regPoster from '../assets/images/posters/reg_poster.png';
 import { EventCard } from '../components/EventCard';
 import ProfileCard from '../components/ProfileCard';
 import { schedule, type Day } from '../data/schedule';
@@ -175,7 +176,7 @@ export function HomePage() {
         </div>
 
         <ProfileCard
-          avatarUrl="/src/assets/images/posters/reg_poster.png"
+          avatarUrl={regPoster}
           name="EFx India 2027"
           title="Programme"
           handle="Registrations now open"
