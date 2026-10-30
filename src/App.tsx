@@ -63,12 +63,12 @@ export function parseRoute(): RouteInfo {
 
   // 6. Accommodation route: #accommodation
   if (hash === '#accommodation') {
-    return { type: 'accommodation' };
+    return { type: 'not-found' };
   }
 
   // 7. Booking / stay route: #booking..., #stay
   if (hash.startsWith('#booking') || hash === '#stay') {
-    return { type: 'booking' };
+    return { type: 'not-found' };
   }
 
   // 8. Legacy competition routes: #competition/...
@@ -121,9 +121,9 @@ function App() {
       ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />
       ) : routeInfo.type === 'accommodation' ? (
-        <BookingPage />
+        <NotFoundPage />
       ) : routeInfo.type === 'booking' ? (
-        <BookingPage />
+        <NotFoundPage />
       ) : routeInfo.type === 'not-found' ? (
         <NotFoundPage />
       ) : (
