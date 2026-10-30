@@ -2758,6 +2758,132 @@ main {
   font-weight: 700;
 }
 
+/* ── Stay Gender Modal ── */
+.stay-gender-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fadeInModal 0.25s ease forwards;
+}
+
+.stay-gender-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 540px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background: #000000;
+  color: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  animation: scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stay-gender-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.stay-gender-modal-header h3 {
+  margin: 6px 0 0;
+  color: #ffffff;
+  font-size: clamp(22px, 3.5vw, 26px);
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.stay-gender-modal-body {
+  padding: 24px 28px 30px;
+}
+
+.stay-gender-modal-desc {
+  margin: 0 0 22px;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+.stay-gender-modal-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.stay-gender-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: #0a0a0a;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stay-gender-card:hover {
+  border-color: var(--orange);
+  background: rgba(240, 100, 36, 0.12);
+  transform: translateY(-2px);
+}
+
+.stay-gender-card.selected {
+  border-color: var(--orange);
+  background: rgba(240, 100, 36, 0.2);
+}
+
+.stay-gender-icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--orange);
+  background: rgba(240, 100, 36, 0.16);
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.stay-gender-icon-wrap svg {
+  width: 24px;
+  height: 24px;
+  color: var(--orange-dark);
+}
+
+.stay-gender-card strong {
+  display: block;
+  font-size: 19px;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.stay-gender-card span {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+@media (max-width: 500px) {
+  .stay-gender-modal-options {
+    grid-template-columns: 1fr;
+  }
+}
+
 .booking-progress-steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

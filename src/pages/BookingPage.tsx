@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, X } from 'lucide-react';
+import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, User, Users, X } from 'lucide-react';
 import { accommodationOptions, type AccommodationOption } from '../data/AccomodationPage';
 
 // KonfHub stay booking widgets.
@@ -54,12 +54,13 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
   return 'Mixed accommodation';
 }
 
-export type GenderFilter = 'all' | 'male' | 'female';
+export type GenderFilter = 'male' | 'female';
 
 export function BookingPage() {
   const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(null);
-  const [gender, setGender] = useState<GenderFilter>('all');
+  const [gender, setGender] = useState<GenderFilter | null>(null);
+  const [isGenderModalOpen, setIsGenderModalOpen] = useState(true);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -74,6 +75,17 @@ export function BookingPage() {
   const handleSelectStay = (option: AccommodationOption, isDisabled: boolean) => {
     if (isDisabled) return;
     setSelectedAccommodationId((current) => (current === option.id ? null : option.id));
+  };
+
+  const handleChooseGender = (chosenGender: GenderFilter) => {
+    setGender(chosenGender);
+    setIsGenderModalOpen(false);
+
+    if (chosenGender === 'male' && selectedAccommodationId && accommodationOptions.find((o) => o.id === selectedAccommodationId)?.occupancyPolicy === 'ladies-only') {
+      setSelectedAccommodationId(null);
+    } else if (chosenGender === 'female' && selectedAccommodationId && accommodationOptions.find((o) => o.id === selectedAccommodationId)?.occupancyPolicy === 'boys-only') {
+      setSelectedAccommodationId(null);
+    }
   };
 
   const isStayDisabledForGender = (option: AccommodationOption) => {
@@ -97,38 +109,19 @@ export function BookingPage() {
         <p className="section-kicker">/ BOOK YOUR SPOT</p><h1>Reserve your<br /><em>place.</em></h1>
 
         <div className="stay-gender-filter-bar">
-          <span className="stay-gender-label">Select Gender:</span>
+          <span className="stay-gender-label">Gender:</span>
           <div className="stay-gender-pill-group" role="group" aria-label="Filter stays by gender">
             <button
               type="button"
-              className={`stay-gender-pill ${gender === 'all' ? 'active' : ''}`}
-              onClick={() => {
-                setGender('all');
-              }}
-            >
-              All
-            </button>
-            <button
-              type="button"
               className={`stay-gender-pill ${gender === 'male' ? 'active' : ''}`}
-              onClick={() => {
-                setGender('male');
-                if (selectedAccommodationId && accommodationOptions.find((o) => o.id === selectedAccommodationId)?.occupancyPolicy === 'ladies-only') {
-                  setSelectedAccommodationId(null);
-                }
-              }}
+              onClick={() => handleChooseGender('male')}
             >
               Male
             </button>
             <button
               type="button"
               className={`stay-gender-pill ${gender === 'female' ? 'active' : ''}`}
-              onClick={() => {
-                setGender('female');
-                if (selectedAccommodationId && accommodationOptions.find((o) => o.id === selectedAccommodationId)?.occupancyPolicy === 'boys-only') {
-                  setSelectedAccommodationId(null);
-                }
-              }}
+              onClick={() => handleChooseGender('female')}
             >
               Female
             </button>
@@ -209,6 +202,48 @@ export function BookingPage() {
         <button type="button" className="booking-lightbox-arrow next" onClick={(event) => { event.stopPropagation(); setGallery((current) => current ? { ...current, index: (current.index + 1) % current.stay.gallery.length } : current); }} aria-label="Next photo"><ChevronRight /></button>
         <span className="booking-lightbox-counter">{gallery.index + 1} / {gallery.stay.gallery.length}</span>
       </div>}
+
+      {isGenderModalOpen && (
+        <div className="stay-gender-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stay-gender-modal-title">
+          <div className="stay-gender-modal">
+            <div className="stay-gender-modal-header">
+              <div>
+                <p className="section-kicker">ACCOMMODATION PREFERENCE</p>
+                <h3 id="stay-gender-modal-title">Select your gender</h3>
+              </div>
+            </div>
+            <div className="stay-gender-modal-body">
+              <p className="stay-gender-modal-desc">
+                Certain properties offer gender-specific accommodations (such as boys-only dormitories or ladies-only stays). Please choose your gender to proceed:
+              </p>
+              <div className="stay-gender-modal-options">
+                <button
+                  type="button"
+                  className={`stay-gender-card ${gender === 'male' ? 'selected' : ''}`}
+                  onClick={() => handleChooseGender('male')}
+                >
+                  <div className="stay-gender-icon-wrap">
+                    <User />
+                  </div>
+                  <strong>Male</strong>
+                  <span>Filter accommodations suited for male participants</span>
+                </button>
+                <button
+                  type="button"
+                  className={`stay-gender-card ${gender === 'female' ? 'selected' : ''}`}
+                  onClick={() => handleChooseGender('female')}
+                >
+                  <div className="stay-gender-icon-wrap">
+                    <User />
+                  </div>
+                  <strong>Female</strong>
+                  <span>Filter accommodations suited for female participants</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
