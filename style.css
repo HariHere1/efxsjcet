@@ -2709,6 +2709,55 @@ main {
 .booking-hero h1 em, .booking-section-heading h2 em { color: var(--orange-dark); font-style: normal; }
 .booking-hero > p:last-child { max-width: 500px; margin: 0; color: var(--text-muted); font-size: 17px; line-height: 1.5; }
 
+/* Gender selector filter on stay booking page */
+.stay-gender-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.stay-gender-label {
+  color: var(--ink);
+  font: 600 12px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stay-gender-pill-group {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-dark-raised);
+}
+
+.stay-gender-pill {
+  padding: 8px 18px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font: 600 12px var(--mono);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stay-gender-pill:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stay-gender-pill.active {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: #140d09;
+  font-weight: 700;
+}
+
 .booking-progress-steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2872,7 +2921,14 @@ main {
 .booking-accommodation-card { cursor: pointer; }
 .booking-accommodation-card:hover { outline: 1px solid var(--orange); outline-offset: -1px; }
 .booking-accommodation-card.selected { border: 3px solid var(--orange); outline: 0; }
-.booking-accommodation-card.disabled { cursor: not-allowed; opacity: .55; }
+.booking-accommodation-card.disabled {
+  cursor: not-allowed;
+  opacity: .5;
+  filter: grayscale(0.2);
+}
+.booking-accommodation-card.disabled:hover {
+  outline: none;
+}
 .booking-card-radio { position: absolute; z-index: 1; top: 13px; right: 13px; display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid var(--ink); border-radius: 50%; background: var(--bg-dark); }
 .booking-accommodation-card.selected .booking-card-radio { border-color: var(--orange); color: #21140e; background: var(--orange); }
 .booking-card-radio svg { width: 15px; }
