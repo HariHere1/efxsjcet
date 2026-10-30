@@ -2919,6 +2919,34 @@ main {
 .booking-card-details svg { width: 13px; height: 13px; color: var(--orange-dark); }
 .booking-accommodation-card .non-refundable-note { margin-top: 16px; }
 .booking-accommodation-card .availability { margin-top: auto; padding-top: 18px; }
+.booking-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 18px;
+  flex-wrap: wrap;
+}
+.booking-card-footer .availability {
+  margin-top: 0;
+  padding-top: 0;
+}
+.booking-card-widget-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+.konfhub-stay-widget {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.konfhub-stay-widget button,
+.konfhub-stay-widget a {
+  cursor: pointer;
+}
 .booking-error { margin: 18px 0 0; color: var(--coral); font-size: 13px; }
 .booking-next-button { float: right; margin-top: 28px; border: 0; cursor: pointer; }
 

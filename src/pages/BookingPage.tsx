@@ -65,8 +65,6 @@ export function BookingPage() {
     setSelectedAccommodationId((current) => (current === option.id ? null : option.id));
   };
 
-  const showKonfHubWidget = selectedAccommodationId === STAY_WIDGET_STAY_ID;
-
   return (
     <main className="booking-page">
       <section className="booking-hero">
@@ -77,9 +75,65 @@ export function BookingPage() {
         {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const disabled = option.spotsRemaining === 0;
             const selected = selectedAccommodationId === option.id;
-            return <article key={option.id} aria-disabled={disabled} onClick={() => handleSelectStay(option)} className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}><span className="booking-card-radio" aria-hidden="true">{selected && <Check />}</span><button type="button" className="booking-card-gallery" onClick={(event) => { event.stopPropagation(); setGallery({ stay: option, index: 0 }); }} aria-label={`View photos of ${option.title}`}><img src={option.image} alt={`${option.property} ${option.title}`} style={{ objectPosition: option.imagePosition }} />{option.gallery.length > 1 && <span className="booking-gallery-count"><ImagePlus /> +{option.gallery.length - 1} photos</span>}</button><div className="booking-card-body"><span className="booking-card-title">{option.title}</span><span className="booking-card-description">{option.description}</span><span className="accommodation-price"><strong>{option.priceLabel}</strong><span>{option.priceCovers}</span></span><span className="booking-card-details"><span><BedDouble />{option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}</span><span>{occupancyLabel(option.occupancyPolicy)}</span></span><span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>{disabled ? 'Unavailable for this group' : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}</span></div></article>;
+            const isWidgetStay = option.id === STAY_WIDGET_STAY_ID;
+            return (
+              <article
+                key={option.id}
+                aria-disabled={disabled}
+                onClick={() => handleSelectStay(option)}
+                className={`booking-accommodation-card accent-${accentForProperty(property)} ${selected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}
+              >
+                <span className="booking-card-radio" aria-hidden="true">
+                  {selected && <Check />}
+                </span>
+                <button
+                  type="button"
+                  className="booking-card-gallery"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setGallery({ stay: option, index: 0 });
+                  }}
+                  aria-label={`View photos of ${option.title}`}
+                >
+                  <img
+                    src={option.image}
+                    alt={`${option.property} ${option.title}`}
+                    style={{ objectPosition: option.imagePosition }}
+                  />
+                  {option.gallery.length > 1 && (
+                    <span className="booking-gallery-count">
+                      <ImagePlus /> +{option.gallery.length - 1} photos
+                    </span>
+                  )}
+                </button>
+                <div className="booking-card-body">
+                  <span className="booking-card-title">{option.title}</span>
+                  <span className="booking-card-description">{option.description}</span>
+                  <span className="accommodation-price">
+                    <strong>{option.priceLabel}</strong>
+                    <span>{option.priceCovers}</span>
+                  </span>
+                  <span className="booking-card-details">
+                    <span>
+                      <BedDouble />
+                      {option.roomType === 'private' ? 'Private room' : 'Shared room'} · {option.capacity}
+                    </span>
+                    <span>{occupancyLabel(option.occupancyPolicy)}</span>
+                  </span>
+                  <div className="booking-card-footer">
+                    <span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>
+                      {disabled ? 'Unavailable for this group' : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}
+                    </span>
+                    {isWidgetStay && selected && (
+                      <div className="booking-card-widget-action" onClick={(e) => e.stopPropagation()}>
+                        <KonfHubStayBookingWidget active />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
           })}</div></section>)}
-        {showKonfHubWidget && <KonfHubStayBookingWidget active />}
       </section>
       {gallery && <div className="booking-lightbox" role="dialog" aria-modal="true" aria-label={`${gallery.stay.property} photos`} onClick={() => setGallery(null)}>
         <button type="button" className="booking-lightbox-close" onClick={() => setGallery(null)} aria-label="Close photo viewer"><X /></button>

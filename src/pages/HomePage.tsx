@@ -177,7 +177,7 @@ export function HomePage() {
 
         <ProfileCard
           avatarUrl={regPoster}
-          name="EFx India 2027"
+          name="EFx India 2027" 
           title="Programme"
           handle="Registrations now open"
           status="Online"
