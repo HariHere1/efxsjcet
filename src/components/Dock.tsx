@@ -15,8 +15,6 @@ function navHref(item: string): string {
   if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay') return '#accommodation';
   if (item === 'Home') return '#top';
-  if (item === 'Events') return '#events';
-  if (item === 'Schedule') return '#schedule';
   if (item === 'Updates') return '#updates';
   return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
 }
@@ -34,8 +32,6 @@ function isActive(
     if (item === 'Home') {
       return activeRoute === 'home' && window.location.hash !== '#updates';
     }
-    if (item === 'Events') return activeRoute === 'events' || activeRoute === 'event-detail';
-    if (item === 'Schedule') return activeRoute === 'schedule';
     if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
     if (item === 'Explore Kerala') return activeRoute === 'explore';
     if (item === 'Updates') return activeRoute === 'updates';

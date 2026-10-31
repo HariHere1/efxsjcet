@@ -7,16 +7,11 @@ import { BookingPage } from './pages/BookingPage';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { EventsPage, EventDetailPage } from './pages/EventsPage';
-import { SchedulePage } from './pages/SchedulePage';
 import { UpdatesPage } from './pages/UpdatesPage';
 import { X } from 'lucide-react';
 
 export type RouteType =
   | 'home'
-  | 'events'
-  | 'event-detail'
-  | 'schedule'
   | 'updates'
   | 'explore'
   | 'accommodation'
@@ -32,46 +27,25 @@ export function parseRoute(): RouteInfo {
   const hash = window.location.hash || '';
   const path = window.location.pathname || '';
 
-  // 1. Event detail route: #events/xyz, #event/xyz, /events/xyz
-  const hashDetail = hash.match(/^#(?:events|event)\/(.+)$/);
-  if (hashDetail && hashDetail[1]) {
-    return { type: 'event-detail', id: hashDetail[1] };
-  }
-  if (path.startsWith('/events/') && path.length > '/events/'.length) {
-    return { type: 'event-detail', id: path.slice('/events/'.length) };
-  }
-
-  // 2. Events list route: #events, #event, /events
-  if (hash === '#events' || hash === '#event' || path === '/events') {
-    return { type: 'events' };
-  }
-
-  // 3. Schedule route: #schedule, /schedule
-  if (hash === '#schedule' || path === '/schedule') {
-    return { type: 'schedule' };
-  }
-
-  // 4. Updates route: #updates, /updates
+  // 1. Updates route: #updates, /updates
   if (hash === '#updates' || path === '/updates') {
     return { type: 'updates' };
   }
-
-  // 5. Explore Kerala route: #explore-kerala
   if (hash === '#explore-kerala') {
     return { type: 'explore' };
   }
 
-  // 6. Accommodation route: #accommodation
+  // 2. Accommodation route: #accommodation
   if (hash === '#accommodation') {
     return { type: 'not-found' };
   }
 
-  // 7. Booking / stay route: #booking..., #stay
+  // 3. Booking / stay route: #booking..., #stay
   if (hash.startsWith('#booking') || hash === '#stay') {
     return { type: 'not-found' };
   }
 
-  // 8. Legacy competition routes: #competition/...
+  // 4. Legacy competition routes: #competition/...
   if (/^#competition\/.+$/.test(hash)) {
     return { type: 'not-found' };
   }
@@ -110,13 +84,7 @@ function App() {
         }}
       />
 
-      {routeInfo.type === 'events' ? (
-        <EventsPage />
-      ) : routeInfo.type === 'event-detail' && routeInfo.id ? (
-        <EventDetailPage id={routeInfo.id} />
-      ) : routeInfo.type === 'schedule' ? (
-        <SchedulePage />
-      ) : routeInfo.type === 'updates' ? (
+      {routeInfo.type === 'updates' ? (
         <UpdatesPage />
       ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />

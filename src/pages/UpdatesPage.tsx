@@ -11,7 +11,7 @@ const updates = [
     date: 'COMING SOON',
     title: 'More event announcements are on the way',
     description: 'We will share competition details, venue information, and helpful updates here.',
-    href: '#events',
+    href: '#updates',
   },
 ];
 
