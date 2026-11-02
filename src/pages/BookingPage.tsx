@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, User, Users, X } from 'lucide-react';
-import { accommodationOptions, type AccommodationOption } from '../data/AccomodationPage';
+import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
 
 // KonfHub stay booking widgets.
 // React does not execute <script> tags that are placed inside JSX, so the widget script
@@ -56,11 +56,46 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
 
 export type GenderFilter = 'male' | 'female';
 
+export function RulesModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="booking-rules-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="rules-modal-title" onClick={onClose}>
+      <div className="booking-rules-modal" onClick={(event) => event.stopPropagation()}>
+        <div className="booking-rules-modal-header">
+          <div>
+            <p className="section-kicker">HOSTEL GUIDELINES</p>
+            <h3 id="rules-modal-title">Rules to be followed</h3>
+          </div>
+          <button type="button" className="booking-rules-modal-close" onClick={onClose} aria-label="Close rules and regulations">
+            <X size={18} />
+          </button>
+        </div>
+        <div className="booking-rules-modal-body">
+          <span className="booking-rules-modal-count">{String(accommodationStayRules.length).padStart(2, '0')} guidelines for all guests</span>
+          <ul className="booking-rules-modal-list">
+            {accommodationStayRules.map((rule, index) => (
+              <li key={rule}>
+                <span className="rule-idx">{String(index + 1).padStart(2, '0')}</span>
+                <span>{rule}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="booking-rules-modal-footer">
+          <button type="button" className="button booking-rules-modal-btn" onClick={onClose}>
+            I Understand &amp; Agree <Check size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BookingPage() {
   const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(null);
   const [gender, setGender] = useState<GenderFilter | null>(null);
   const [isGenderModalOpen, setIsGenderModalOpen] = useState(true);
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -126,6 +161,9 @@ export function BookingPage() {
               Female
             </button>
           </div>
+          <button type="button" className="booking-rules-pill-trigger" onClick={() => setIsRulesModalOpen(true)}>
+            <span>Hostel Rules &amp; Regulations</span>
+          </button>
         </div>
       </section>
       <section className="booking-content">
@@ -244,6 +282,7 @@ export function BookingPage() {
           </div>
         </div>
       )}
+      {isRulesModalOpen && <RulesModal onClose={() => setIsRulesModalOpen(false)} />}
     </main>
   );
 }

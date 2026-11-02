@@ -8,8 +8,11 @@ import { StatsBand } from '../components/StatsBand';
 import { ScrollVelocityMarquee } from '../components/ScrollVelocityMarquee';
 import { LocationsAccordion } from '../components/LocationsAccordion';
 import { VenueLocation } from '../components/VenueLocation';
+import { RulesModal } from './BookingPage';
 
 export function HomePage() {
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+
   return (
     <main id="top">
 
@@ -99,13 +102,18 @@ export function HomePage() {
             </a>
           ))}
           
-          {['Rules and Regulations'].map((link) => (
-            <a className="news-item" href="#booking" key={link}>
+          <a
+            className="news-item"
+            href="#rules"
+            onClick={(event) => {
+              event.preventDefault();
+              setIsRulesModalOpen(true);
+            }}
+          >
               <time>02</time>
-              <strong>{link}</strong>
+              <strong>Rules and Regulations</strong>
               <ArrowUpRight />
-            </a>
-          ))}
+          </a>
         </div>
       </section>
 
@@ -139,6 +147,7 @@ export function HomePage() {
       <LocationsAccordion />
 
       <VenueLocation />
+      {isRulesModalOpen && <RulesModal onClose={() => setIsRulesModalOpen(false)} />}
     </main>
   );
 }
