@@ -6,7 +6,6 @@ import { LoadingScreen } from './components/LoadingScreen';
 import { BookingPage } from './pages/BookingPage';
 import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';
-import { NotFoundPage } from './pages/NotFoundPage';
 import { UpdatesPage } from './pages/UpdatesPage';
 import { X } from 'lucide-react';
 
@@ -15,8 +14,7 @@ export type RouteType =
   | 'updates'
   | 'explore'
   | 'accommodation'
-  | 'booking'
-  | 'not-found';
+  | 'booking';
 
 export interface RouteInfo {
   type: RouteType;
@@ -35,19 +33,19 @@ export function parseRoute(): RouteInfo {
     return { type: 'explore' };
   }
 
-  // 2. Accommodation route: #accommodation
-  if (hash === '#accommodation') {
-    return { type: 'not-found' };
+  // 2. Accommodation routes: #accommodation, #stay, /accommodation, /stay
+  if (
+    hash === '#accommodation' ||
+    hash === '#stay' ||
+    path === '/accommodation' ||
+    path === '/stay'
+  ) {
+    return { type: 'accommodation' };
   }
 
-  // 3. Booking / stay route: #booking..., #stay
-  if (hash.startsWith('#booking') || hash === '#stay') {
-    return { type: 'not-found' };
-  }
-
-  // 4. Legacy competition routes: #competition/...
-  if (/^#competition\/.+$/.test(hash)) {
-    return { type: 'not-found' };
+  // 3. Booking route: #booking..., /booking
+  if (hash.startsWith('#booking') || path === '/booking') {
+    return { type: 'booking' };
   }
 
   return { type: 'home' };
@@ -89,11 +87,9 @@ function App() {
       ) : routeInfo.type === 'explore' ? (
         <ExploreKeralaPage />
       ) : routeInfo.type === 'accommodation' ? (
-        <NotFoundPage />
+        <BookingPage />
       ) : routeInfo.type === 'booking' ? (
-        <NotFoundPage />
-      ) : routeInfo.type === 'not-found' ? (
-        <NotFoundPage />
+        <BookingPage />
       ) : (
         <HomePage />
       )}
