@@ -22,15 +22,18 @@ export function HomePage() {
    
 
         <div className="hero-copy reveal">
-          <p className="section-kicker hero-kicker">ACCOMMODATION SUGGESTIONS</p>
           <h1 className="hero-heading">
+            <span>Accommodation</span>
+            <span>Suggestions |</span>
             <span>Book Your Stay</span>
-            <span>for EFx India <em>2027</em></span>
+            <span>for EFx India</span>
+            <span><em>2027</em></span>
           </h1>
 
           <p className="hero-intro">
             Suggested accommodation options for EFx India 2027 participants.
-            These are suggestions only, and you are free to choose whether to book.
+            These are suggestions only, and you are free to choose whether to
+            book.
           </p>
           <a className="button" href="#booking">View accommodation options <ArrowUpRight /></a>
         </div>
