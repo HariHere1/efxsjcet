@@ -4,43 +4,27 @@ import { navItems } from '../data/navItems';
 
 type NavbarProps = {
   activeRoute?: string;
-  activeCompetition?: boolean;
-  explorePage?: boolean;
-  accommodationPage?: boolean;
-  bookingPage?: boolean;
   onNavClick: () => void;
 };
 
 function navHref(item: string): string {
-  if (item === 'Explore Kerala') return '#explore-kerala';
   if (item === 'Stay') return '#accommodation';
   if (item === 'Home') return '#top';
-  if (item === 'Updates') return '#updates';
-  return `#competition/${item.toLowerCase().replace(/ /g, '-')}`;
+  return '#top';
 }
 
 function isActive(
   item: string,
-  index: number,
   activeRoute?: string,
-  activeCompetition?: boolean,
-  explorePage?: boolean,
-  accommodationPage?: boolean,
-  bookingPage?: boolean,
 ): boolean {
   if (activeRoute) {
     if (item === 'Home') {
-      return activeRoute === 'home' && window.location.hash !== '#updates';
+      return activeRoute === 'home';
     }
     if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
-    if (item === 'Explore Kerala') return activeRoute === 'explore';
-    if (item === 'Updates') return activeRoute === 'updates';
     return false;
   }
-  if (item === 'Explore Kerala') return !!explorePage;
-  if (item === 'Stay') return !!bookingPage;
-  if (item === 'Home') return !activeCompetition && !explorePage && !accommodationPage && !bookingPage;
-  if (index === 0) return !activeCompetition && !explorePage && !accommodationPage && !bookingPage;
+  if (item === 'Home') return true;
   return false;
 }
 
@@ -64,19 +48,15 @@ function MobileDockIcon({ item, active, onClick }: MobileDockIconProps) {
 
 export function Dock({
   activeRoute,
-  activeCompetition = false,
-  explorePage = false,
-  accommodationPage = false,
-  bookingPage = false,
   onNavClick,
 }: NavbarProps) {
   return (
     <>
       {/* ── DESKTOP NAVBAR (min-width: 761px) ── */}
       <header className="topbar desktop-navbar" role="banner">
-        <a className="brand-lockup" href="#top" aria-label="ASME EFx India 2027 home" onClick={onNavClick}>
+        <a className="brand-lockup" href="#top" aria-label="EFx India 2027 home" onClick={onNavClick}>
           <span className="brand-lockup-efx">
-            <img className="asme-logo" src={asmeLogo} alt="ASME EFx" />
+            <img className="asme-logo" src={asmeLogo} alt="EFx India 2027" />
           </span>
           <span className="brand-rule" aria-hidden="true" />
           <span className="sjcet-logo-wrap brand-lockup-sjcet">
@@ -85,10 +65,10 @@ export function Dock({
         </a>
 
         <nav className="main-nav" aria-label="Desktop navigation">
-          {navItems.map((item, index) => (
+          {navItems.map((item) => (
             <a
               key={item}
-              className={isActive(item, index, activeRoute, activeCompetition, explorePage, accommodationPage, bookingPage) ? 'active' : ''}
+              className={isActive(item, activeRoute) ? 'active' : ''}
               href={navHref(item)}
               onClick={onNavClick}
             >
@@ -101,11 +81,11 @@ export function Dock({
       {/* ── MOBILE MAGIC UI DOCK (max-width: 760px) ── */}
       <div className="mobile-dock-container">
         <nav className="mobile-dock-pill" aria-label="Mobile Dock navigation">
-          {navItems.map((item, index) => (
+          {navItems.map((item) => (
             <MobileDockIcon
               key={item}
               item={item}
-              active={isActive(item, index, activeRoute, activeCompetition, explorePage, accommodationPage, bookingPage)}
+              active={isActive(item, activeRoute)}
               onClick={onNavClick}
             />
           ))}

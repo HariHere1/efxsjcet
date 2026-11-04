@@ -4,15 +4,11 @@ import sjcetLogo from './assets/images/SJCET NEW LOGO.png';
 import { Dock } from './components/Dock';
 import { LoadingScreen } from './components/LoadingScreen';
 import { BookingPage } from './pages/BookingPage';
-import { ExploreKeralaPage } from './pages/ExploreKeralaPage';
 import { HomePage } from './pages/HomePage';
-import { UpdatesPage } from './pages/UpdatesPage';
 import { X } from 'lucide-react';
 
 export type RouteType =
   | 'home'
-  | 'updates'
-  | 'explore'
   | 'accommodation'
   | 'booking';
 
@@ -25,15 +21,7 @@ export function parseRoute(): RouteInfo {
   const hash = window.location.hash || '';
   const path = window.location.pathname || '';
 
-  // 1. Updates route: #updates, /updates
-  if (hash === '#updates' || path === '/updates') {
-    return { type: 'updates' };
-  }
-  if (hash === '#explore-kerala') {
-    return { type: 'explore' };
-  }
-
-  // 2. Accommodation routes: #accommodation, #stay, /accommodation, /stay
+  // Accommodation routes: #accommodation, #stay, /accommodation, /stay
   if (
     hash === '#accommodation' ||
     hash === '#stay' ||
@@ -43,7 +31,7 @@ export function parseRoute(): RouteInfo {
     return { type: 'accommodation' };
   }
 
-  // 3. Booking route: #booking..., /booking
+  // Booking route: #booking..., /booking
   if (hash.startsWith('#booking') || path === '/booking') {
     return { type: 'booking' };
   }
@@ -82,11 +70,7 @@ function App() {
         }}
       />
 
-      {routeInfo.type === 'updates' ? (
-        <UpdatesPage />
-      ) : routeInfo.type === 'explore' ? (
-        <ExploreKeralaPage />
-      ) : routeInfo.type === 'accommodation' ? (
+      {routeInfo.type === 'accommodation' ? (
         <BookingPage />
       ) : routeInfo.type === 'booking' ? (
         <BookingPage />
@@ -104,7 +88,7 @@ function App() {
         </div>
         <div className="footer-social-group">
           <span className="footer-social-label">Follow us on</span>
-          <div className="footer-social" aria-label="Follow EFx India 2027 on social media">
+          <div className="footer-social" aria-label="Follow accommodation updates from EFx India 2027">
           <a
             href="https://www.instagram.com/asme_sjcet/"
             target="_blank"

@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, User, Users, X } from 'lucide-react';
 import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
 
-// KonfHub stay booking widgets.
-// React does not execute <script> tags that are placed inside JSX, so the widget script
-// is injected through the DOM into its container element once a stay option is chosen.
+// React does not execute <script> tags that are placed inside JSX, so the booking
+// widget script is injected through the DOM into its container when needed.
 const KONFHUB_WIDGET_SRC = 'https://widget.konfhub.com/widget.js';
 
 const STAY_WIDGET_BUTTON_IDS: Record<string, string> = {
@@ -56,7 +55,7 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
 
 export type GenderFilter = 'male' | 'female';
 
-export function RulesModal({ onClose }: { onClose: () => void }) {
+export function RulesModal({ onClose, onAgree }: { onClose: () => void; onAgree?: () => void }) {
   return (
     <div className="booking-rules-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="rules-modal-title" onClick={onClose}>
       <div className="booking-rules-modal" onClick={(event) => event.stopPropagation()}>
@@ -81,7 +80,7 @@ export function RulesModal({ onClose }: { onClose: () => void }) {
           </ul>
         </div>
         <div className="booking-rules-modal-footer">
-          <button type="button" className="button booking-rules-modal-btn" onClick={onClose}>
+          <button type="button" className="button booking-rules-modal-btn" onClick={() => { onAgree?.(); onClose(); }}>
             I Understand &amp; Agree <Check size={16} />
           </button>
         </div>
@@ -96,6 +95,7 @@ export function BookingPage() {
   const [gender, setGender] = useState<GenderFilter | null>(null);
   const [isGenderModalOpen, setIsGenderModalOpen] = useState(true);
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+  const [hasAcceptedRules, setHasAcceptedRules] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -140,8 +140,12 @@ export function BookingPage() {
   return (
     <main className="booking-page">
       <section className="booking-hero">
-        <a className="back-link" href="#top"><ArrowLeft /> Back to EFx India 2027</a>
-        <p className="section-kicker">/ BOOK YOUR SPOT</p><h1>Reserve your<br /><em>place.</em></h1>
+        <a className="back-link" href="#top"><ArrowLeft /> Back to accommodation suggestions</a>
+        <p className="section-kicker">/ BOOK YOUR STAY</p><h1>Reserve your<br /><em>place.</em></h1>
+        <p className="accommodation-disclaimer">
+          The stays listed here are suggestions only. You are free to choose
+          whether to book them, entirely at your own discretion.
+        </p>
 
         <div className="stay-gender-filter-bar">
           <span className="stay-gender-label">Gender:</span>
@@ -167,6 +171,24 @@ export function BookingPage() {
         </div>
       </section>
       <section className="booking-content">
+        <div className="booking-consent">
+          <p>Before booking, please review the accommodation rules and regulations.</p>
+          <label className="booking-rules-checkbox">
+            <input
+              type="checkbox"
+              checked={hasAcceptedRules}
+              onChange={(event) => setHasAcceptedRules(event.target.checked)}
+            />
+            <span>I have read and agree to follow the accommodation Rules &amp; Regulations.</span>
+          </label>
+          <p className="booking-consent-note">
+            Participant registration and any event consent are handled through the{' '}
+            <a href="https://bit.ly/efxindia2027" target="_blank" rel="noreferrer">
+              official registration form
+            </a>
+            .
+          </p>
+        </div>
         {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const disabled = isStayDisabledForGender(option);
             const disabledReason = getDisabledReason(option);
@@ -222,7 +244,7 @@ export function BookingPage() {
                         ? (disabledReason ?? 'Unavailable for this group')
                         : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}
                     </span>
-                    {widgetButtonId && selected && !disabled && (
+                    {widgetButtonId && selected && !disabled && hasAcceptedRules && (
                       <div className="booking-card-widget-action" onClick={(e) => e.stopPropagation()}>
                         <KonfHubStayBookingWidget buttonId={widgetButtonId} active />
                       </div>
@@ -282,7 +304,7 @@ export function BookingPage() {
           </div>
         </div>
       )}
-      {isRulesModalOpen && <RulesModal onClose={() => setIsRulesModalOpen(false)} />}
+      {isRulesModalOpen && <RulesModal onClose={() => setIsRulesModalOpen(false)} onAgree={() => setHasAcceptedRules(true)} />}
     </main>
   );
 }
