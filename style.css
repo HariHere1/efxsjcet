@@ -379,7 +379,7 @@ button {
 }
 .hero h1 {
   margin: 0 0 32px;
-  font-size: clamp(48px, 5.2vw, 72px);
+  font-size: clamp(44px, 4.8vw, 66px);
   font-weight: 800;
   line-height: 0.94;
   letter-spacing: -3.5px;
@@ -2997,7 +2997,7 @@ main {
 
     .hero h1 {
       max-width: 100%;
-      font-size: clamp(40px, 12vw, 58px);
+      font-size: clamp(36px, 11vw, 54px);
       line-height: .95;
       letter-spacing: -2.5px;
     }
