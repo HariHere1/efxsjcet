@@ -2861,21 +2861,6 @@ main {
   line-height: 1.45;
 }
 
-.booking-disclaimer-modal-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-}
-
-.booking-disclaimer-modal-details span {
-  padding: 5px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  color: #a3a3a3;
-  font-size: 10px;
-}
-
 .booking-disclaimer-modal .booking-rules-modal-footer {
   padding: 12px 22px 16px;
 }

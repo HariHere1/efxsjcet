@@ -124,11 +124,6 @@ function DisclaimerModal({ onClose }: { onClose: () => void }) {
               to choose any nearby hotel that suits you better.
             </p>
           </div>
-          <div className="booking-disclaimer-modal-details">
-            <span>Flexible choice</span>
-            <span>Nearby options welcome</span>
-            <span>Book at your discretion</span>
-          </div>
         </div>
         <div className="booking-rules-modal-footer">
           <button type="button" className="button booking-rules-modal-btn" onClick={onClose}>
