@@ -82,9 +82,7 @@ export function HomePage() {
           </div>
 
           {[
-            { title: 'Registrations are now open for EFx India 2027', href: 'https://konfhub.com/efxindia2027', external: true },
-            { title: 'Meet the first wave of workshop mentors', href: '#updates', external: false },
-            { title: 'Five things to know before you arrive in Palai', href: '#updates', external: false },
+            { title: 'Registrations are now open for EFx India 2027', href: 'https://bit.ly/efxindia2027', external: true },
           ].map((news, index) => (
             <a
               className="news-item"

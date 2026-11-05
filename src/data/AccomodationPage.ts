@@ -45,6 +45,23 @@ export interface AccommodationOption {
   ctaLabel: string;
 }
 
+export interface OtherStay {
+  name: string;
+  location: string;
+  mapUrl?: string;
+}
+
+export const otherStays: OtherStay[] = [
+  {
+    name: 'Lilac Homes',
+    location: 'Bharananganam',
+    mapUrl: 'https://www.google.com/travel/search?ts=CAESCgoCCAMKAggDEAAaHBIaEhQKBwjqDxALGAkSBwjqDxALGAoYATICEAAqBwoFOgNJTlI&qs=CAEyFENnc0k1ZHZCc3ZEV2dOcXJBUkFCOAhCCREU2psPTLyhh0IJER4pZ0tsWWdaQgkRvQEPI8ymE4lqHAoaDQDg9kQSEwjfztSygfGXAxUq-9oFHchWBJI&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls',
+  },
+  { name: 'Sun Star Residency', location: 'Pala', mapUrl: 'https://share.google/7dmZhmjK7NwHdFWj7' },
+  { name: 'Uppercrest Residency', location: 'Pala', mapUrl: 'https://share.google/pUMnhWUirPtwLxM4i' },
+  { name: 'Zaad Suites', location: 'Panakapalam', mapUrl: 'https://share.google/t5IQhyb3FANCzysyt' },
+];
+
 export const accommodationStayRules = [
   'Follow hostel timings.',
   'Enter the hostel before 9:00 PM.',
@@ -63,7 +80,7 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'pastrol-central-single',
     title: 'Single room',
-    description: 'A simple private room at Alphonsian Pastoral Institute, available for a complete 3 days stay.',
+    description: 'A simple private room at Alphonsian Pastoral Institute for male guests, available for a complete 3 days stay.',
     property: 'Alphonsian Pastoral Institute',
     image: pastrolCentralImage,
     gallery: [pastrolCentralImage, pastrolCentralImage2, pastrolCentralImage3, pastrolCentralImage4, pastrolCentralImage5],
@@ -75,15 +92,13 @@ export const accommodationOptions: AccommodationOption[] = [
     personsPerRoom: 1,
     roomType: 'private',
     capacity: '1 person',
-    occupancyPolicy: 'separate-gender',
+    occupancyPolicy: 'boys-only',
     busServiceProvided: true,
     refundable: false,
-    spotsRemaining: 13,
-    availabilityCapacity: 117,
-    maleSpotsRemaining: 13,
-    femaleSpotsRemaining: 38,
+    spotsRemaining: 49,
+    availabilityCapacity: 49,
+    maleSpotsRemaining: 49,
     maleWidgetButtonId: 'btn_2e4306680fc6',
-    femaleWidgetButtonId: 'btn_020f18b04c49',
     ctaLabel: 'Book Room',
   },
   {
@@ -104,9 +119,10 @@ export const accommodationOptions: AccommodationOption[] = [
     occupancyPolicy: 'separate-gender',
     busServiceProvided: true,
     refundable: false,
-    spotsRemaining: 117,
-    availabilityCapacity: 117,
-    femaleSpotsRemaining: 3,
+    spotsRemaining: 67,
+    availabilityCapacity: 67,
+    maleSpotsRemaining: 67,
+    femaleSpotsRemaining: 51,
     maleWidgetButtonId: 'btn_8a51ca3c3aee',
     femaleWidgetButtonId: 'btn_67b763524b6c',
     ctaLabel: 'Book Room',
@@ -193,12 +209,12 @@ export const accommodationOptions: AccommodationOption[] = [
     price: 375,
     priceUnit: 'person',
     roomType: 'shared',
-    capacity: '120 beds',
+    capacity: '116 beds',
     occupancyPolicy: 'ladies-only',
     busServiceProvided: true,
     refundable: false,
     spotsRemaining: 116,
-    availabilityCapacity: 120,
+    availabilityCapacity: 116,
     ctaLabel: 'Book Room',
   },
 ];

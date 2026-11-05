@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, MapPin, ShieldCheck, User, Users, X } from 'lucide-react';
-import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
+import { accommodationOptions, accommodationStayRules, otherStays, type AccommodationOption } from '../data/AccomodationPage';
 
 // React does not execute <script> tags that are placed inside JSX, so the booking
 // widget script is injected through the DOM into its container when needed.
@@ -121,7 +121,8 @@ function DisclaimerModal({ onClose }: { onClose: () => void }) {
             <MapPin size={18} />
             <p>
               These accommodations are recommendations only. You are welcome
-              to choose any nearby hotel that suits you better.
+              to choose any nearby hotel that suits you better. Please make any
+              booking and travel arrangements with your own care and responsibility.
             </p>
           </div>
         </div>
@@ -156,7 +157,15 @@ export function BookingPage() {
 
   const handleSelectStay = (option: AccommodationOption, isDisabled: boolean) => {
     if (isDisabled) return;
-    setSelectedAccommodationId((current) => (current === option.id ? null : option.id));
+    if (selectedAccommodationId === option.id) {
+      setSelectedAccommodationId(null);
+      setHasAcceptedRules(false);
+      return;
+    }
+
+    setSelectedAccommodationId(option.id);
+    setHasAcceptedRules(false);
+    setIsRulesModalOpen(true);
   };
 
   const handleChooseGender = (chosenGender: GenderFilter) => {
@@ -200,24 +209,6 @@ export function BookingPage() {
         </div>
       </section>
       <section className="booking-content">
-        <div className="booking-consent">
-          <p>Before booking, please review the accommodation rules and regulations.</p>
-          <label className="booking-rules-checkbox">
-            <input
-              type="checkbox"
-              checked={hasAcceptedRules}
-              onChange={(event) => setHasAcceptedRules(event.target.checked)}
-            />
-            <span>I have read and agree to follow the accommodation Rules &amp; Regulations.</span>
-          </label>
-          <p className="booking-consent-note">
-            Participant registration and any event consent are handled through the{' '}
-            <a href="https://konfhub.com/efxindia2027" target="_blank" rel="noreferrer">
-              official registration form
-            </a>
-            .
-          </p>
-        </div>
         {groupByProperty(accommodationOptions.filter((option) => {
           if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return false;
           if (gender === 'female' && option.occupancyPolicy === 'boys-only') return false;
@@ -288,6 +279,32 @@ export function BookingPage() {
               </article>
             );
           })}</div></section>)}
+        <section className="other-stays" aria-labelledby="other-stays-title">
+          <div className="other-stays-heading">
+            <div>
+              <p className="section-kicker">OTHER STAYS</p>
+              <h2 id="other-stays-title">More places to stay.</h2>
+            </div>
+            <span>Arrange directly with the property</span>
+          </div>
+          <div className="other-stays-list">
+            {otherStays.map((stay) => (
+              <div className="other-stay-item" key={stay.name}>
+                <div>
+                  <strong>{stay.name}</strong>
+                  <span>{stay.location}</span>
+                </div>
+                {stay.mapUrl ? (
+                  <a href={stay.mapUrl} target="_blank" rel="noreferrer">
+                    View on Google
+                  </a>
+                ) : (
+                  <span className="other-stay-link-pending">Map link will be added</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
       </section>
       {gallery && <div className="booking-lightbox" role="dialog" aria-modal="true" aria-label={`${gallery.stay.property} photos`} onClick={() => setGallery(null)}>
         <button type="button" className="booking-lightbox-close" onClick={() => setGallery(null)} aria-label="Close photo viewer"><X /></button>
