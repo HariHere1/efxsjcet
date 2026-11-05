@@ -34,7 +34,7 @@ export function HomePage() {
           <p className="hero-intro">
             Suggested accommodation options for EFx India 2027 participants.
             These are suggestions only, and you are free to choose whether to
-            book.
+            book them or any other hotel nearby.
           </p>
           <ButtonWithIconDemo
             href="#booking"
@@ -82,13 +82,19 @@ export function HomePage() {
           </div>
 
           {[
-            'Registrations are now open for EFx India 2027',
-            'Meet the first wave of workshop mentors',
-            'Five things to know before you arrive in Palai',
+            { title: 'Registrations are now open for EFx India 2027', href: 'https://konfhub.com/efxindia2027', external: true },
+            { title: 'Meet the first wave of workshop mentors', href: '#updates', external: false },
+            { title: 'Five things to know before you arrive in Palai', href: '#updates', external: false },
           ].map((news, index) => (
-            <a className="news-item" href="#updates" key={news}>
+            <a
+              className="news-item"
+              href={news.href}
+              key={news.title}
+              target={news.external ? '_blank' : undefined}
+              rel={news.external ? 'noreferrer' : undefined}
+            >
               <time>{['18.08.26', '04.08.26', '21.07.26'][index]}</time>
-              <strong>{news}</strong>
+              <strong>{news.title}</strong>
               <ArrowUpRight />
             </a>
           ))}

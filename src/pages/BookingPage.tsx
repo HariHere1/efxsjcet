@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, User, Users, X } from 'lucide-react';
+import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, MapPin, ShieldCheck, User, Users, X } from 'lucide-react';
 import { accommodationOptions, accommodationStayRules, type AccommodationOption } from '../data/AccomodationPage';
 
 // React does not execute <script> tags that are placed inside JSX, so the booking
@@ -7,8 +7,6 @@ import { accommodationOptions, accommodationStayRules, type AccommodationOption 
 const KONFHUB_WIDGET_SRC = 'https://widget.konfhub.com/widget.js';
 
 const STAY_WIDGET_BUTTON_IDS: Record<string, string> = {
-  'pastrol-central-single': 'btn_2e4306680fc6',
-  'pastrol-central-double': 'btn_8a51ca3c3aee',
   'oshana-mount-dormitory': 'btn_d363e0bb610a',
   'oshana-mount-non-ac-triple': 'btn_94a5e0869f8a',
   'oshana-mount-double': 'btn_e9f025495497',
@@ -55,6 +53,18 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
 
 export type GenderFilter = 'male' | 'female';
 
+function spotsRemainingForGender(option: AccommodationOption, gender: GenderFilter | null) {
+  if (gender === 'male' && option.maleSpotsRemaining !== undefined) return option.maleSpotsRemaining;
+  if (gender === 'female' && option.femaleSpotsRemaining !== undefined) return option.femaleSpotsRemaining;
+  return option.spotsRemaining;
+}
+
+function widgetButtonIdForGender(option: AccommodationOption, gender: GenderFilter | null) {
+  if (gender === 'male' && option.maleWidgetButtonId) return option.maleWidgetButtonId;
+  if (gender === 'female' && option.femaleWidgetButtonId) return option.femaleWidgetButtonId;
+  return STAY_WIDGET_BUTTON_IDS[option.id];
+}
+
 export function RulesModal({ onClose, onAgree }: { onClose: () => void; onAgree?: () => void }) {
   return (
     <div className="booking-rules-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="rules-modal-title" onClick={onClose}>
@@ -89,11 +99,53 @@ export function RulesModal({ onClose, onAgree }: { onClose: () => void; onAgree?
   );
 }
 
+function DisclaimerModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="booking-disclaimer-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="disclaimer-modal-title">
+      <div className="booking-disclaimer-modal">
+        <div className="booking-disclaimer-modal-topline">
+          <span className="booking-disclaimer-modal-badge">
+            <ShieldCheck size={14} /> Good to know
+          </span>
+          <button type="button" className="booking-rules-modal-close" onClick={onClose} aria-label="Close accommodation disclaimer">
+            <X size={18} />
+          </button>
+        </div>
+        <div className="booking-disclaimer-modal-heading">
+          <p className="section-kicker">BEFORE YOU BOOK</p>
+          <h3 id="disclaimer-modal-title">Stay your way.</h3>
+          <p>Thoughtful suggestions for a smoother EFx India 2027 experience.</p>
+        </div>
+        <div className="booking-disclaimer-modal-body">
+          <div className="booking-disclaimer-modal-note">
+            <MapPin size={18} />
+            <p>
+              These accommodations are recommendations only. You are welcome
+              to choose any nearby hotel that suits you better.
+            </p>
+          </div>
+          <div className="booking-disclaimer-modal-details">
+            <span>Flexible choice</span>
+            <span>Nearby options welcome</span>
+            <span>Book at your discretion</span>
+          </div>
+        </div>
+        <div className="booking-rules-modal-footer">
+          <button type="button" className="button booking-rules-modal-btn" onClick={onClose}>
+            Continue to stays <Check size={16} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BookingPage() {
   const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(null);
   const [gender, setGender] = useState<GenderFilter | null>(null);
   const [isGenderModalOpen, setIsGenderModalOpen] = useState(true);
+  const [isDisclaimerModalOpen, setIsDisclaimerModalOpen] = useState(true);
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
   const [hasAcceptedRules, setHasAcceptedRules] = useState(false);
 
@@ -124,14 +176,14 @@ export function BookingPage() {
   };
 
   const isStayDisabledForGender = (option: AccommodationOption) => {
-    if (option.spotsRemaining === 0) return true;
+    if (spotsRemainingForGender(option, gender) === 0) return true;
     if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return true;
     if (gender === 'female' && option.occupancyPolicy === 'boys-only') return true;
     return false;
   };
 
   const getDisabledReason = (option: AccommodationOption) => {
-    if (option.spotsRemaining === 0) return 'Sold out';
+    if (spotsRemainingForGender(option, gender) === 0) return 'Sold out';
     if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return 'Ladies only (Unavailable for males)';
     if (gender === 'female' && option.occupancyPolicy === 'boys-only') return 'Boys only (Unavailable for females)';
     return null;
@@ -142,29 +194,11 @@ export function BookingPage() {
       <section className="booking-hero">
         <a className="back-link" href="#top"><ArrowLeft /> Back to accommodation suggestions</a>
         <p className="section-kicker">/ BOOK YOUR STAY</p><h1>Reserve your<br /><em>place.</em></h1>
-        <p className="accommodation-disclaimer">
-          The stays listed here are suggestions only. You are free to choose
-          whether to book them, entirely at your own discretion.
-        </p>
+        <button type="button" className="accommodation-disclaimer" onClick={() => setIsDisclaimerModalOpen(true)}>
+          View accommodation disclaimer
+        </button>
 
         <div className="stay-gender-filter-bar">
-          <span className="stay-gender-label">Gender:</span>
-          <div className="stay-gender-pill-group" role="group" aria-label="Filter stays by gender">
-            <button
-              type="button"
-              className={`stay-gender-pill ${gender === 'male' ? 'active' : ''}`}
-              onClick={() => handleChooseGender('male')}
-            >
-              Male
-            </button>
-            <button
-              type="button"
-              className={`stay-gender-pill ${gender === 'female' ? 'active' : ''}`}
-              onClick={() => handleChooseGender('female')}
-            >
-              Female
-            </button>
-          </div>
           <button type="button" className="booking-rules-pill-trigger" onClick={() => setIsRulesModalOpen(true)}>
             <span>Hostel Rules &amp; Regulations</span>
           </button>
@@ -183,17 +217,22 @@ export function BookingPage() {
           </label>
           <p className="booking-consent-note">
             Participant registration and any event consent are handled through the{' '}
-            <a href="https://bit.ly/efxindia2027" target="_blank" rel="noreferrer">
+            <a href="https://konfhub.com/efxindia2027" target="_blank" rel="noreferrer">
               official registration form
             </a>
             .
           </p>
         </div>
-        {groupByProperty(accommodationOptions).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
+        {groupByProperty(accommodationOptions.filter((option) => {
+          if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return false;
+          if (gender === 'female' && option.occupancyPolicy === 'boys-only') return false;
+          return true;
+        })).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const disabled = isStayDisabledForGender(option);
             const disabledReason = getDisabledReason(option);
             const selected = selectedAccommodationId === option.id;
-            const widgetButtonId = STAY_WIDGET_BUTTON_IDS[option.id];
+            const widgetButtonId = widgetButtonIdForGender(option, gender);
+            const spotsRemaining = spotsRemainingForGender(option, gender);
             return (
               <article
                 key={option.id}
@@ -239,10 +278,10 @@ export function BookingPage() {
                     <span>{occupancyLabel(option.occupancyPolicy)}</span>
                   </span>
                   <div className="booking-card-footer">
-                    <span className={`availability ${disabled ? 'sold-out' : option.spotsRemaining <= 5 ? 'low' : ''}`}>
+                    <span className={`availability ${disabled ? 'sold-out' : spotsRemaining <= 5 ? 'low' : ''}`}>
                       {disabled
                         ? (disabledReason ?? 'Unavailable for this group')
-                        : `${option.spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}
+                        : `${spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}
                     </span>
                     {widgetButtonId && selected && !disabled && hasAcceptedRules && (
                       <div className="booking-card-widget-action" onClick={(e) => e.stopPropagation()}>
@@ -263,6 +302,7 @@ export function BookingPage() {
         <span className="booking-lightbox-counter">{gallery.index + 1} / {gallery.stay.gallery.length}</span>
       </div>}
 
+      {isDisclaimerModalOpen && <DisclaimerModal onClose={() => setIsDisclaimerModalOpen(false)} />}
       {isGenderModalOpen && (
         <div className="stay-gender-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stay-gender-modal-title">
           <div className="stay-gender-modal">

@@ -38,6 +38,10 @@ export interface AccommodationOption {
   // number of rooms (or beds for dorms)
   spotsRemaining: number;
   availabilityCapacity: number;
+  maleSpotsRemaining?: number;
+  femaleSpotsRemaining?: number;
+  maleWidgetButtonId?: string;
+  femaleWidgetButtonId?: string;
   ctaLabel: string;
 }
 
@@ -59,13 +63,13 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'pastrol-central-single',
     title: 'Single room',
-    description: 'A simple private room at Alphonsian Pastoral Institute for the complete three-day minimum stay.',
+    description: 'A simple private room at Alphonsian Pastoral Institute, available for a complete 3 days stay.',
     property: 'Alphonsian Pastoral Institute',
     image: pastrolCentralImage,
     gallery: [pastrolCentralImage, pastrolCentralImage2, pastrolCentralImage3, pastrolCentralImage4, pastrolCentralImage5],
     imagePosition: 'center 55%',
     priceLabel: '₹1,890',
-    priceCovers: 'complete 3-day stay',
+    priceCovers: 'total for complete 3-day stay',
     price: 1890,
     priceUnit: 'room',
     personsPerRoom: 1,
@@ -74,20 +78,24 @@ export const accommodationOptions: AccommodationOption[] = [
     occupancyPolicy: 'separate-gender',
     busServiceProvided: true,
     refundable: false,
-    spotsRemaining: 117,
+    spotsRemaining: 13,
     availabilityCapacity: 117,
+    maleSpotsRemaining: 13,
+    femaleSpotsRemaining: 38,
+    maleWidgetButtonId: 'btn_2e4306680fc6',
+    femaleWidgetButtonId: 'btn_020f18b04c49',
     ctaLabel: 'Book Room',
   },
   {
     id: 'pastrol-central-double',
     title: 'Double room',
-    description: 'A private room for two at Alphonsian Pastoral Institute for the complete three-day minimum stay.',
+    description: 'A private room for two at Alphonsian Pastoral Institute, available for a complete 3 days stay.',
     property: 'Alphonsian Pastoral Institute',
     image: pastrolCentralImage4,
     gallery: [pastrolCentralImage4, pastrolCentralImage3, pastrolCentralImage2, pastrolCentralImage5, pastrolCentralImage],
     imagePosition: 'center center',
     priceLabel: '₹2,835',
-    priceCovers: 'complete 3-day stay',
+    priceCovers: 'total for complete 3-day stay',
     price: 2835,
     priceUnit: 'room',
     personsPerRoom: 2,
@@ -98,6 +106,9 @@ export const accommodationOptions: AccommodationOption[] = [
     refundable: false,
     spotsRemaining: 117,
     availabilityCapacity: 117,
+    femaleSpotsRemaining: 3,
+    maleWidgetButtonId: 'btn_8a51ca3c3aee',
+    femaleWidgetButtonId: 'btn_67b763524b6c',
     ctaLabel: 'Book Room',
   },
 
@@ -105,7 +116,7 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-dormitory',
     title: 'Dormitory',
-    description: 'A boys-only dormitory at Hosanna Mount. No mixed accommodation.',
+    description: 'A boys-only dormitory at Hosanna Mount for a complete 3 days stay. No mixed accommodation.',
     property: 'Hosanna Mount',
     image: oshanaMountImage2,
     gallery: [oshanaMountImage2, oshanaMountImage, oshanaMountImage3, oshanaMountImage5],
@@ -126,7 +137,7 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-non-ac-triple',
     title: 'Normal triple room',
-    description: 'A normal triple room at Hosanna Mount with separate rooms for boys and girls.',
+    description: 'A normal triple room at Hosanna Mount for a complete 3 days stay, with separate rooms for boys and girls.',
     property: 'Hosanna Mount',
     image: oshanaMountImage3,
     gallery: [oshanaMountImage3, oshanaMountImage2, oshanaMountImage, oshanaMountImage5],
@@ -148,7 +159,7 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'oshana-mount-double',
     title: 'Normal double room',
-    description: 'A normal double room at Hosanna Mount with separate rooms for boys and girls.',
+    description: 'A normal double room at Hosanna Mount for a complete 3 days stay, with separate rooms for boys and girls.',
     property: 'Hosanna Mount',
     image: oshanaMountImage5,
     gallery: [oshanaMountImage5, oshanaMountImage2, oshanaMountImage, oshanaMountImage3],
@@ -172,7 +183,7 @@ export const accommodationOptions: AccommodationOption[] = [
   {
     id: 'mathrubhavan-dormitory-bed',
     title: 'Dormitory bed',
-    description: 'A bed in the CML Mathrubhavan dormitories for female students only.',
+    description: 'A bed in the CML Mathrubhavan dormitories for female students only, available for a complete 3 days stay.',
     property: 'CML Mathrubhavan',
     image: mathrubhavanImage,
     gallery: [mathrubhavanImage, mathrubhavanImage2],
