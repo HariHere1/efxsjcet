@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
 import { Particles } from "@/components/ui/particles"
+import ButtonWithIconDemo from "@/components/ui/button-witn-icon";
 import { RulesModal } from './BookingPage';
 
 export function HomePage() {
@@ -35,7 +36,11 @@ export function HomePage() {
             These are suggestions only, and you are free to choose whether to
             book.
           </p>
-          <a className="button" href="#booking">View accommodation options <ArrowUpRight /></a>
+          <ButtonWithIconDemo
+            href="#booking"
+            label="View accommodation options"
+            className="hero-cta"
+          />
         </div>
 
         <div className="hero-visual reveal reveal-delay">
@@ -60,6 +65,36 @@ export function HomePage() {
       </section>
 
     </div>
+      <section className="updates section-grid" id="updates">
+        <div className="section-kicker">CAMPUS UPDATES</div>
+
+        <div className="updates-content">
+          <div className="updates-heading">
+            <h2>
+              Campus
+              <br />
+              <span>updates.</span>
+            </h2>
+
+            <a className="arrow-link" href="#updates">
+              All updates <ArrowUpRight />
+            </a>
+          </div>
+
+          {[
+            'Registrations are now open for EFx India 2027',
+            'Meet the first wave of workshop mentors',
+            'Five things to know before you arrive in Palai',
+          ].map((news, index) => (
+            <a className="news-item" href="#updates" key={news}>
+              <time>{['18.08.26', '04.08.26', '21.07.26'][index]}</time>
+              <strong>{news}</strong>
+              <ArrowUpRight />
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="updates stay-section section-grid" id="stay">
         <div className="section-kicker">SUGGESTED STAYS</div>
 

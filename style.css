@@ -418,6 +418,12 @@ button {
   min-height: 50px;
   margin-top: 32px;
 }
+.hero .hero-cta {
+  justify-content: center;
+  min-height: 50px;
+  margin-top: 32px;
+  color: #000;
+}
 .hero-visual {
   position: relative;
   z-index: 1;
@@ -3021,6 +3027,11 @@ main {
     }
 
     .hero .button {
+      width: 100%;
+      margin-top: 26px;
+    }
+
+    .hero .hero-cta {
       width: 100%;
       margin-top: 26px;
     }

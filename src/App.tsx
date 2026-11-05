@@ -9,6 +9,7 @@ import { X } from 'lucide-react';
 
 export type RouteType =
   | 'home'
+  | 'updates'
   | 'accommodation'
   | 'booking';
 
@@ -20,6 +21,11 @@ export interface RouteInfo {
 export function parseRoute(): RouteInfo {
   const hash = window.location.hash || '';
   const path = window.location.pathname || '';
+
+  // Updates route: #updates, /updates
+  if (hash === '#updates' || path === '/updates') {
+    return { type: 'updates' };
+  }
 
   // Accommodation routes: #accommodation, #stay, /accommodation, /stay
   if (
@@ -46,7 +52,6 @@ function App() {
   useEffect(() => {
     const handleRouteChange = () => {
       setRouteInfo(parseRoute());
-      window.scrollTo(0, 0);
     };
 
     window.addEventListener('hashchange', handleRouteChange);
@@ -56,6 +61,20 @@ function App() {
       window.removeEventListener('popstate', handleRouteChange);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const scrollTarget = routeInfo.type === 'updates'
+      ? document.getElementById('updates')
+      : null;
+
+    if (scrollTarget) {
+      requestAnimationFrame(() => scrollTarget.scrollIntoView({ behavior: 'smooth' }));
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [isLoading, routeInfo.type]);
 
   if (isLoading) {
     return <LoadingScreen onFinish={() => setIsLoading(false)} />;
@@ -70,9 +89,7 @@ function App() {
         }}
       />
 
-      {routeInfo.type === 'accommodation' ? (
-        <BookingPage />
-      ) : routeInfo.type === 'booking' ? (
+      {routeInfo.type === 'accommodation' || routeInfo.type === 'booking' ? (
         <BookingPage />
       ) : (
         <HomePage />

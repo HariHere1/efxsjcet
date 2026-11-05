@@ -9,6 +9,7 @@ type NavbarProps = {
 
 function navHref(item: string): string {
   if (item === 'Stay') return '#accommodation';
+  if (item === 'Updates') return '#updates';
   if (item === 'Home') return '#top';
   return '#top';
 }
@@ -21,6 +22,7 @@ function isActive(
     if (item === 'Home') {
       return activeRoute === 'home';
     }
+    if (item === 'Updates') return activeRoute === 'updates';
     if (item === 'Stay') return activeRoute === 'booking' || activeRoute === 'accommodation';
     return false;
   }
