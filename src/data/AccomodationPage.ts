@@ -130,7 +130,7 @@ export const accommodationOptions: AccommodationOption[] = [
     maleSpotsRemaining: 67,
     femaleSpotsRemaining: 51,
     maleWidgetButtonId: 'btn_8a51ca3c3aee',
-    femaleWidgetButtonId: 'btn_67b763524b6c',
+    femaleWidgetButtonId: 'btn_e785dc858ba1',
     ctaLabel: 'Book Room',
   },
 
