@@ -76,6 +76,11 @@ export const accommodationStayRules = [
   'Follow hostel rules and maintain discipline.',
 ] as const;
 
+export const accommodationStayDates = {
+  rangeLabel: '22–24 January 2027',
+  scheduleLabel: '22 January night · 23 January night · Check-out 24 January',
+} as const;
+
 export const accommodationOptions: AccommodationOption[] = [
   // ---------- PASTROL CENTRAL ----------
   {

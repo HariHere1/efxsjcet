@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, MapPin, ShieldCheck, User, Users, X } from 'lucide-react';
-import { accommodationOptions, accommodationStayRules, otherStays, type AccommodationOption } from '../data/AccomodationPage';
+import { accommodationOptions, accommodationStayDates, accommodationStayRules, otherStays, type AccommodationOption } from '../data/AccomodationPage';
 
 // React does not execute <script> tags that are placed inside JSX, so the booking
 // widget script is injected through the DOM into its container when needed.
@@ -198,6 +198,10 @@ export function BookingPage() {
       <section className="booking-hero">
         <a className="back-link" href="#top"><ArrowLeft /> Back to accommodation suggestions</a>
         <p className="section-kicker">/ BOOK YOUR STAY</p><h1>Reserve your<br /><em>place.</em></h1>
+        <div className="booking-stay-dates" aria-label={`Stay dates: ${accommodationStayDates.rangeLabel}`}>
+          <strong>{accommodationStayDates.rangeLabel}</strong>
+          <span>{accommodationStayDates.scheduleLabel}</span>
+        </div>
         <button type="button" className="accommodation-disclaimer" onClick={() => setIsDisclaimerModalOpen(true)}>
           View accommodation disclaimer
         </button>
@@ -252,6 +256,10 @@ export function BookingPage() {
                 <div className="booking-card-body">
                   <span className="booking-card-title">{option.title}</span>
                   <span className="booking-card-description">{option.description}</span>
+                  <span className="booking-card-dates">
+                    <strong>{accommodationStayDates.rangeLabel}</strong>
+                    <span>{accommodationStayDates.scheduleLabel}</span>
+                  </span>
                   <span className="accommodation-price">
                     <strong>{option.priceLabel}</strong>
                     <span>{option.priceCovers}</span>

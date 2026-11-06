@@ -2062,6 +2062,9 @@ main {
 }
 .booking-hero h1 { margin: 16px 0 14px; font-size: clamp(42px, 5vw, 64px); line-height: .9; letter-spacing: -3px; }
 .booking-hero h1 em, .booking-section-heading h2 em { color: var(--orange-dark); font-style: normal; }
+.booking-stay-dates { display: flex; flex-direction: column; gap: 5px; width: fit-content; margin: 22px 0 18px; padding: 12px 15px; border-left: 3px solid var(--orange-dark); background: rgba(245, 148, 77, .08); }
+.booking-stay-dates strong { color: var(--ink); font-size: 17px; }
+.booking-stay-dates span { color: var(--text-muted); font: 11px/1.45 var(--mono); }
 .booking-hero .accommodation-disclaimer { max-width: 500px; margin: 0; padding: 0; border: 0; color: var(--text-muted); background: transparent; font-size: 17px; line-height: 1.5; text-align: left; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 /* Gender selector filter on stay booking page */
 .stay-gender-filter-bar {
@@ -2467,6 +2470,9 @@ main {
 .booking-card-body { display: flex; flex: 1; flex-direction: column; padding: 20px; }
 .booking-card-title { font-size: 23px; font-weight: 600; letter-spacing: -1px; }
 .booking-card-description { min-height: 62px; margin-top: 8px; color: var(--ink); font: 13px/1.45 var(--outfit); }
+.booking-card-dates { display: flex; flex-direction: column; gap: 3px; margin-top: 12px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 5px; background: rgba(245, 148, 77, .06); }
+.booking-card-dates strong { color: var(--ink); font: 12px var(--outfit); }
+.booking-card-dates span { color: var(--text-muted); font: 9px/1.4 var(--mono); }
 .booking-accommodation-card .accommodation-price { margin: 18px 0; }
 .booking-accommodation-card .accommodation-price span,
 .booking-card-details { color: var(--ink); }
