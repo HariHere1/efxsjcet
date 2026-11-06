@@ -3009,6 +3009,8 @@ main {
   list-style: none;
 }
 .booking-rules-modal-list li {
+  --rule-color: var(--orange-dark);
+  --rule-bg: rgba(240, 100, 36, 0.05);
   position: relative;
   display: flex;
   align-items: center;
@@ -3023,10 +3025,23 @@ main {
   line-height: 1.4;
   transition: background 0.18s ease, border-color 0.18s ease;
 }
+
+.booking-rules-modal-list li:nth-child(1) { --rule-color: #ff8752; --rule-bg: rgba(255, 135, 82, 0.08); }
+.booking-rules-modal-list li:nth-child(2) { --rule-color: #36cfc9; --rule-bg: rgba(54, 207, 201, 0.08); }
+.booking-rules-modal-list li:nth-child(3) { --rule-color: #ffd166; --rule-bg: rgba(255, 209, 102, 0.08); }
+.booking-rules-modal-list li:nth-child(4) { --rule-color: #8ab4f8; --rule-bg: rgba(138, 180, 248, 0.08); }
+.booking-rules-modal-list li:nth-child(5) { --rule-color: #c084fc; --rule-bg: rgba(192, 132, 252, 0.08); }
+.booking-rules-modal-list li:nth-child(6) { --rule-color: #f472b6; --rule-bg: rgba(244, 114, 182, 0.08); }
+.booking-rules-modal-list li:nth-child(7) { --rule-color: #a3e635; --rule-bg: rgba(163, 230, 53, 0.08); }
+.booking-rules-modal-list li:nth-child(8) { --rule-color: #fb7185; --rule-bg: rgba(251, 113, 133, 0.08); }
+.booking-rules-modal-list li:nth-child(9) { --rule-color: #22d3ee; --rule-bg: rgba(34, 211, 238, 0.08); }
+.booking-rules-modal-list li:nth-child(10) { --rule-color: #facc15; --rule-bg: rgba(250, 204, 21, 0.08); }
+
 .booking-rules-modal-list li:hover {
-  border-color: rgba(240, 100, 36, 0.35);
-  background: rgba(240, 100, 36, 0.05);
-}
+  border-color: var(--rule-color);
+  background: var(--rule-bg);
+}
+
 .booking-rules-modal-list .rule-idx {
   display: grid;
   place-items: center;
@@ -3034,10 +3049,11 @@ main {
   height: 24px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: rgba(240, 100, 36, 0.16);
-  color: var(--orange-dark);
+  background: var(--rule-bg);
+  color: var(--rule-color);
   font: 700 10px var(--mono);
 }
+
 .booking-rules-modal-footer {
   display: flex;
   justify-content: flex-end;
