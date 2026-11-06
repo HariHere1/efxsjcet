@@ -72,6 +72,7 @@ export const accommodationStayRules = [
   'Avoid loud music and noise at night.',
   'Protect hostel property.',
   'Respect others’ privacy.',
+  'Bring valid ID cards for verification at the accommodation.',
   'Follow hostel rules and maintain discipline.',
 ] as const;
 
