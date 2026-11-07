@@ -1,13 +1,27 @@
 import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { MapPin, Bus, Train } from 'lucide-react';
 import asmeLogo from '../assets/images/asme-efx-logo.png';
 import sjcetLogo from '../assets/images/SJCET NEW LOGO.png';
+import aruvikkachal from '../assets/images/aruvikkachal.png';
+import ilaveezhapoonchira from '../assets/images/ilaveezhapoonchira.png';
+import illickalKallu from '../assets/images/illickal-kallu.png';
+import kumarakom from '../assets/images/kumarakom.png';
+import pineForest from '../assets/images/pine-forest.jpg';
 import { Particles } from "@/components/ui/particles"
 import ButtonWithIconDemo from "@/components/ui/button-witn-icon";
 import { RulesModal } from './BookingPage';
 
 export function HomePage() {
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
+  const [openPlace, setOpenPlace] = useState(0);
+  const places = [
+    { name: 'Ilaveezhapoonchira', description: 'Rolling hills and wide-open views', image: ilaveezhapoonchira },
+    { name: 'Illickal Kallu', description: 'A dramatic Western Ghats viewpoint', image: illickalKallu },
+    { name: 'Vagamon', description: 'Pine forests, meadows, and misty hills', image: pineForest },
+    { name: 'Kumarakom', description: 'Quiet backwaters and bird sanctuary', image: kumarakom },
+    { name: 'Aruvikkachal', description: 'A peaceful waterfall escape', image: aruvikkachal },
+  ];
 
   return (
     <main id="top">
@@ -135,6 +149,68 @@ export function HomePage() {
               <strong>Rules and Regulations</strong>
               <ArrowUpRight />
           </a>
+        </div>
+      </section>
+
+      <section className="locations section-grid" id="locations">
+        <div className="locations-heading">
+          <div className="section-kicker">AROUND PALAI</div>
+          <h2>Worth the drive.<br /><em>Day-trip Kerala.</em></h2>
+          <p>Take a break outside the venue gates and discover hills, waterfalls, and backwaters within easy reach of SJCET.</p>
+        </div>
+        <div className="locations-accordion">
+          {places.map((place, index) => {
+            const isOpen = index === openPlace;
+            return (
+              <div className={`location-item ${isOpen ? 'open' : ''}`} key={place.name}>
+                <button
+                  type="button"
+                  className="location-item-header"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenPlace(isOpen ? -1 : index)}
+                >
+                  <span className="location-item-index">0{index + 1}</span>
+                  <span className="location-item-name">{place.name}</span>
+                  <span className="location-item-tagline">{place.description}</span>
+                  <span className="location-item-indicator" aria-hidden="true">{isOpen ? '−' : '+'}</span>
+                </button>
+                <div className="location-item-body">
+                  <div className="location-item-inner">
+                    <img src={place.image} alt={place.name} />
+                    <p>{place.description}. A popular side trip from Palai — plan a half-day around your EFx India 2027 schedule.</p>
+                    <a className="location-item-link" href="#locations">Explore this destination <ArrowUpRight /></a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="venue section-grid" id="venue">
+        <div className="venue-copy">
+          <p className="section-kicker">THE VENUE</p>
+          <h2>Find us in<br /><em>Palai.</em></h2>
+          <p>St. Joseph's College of Engineering and Technology, Palai — nestled between the Meenachil river and the Western Ghats foothills in the heart of Kottayam district.</p>
+          <address className="venue-address">
+            <MapPin /><span>SJCET Palai, Kottayam, Kerala 686579, India</span>
+          </address>
+          <ul className="venue-facts">
+            <li><Train /> Kottayam railway station · ~25 min</li>
+            <li><Bus /> Palai KSRTC bus stand · ~10 min</li>
+          </ul>
+          <a className="venue-directions" href="https://maps.google.com/?q=St.+Joseph's+College+of+Engineering+and+Technology+Palai" target="_blank" rel="noreferrer">
+            Get directions <ArrowUpRight />
+          </a>
+        </div>
+        <div className="venue-map">
+          <iframe
+            title="SJCET Palai location map"
+            src="https://www.google.com/maps?q=St.+Joseph's+College+of+Engineering+and+Technology+Palai&output=embed"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </section>
 
