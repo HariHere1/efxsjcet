@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, MapPin, ShieldCheck, User, Users, X } from 'lucide-react';
+import { ArrowLeft, BedDouble, Check, ChevronLeft, ChevronRight, ImagePlus, MapPin, Phone, ShieldCheck, User, Users, X } from 'lucide-react';
 import { accommodationOptions, accommodationStayDates, accommodationStayRules, otherStays, type AccommodationOption } from '../data/AccomodationPage';
 
 // React does not execute <script> tags that are placed inside JSX, so the booking
@@ -210,6 +210,31 @@ export function BookingPage() {
           <button type="button" className="booking-rules-pill-trigger" onClick={() => setIsRulesModalOpen(true)}>
             <span>Hostel Rules &amp; Regulations</span>
           </button>
+        </div>
+      </section>
+      <section className="booking-enquiry-panel" aria-labelledby="booking-enquiry-heading">
+        <div className="section-kicker">ENQUIRIES</div>
+        <div className="booking-enquiry-content">
+          <div>
+            <h2 id="booking-enquiry-heading">Need help with your stay?</h2>
+            <p>Contact our team for accommodation enquiries and assistance.</p>
+          </div>
+          <div className="booking-enquiry-contacts">
+            <a className="booking-enquiry-contact" href="tel:+916282950339">
+              <Phone aria-hidden="true" />
+              <span>
+                <small>Noyal Tom</small>
+                <strong>+91 62829 50339</strong>
+              </span>
+            </a>
+            <a className="booking-enquiry-contact" href="tel:+918281929870">
+              <Phone aria-hidden="true" />
+              <span>
+                <small>Harigovind P</small>
+                <strong>+91 82819 29870</strong>
+              </span>
+            </a>
+          </div>
         </div>
       </section>
       <section className="booking-content">
