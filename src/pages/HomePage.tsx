@@ -155,7 +155,7 @@ export function HomePage() {
       <section className="locations section-grid" id="locations">
         <div className="locations-heading">
           <div className="section-kicker">AROUND PALAI</div>
-          <h2>Worth the drive.<br /><em>Day-trip Kerala.</em></h2>
+          <h2>Tourist Destinations near SJCET</h2>
           <p>Take a break outside the venue gates and discover hills, waterfalls, and backwaters within easy reach of SJCET.</p>
         </div>
         <div className="locations-accordion">
