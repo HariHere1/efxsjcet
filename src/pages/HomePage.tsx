@@ -196,7 +196,7 @@ export function HomePage() {
             <MapPin /><span>SJCET Palai, Kottayam, Kerala 686579, India</span>
           </address>
           <ul className="venue-facts">
-            <li><Train /> Kottayam railway station · ~25 min</li>
+            <li><Train /> Kottayam railway station · ~1:30 hr</li>
             <li><Bus /> Palai KSRTC bus stand · ~10 min</li>
           </ul>
           <a className="venue-directions" href="https://maps.google.com/?q=St.+Joseph's+College+of+Engineering+and+Technology+Palai" target="_blank" rel="noreferrer">
