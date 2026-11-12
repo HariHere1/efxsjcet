@@ -247,6 +247,7 @@ export function BookingPage() {
             const disabledReason = getDisabledReason(option);
             const selected = selectedAccommodationId === option.id;
             const widgetButtonId = widgetButtonIdForGender(option, gender);
+            const spotsRemaining = spotsRemainingForGender(option, gender);
             return (
               <article
                 key={option.id}
@@ -296,11 +297,11 @@ export function BookingPage() {
                     <span>{occupancyLabel(option.occupancyPolicy)}</span>
                   </span>
                   <div className="booking-card-footer">
-                    {disabled && (
-                      <span className="availability sold-out">
-                        {disabledReason ?? 'Unavailable for this group'}
-                      </span>
-                    )}
+                    <span className={`availability ${disabled ? 'sold-out' : spotsRemaining <= 5 ? 'low' : ''}`}>
+                      {disabled
+                        ? (disabledReason ?? 'Unavailable for this group')
+                        : `${spotsRemaining} ${option.priceUnit === 'room' ? 'rooms' : 'beds'} remaining`}
+                    </span>
                     {widgetButtonId && selected && !disabled && hasAcceptedRules && (
                       <div className="booking-card-widget-action" onClick={(e) => e.stopPropagation()}>
                         <KonfHubStayBookingWidget buttonId={widgetButtonId} active />
