@@ -52,6 +52,7 @@ function occupancyLabel(policy: AccommodationOption['occupancyPolicy']) {
 }
 
 export type GenderFilter = 'male' | 'female';
+export type AudienceFilter = 'student' | 'faculty';
 
 function spotsRemainingForGender(option: AccommodationOption, gender: GenderFilter | null) {
   if (gender === 'male' && option.maleSpotsRemaining !== undefined) return option.maleSpotsRemaining;
@@ -62,7 +63,7 @@ function spotsRemainingForGender(option: AccommodationOption, gender: GenderFilt
 function widgetButtonIdForGender(option: AccommodationOption, gender: GenderFilter | null) {
   if (gender === 'male' && option.maleWidgetButtonId) return option.maleWidgetButtonId;
   if (gender === 'female' && option.femaleWidgetButtonId) return option.femaleWidgetButtonId;
-  return STAY_WIDGET_BUTTON_IDS[option.id];
+  return option.widgetButtonId ?? STAY_WIDGET_BUTTON_IDS[option.id];
 }
 
 export function RulesModal({ onClose, onAgree }: { onClose: () => void; onAgree?: () => void }) {
@@ -139,6 +140,7 @@ function DisclaimerModal({ onClose }: { onClose: () => void }) {
 export function BookingPage() {
   const [gallery, setGallery] = useState<{ stay: AccommodationOption; index: number } | null>(null);
   const [selectedAccommodationId, setSelectedAccommodationId] = useState<string | null>(null);
+  const [audience, setAudience] = useState<AudienceFilter>('student');
   const [gender, setGender] = useState<GenderFilter | null>(null);
   const [isGenderModalOpen, setIsGenderModalOpen] = useState(true);
   const [isDisclaimerModalOpen, setIsDisclaimerModalOpen] = useState(true);
@@ -179,6 +181,14 @@ export function BookingPage() {
     }
   };
 
+  const handleAudienceChange = (nextAudience: AudienceFilter) => {
+    setAudience(nextAudience);
+    setSelectedAccommodationId(null);
+    setHasAcceptedRules(false);
+    setGender(null);
+    setIsGenderModalOpen(nextAudience === 'student');
+  };
+
   const isStayDisabledForGender = (option: AccommodationOption) => {
     if (spotsRemainingForGender(option, gender) === 0) return true;
     if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return true;
@@ -201,6 +211,17 @@ export function BookingPage() {
         <div className="booking-stay-dates" aria-label={`Stay dates: ${accommodationStayDates.rangeLabel}`}>
           <strong>{accommodationStayDates.rangeLabel}</strong>
           <span>{accommodationStayDates.scheduleLabel}</span>
+        </div>
+        <div className="booking-audience-selector">
+          <label htmlFor="booking-audience">Booking for</label>
+          <select
+            id="booking-audience"
+            value={audience}
+            onChange={(event) => handleAudienceChange(event.target.value as AudienceFilter)}
+          >
+            <option value="student">Students</option>
+            <option value="faculty">Faculty</option>
+          </select>
         </div>
         <button type="button" className="accommodation-disclaimer" onClick={() => setIsDisclaimerModalOpen(true)}>
           View accommodation disclaimer
@@ -239,10 +260,11 @@ export function BookingPage() {
       </section>
       <section className="booking-content">
         {groupByProperty(accommodationOptions.filter((option) => {
+          if ((option.audience ?? 'student') !== audience) return false;
           if (gender === 'male' && option.occupancyPolicy === 'ladies-only') return false;
           if (gender === 'female' && option.occupancyPolicy === 'boys-only') return false;
           return true;
-        })).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">STAY LOCATION</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
+        })).map(([property, options]) => <section key={property} className={`booking-accommodation-group property-${property.toLowerCase().replace(/\s+/g, '-')}`}><div className="booking-accommodation-group-heading"><div><p className="section-kicker">{audience === 'faculty' ? 'FACULTY ACCOMMODATION' : 'STAY LOCATION'}</p><h3 className="booking-accommodation-property">{property}</h3></div><span>{options.length} {options.length === 1 ? 'stay option' : 'stay options'} · Bus service provided · Non-refundable</span></div><div className="booking-accommodation-grid">{options.map((option) => {
             const disabled = isStayDisabledForGender(option);
             const disabledReason = getDisabledReason(option);
             const selected = selectedAccommodationId === option.id;
@@ -348,7 +370,7 @@ export function BookingPage() {
       </div>}
 
       {isDisclaimerModalOpen && <DisclaimerModal onClose={() => setIsDisclaimerModalOpen(false)} />}
-      {isGenderModalOpen && (
+      {isGenderModalOpen && audience === 'student' && (
         <div className="stay-gender-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stay-gender-modal-title">
           <div className="stay-gender-modal">
             <div className="stay-gender-modal-header">

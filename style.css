@@ -2170,6 +2170,34 @@ main {
 .booking-stay-dates { display: flex; flex-direction: column; gap: 5px; width: fit-content; margin: 22px 0 18px; padding: 12px 15px; border-left: 3px solid var(--orange-dark); background: rgba(245, 148, 77, .08); }
 .booking-stay-dates strong { color: var(--ink); font-size: 17px; }
 .booking-stay-dates span { color: var(--text-muted); font: 11px/1.45 var(--mono); }
+.booking-audience-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 18px auto;
+}
+.booking-audience-selector label {
+  color: var(--ink);
+  font: 600 12px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.booking-audience-selector select {
+  min-width: 150px;
+  padding: 9px 34px 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--bg-dark-raised);
+  font: 600 13px var(--outfit);
+  cursor: pointer;
+}
+.booking-audience-selector select:focus-visible {
+  outline: 2px solid var(--orange-dark);
+  outline-offset: 2px;
+}
 .booking-hero .accommodation-disclaimer { max-width: 500px; margin: 0; padding: 0; border: 0; color: var(--text-muted); background: transparent; font-size: 17px; line-height: 1.5; text-align: left; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .booking-enquiry-panel {
   display: grid;
@@ -2928,6 +2956,11 @@ main {
   .booking-hero .back-link { margin-bottom: 28px; }
   .booking-hero h1 { font-size: 52px; letter-spacing: -3px; }
   .booking-hero .accommodation-disclaimer { font-size: 15px; }
+  .booking-audience-selector {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .booking-audience-selector select { flex: 1; max-width: 220px; }
   .booking-progress-steps { width: 100%; padding: 22px 0 20px; }
   .booking-progress-step { gap: 8px; padding: 0 4px; }
   .booking-progress-step::after { top: 15px; left: calc(50% + 19px); width: calc(100% - 38px); }

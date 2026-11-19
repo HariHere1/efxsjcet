@@ -12,9 +12,11 @@ import pastrolCentralImage5 from '../assets/images/stayImages/pastrol central/pc
 
 export type RoomType = 'private' | 'shared';
 export type GenderPolicy = 'ladies-only' | 'boys-only' | 'separate-gender' | 'mixed';
+export type AudienceType = 'student' | 'faculty';
 
 export interface AccommodationOption {
   id: string;
+  audience?: AudienceType;
   title: string;
   description: string;
   // "Alphonsian Pastoral Institute" | "Hosanna Mount" | "CML Mathrubhavan"
@@ -42,6 +44,7 @@ export interface AccommodationOption {
   femaleSpotsRemaining?: number;
   maleWidgetButtonId?: string;
   femaleWidgetButtonId?: string;
+  widgetButtonId?: string;
   ctaLabel: string;
 }
 
@@ -221,6 +224,30 @@ export const accommodationOptions: AccommodationOption[] = [
     refundable: false,
     spotsRemaining: 116,
     availabilityCapacity: 116,
+    ctaLabel: 'Book Room',
+  },
+  {
+    id: 'alphonsian-pastoral-faculty-single',
+    audience: 'faculty',
+    title: 'Single room (For faculty)',
+    description: 'A single room at Alphonsian Pastoral Institute reserved for faculty members.',
+    property: 'Alphonsian Pastoral Institute',
+    image: pastrolCentralImage,
+    gallery: [pastrolCentralImage, pastrolCentralImage2, pastrolCentralImage3, pastrolCentralImage4, pastrolCentralImage5],
+    imagePosition: 'center 55%',
+    priceLabel: 'Faculty',
+    priceCovers: 'single room allocation',
+    price: 0,
+    priceUnit: 'room',
+    personsPerRoom: 1,
+    roomType: 'private',
+    capacity: '1 person',
+    occupancyPolicy: 'mixed',
+    busServiceProvided: true,
+    refundable: false,
+    spotsRemaining: 38,
+    availabilityCapacity: 38,
+    widgetButtonId: 'btn_132c110816ae',
     ctaLabel: 'Book Room',
   },
 ];
