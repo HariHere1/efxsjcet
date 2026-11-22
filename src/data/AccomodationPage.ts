@@ -177,8 +177,8 @@ export const accommodationOptions: AccommodationOption[] = [
     occupancyPolicy: 'separate-gender',
     busServiceProvided: true,
     refundable: false,
-    spotsRemaining: 3,
-    availabilityCapacity: 117,
+    spotsRemaining: 0,
+    availabilityCapacity: 0,
     ctaLabel: 'Book Room',
   },
   {
