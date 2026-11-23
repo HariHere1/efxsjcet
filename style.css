@@ -2289,7 +2289,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: clamp(12px, 3vw, 24px);
   background: rgba(0, 0, 0, 0.82);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -2299,7 +2299,10 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(100%, 540px);
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 2 * clamp(12px, 3vw, 24px));
+  overflow-y: auto;
+  box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 16px;
   background: #000000;
@@ -2312,7 +2315,7 @@ main {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px 28px 18px;
+  padding: clamp(18px, 3vw, 24px) clamp(18px, 4vw, 28px) 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .stay-gender-modal-header h3 {
@@ -2323,7 +2326,7 @@ main {
   font-weight: 700;
 }
 .stay-gender-modal-body {
-  padding: 24px 28px 30px;
+  padding: clamp(18px, 3vw, 24px) clamp(18px, 4vw, 28px) 30px;
 }
 .stay-gender-modal-desc {
   margin: 0 0 22px;
@@ -2334,13 +2337,18 @@ main {
 }
 .stay-gender-modal-options {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  align-items: stretch;
   gap: 14px;
 }
 .stay-gender-card {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 180px;
+  box-sizing: border-box;
   text-align: center;
   padding: 22px 16px;
   border: 1.5px solid rgba(255, 255, 255, 0.2);
@@ -2387,9 +2395,18 @@ main {
   color: #ffffff;
   opacity: 0.85;
 }
-@media (max-width: 500px) {
+@media (max-width: 560px) {
+  .stay-gender-modal {
+    border-radius: 12px;
+  }
+
   .stay-gender-modal-options {
     grid-template-columns: 1fr;
+  }
+
+  .stay-gender-card {
+    min-height: 0;
+    padding: 18px 14px;
   }
 }
 @media (max-width: 760px) {

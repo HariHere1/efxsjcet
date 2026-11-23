@@ -212,17 +212,6 @@ export function BookingPage() {
           <strong>{accommodationStayDates.rangeLabel}</strong>
           <span>{accommodationStayDates.scheduleLabel}</span>
         </div>
-        <div className="booking-audience-selector">
-          <label htmlFor="booking-audience">Booking for</label>
-          <select
-            id="booking-audience"
-            value={audience}
-            onChange={(event) => handleAudienceChange(event.target.value as AudienceFilter)}
-          >
-            <option value="student">Students</option>
-            <option value="faculty">Faculty</option>
-          </select>
-        </div>
         <button type="button" className="accommodation-disclaimer" onClick={() => setIsDisclaimerModalOpen(true)}>
           View accommodation disclaimer
         </button>
@@ -376,12 +365,12 @@ export function BookingPage() {
             <div className="stay-gender-modal-header">
               <div>
                 <p className="section-kicker">ACCOMMODATION PREFERENCE</p>
-                <h3 id="stay-gender-modal-title">Select your gender</h3>
+                <h3 id="stay-gender-modal-title">Select participant type</h3>
               </div>
             </div>
             <div className="stay-gender-modal-body">
               <p className="stay-gender-modal-desc">
-                Certain properties offer gender-specific accommodations (such as boys-only dormitories or ladies-only stays). Please choose your gender to proceed:
+                Choose an option to see the accommodation choices available for you. Student stays include gender-specific options, while faculty can continue directly.
               </p>
               <div className="stay-gender-modal-options">
                 <button
@@ -405,6 +394,17 @@ export function BookingPage() {
                   </div>
                   <strong>Female</strong>
                   <span>Filter accommodations suited for female participants</span>
+                </button>
+                <button
+                  type="button"
+                  className="stay-gender-card"
+                  onClick={() => handleAudienceChange('faculty')}
+                >
+                  <div className="stay-gender-icon-wrap">
+                    <Users />
+                  </div>
+                  <strong>Faculty</strong>
+                  <span>Continue directly to faculty accommodation</span>
                 </button>
               </div>
             </div>
