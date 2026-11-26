@@ -11,6 +11,7 @@ function navHref(item: string): string {
   if (item === 'Stay') return '#accommodation';
   if (item === 'Updates') return '#updates';
   if (item === 'Home') return '#top';
+  if (item === 'About ASME SJCET') return 'https://asme.sjcetpalai.ac.in/';
   return '#top';
 }
 
@@ -41,6 +42,8 @@ function MobileDockIcon({ item, active, onClick }: MobileDockIconProps) {
     <a
       className={`mobile-dock-icon ${active ? 'active' : ''}`}
       href={navHref(item)}
+      target={item === 'About ASME SJCET' ? '_blank' : undefined}
+      rel={item === 'About ASME SJCET' ? 'noreferrer' : undefined}
       onClick={onClick}
     >
       <span>{item}</span>
@@ -72,6 +75,8 @@ export function Dock({
               key={item}
               className={isActive(item, activeRoute) ? 'active' : ''}
               href={navHref(item)}
+              target={item === 'About ASME SJCET' ? '_blank' : undefined}
+              rel={item === 'About ASME SJCET' ? 'noreferrer' : undefined}
               onClick={onNavClick}
             >
               {item}
